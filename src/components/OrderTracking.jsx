@@ -141,10 +141,10 @@ const OrderTracking = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Order Journey Visualizer
+            Track Your Order
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Track your FeatherFold journey from our warehouse to your doorstep
+            Real-time tracking of your FeatherFold delivery
           </p>
         </motion.div>
 

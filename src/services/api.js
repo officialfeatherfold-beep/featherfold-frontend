@@ -1,4 +1,4 @@
-import { API_BASE_URL, buildUrl } from '../config.js';
+import { API_BASE_URL } from '../config.js';
 
 // API service for backend communication
 class ApiService {
@@ -191,7 +191,7 @@ export const apiService = new ApiService();
 // Google OAuth
 export const initiateGoogleAuth = () => {
   const clientId = '164497458134-npn3lpsiidpc2j46lhc1gu64oom929li.apps.googleusercontent.com';
-  const redirectUri = `${import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5001'}/auth/google/callback`;
+  const redirectUri = 'http://localhost:5001/auth/google/callback';
   const scope = 'email profile';
   
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
