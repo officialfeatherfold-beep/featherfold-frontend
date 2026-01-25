@@ -36,8 +36,10 @@ const FavoritesPageNew = ({
   const [sortBy, setSortBy] = useState('name'); // 'name', 'price-low', 'price-high'
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  // Use dynamic API base URL consistent with environment
-  const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5001';
+  // Use dynamic API base URL consistent with AdminDashboard
+  const API_BASE = process.env.NODE_ENV === 'production' 
+    ? 'https://your-production-api.com' 
+    : 'http://localhost:5001';
 
   useEffect(() => {
     const loadFavorites = async () => {

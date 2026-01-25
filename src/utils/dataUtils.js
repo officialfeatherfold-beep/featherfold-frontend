@@ -100,8 +100,10 @@ export const resolveImage = (img) => {
     return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y3ZjdmNyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgTm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=';
   }
   
-  // Use dynamic API base URL consistent with environment
-  const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5001';
+  // Use dynamic API base URL consistent with AdminDashboard
+  const API_BASE = process.env.NODE_ENV === 'production' 
+    ? 'https://your-production-api.com' 
+    : 'http://localhost:5001';
   
   return `${API_BASE}${img.startsWith('/') ? img : '/' + img}`;
 };
@@ -120,7 +122,7 @@ const getVariantSKU = async (product, colorName, size) => {
   
   // If no variants found, try to fetch fresh product data
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api'}/products/${product.id}`);
+    const response = await fetch(`http://localhost:5001/api/products/${product.id}`);
     const data = await response.json();
     if (data.product && data.product.variants) {
       const variant = data.product.variants.find(v => 
