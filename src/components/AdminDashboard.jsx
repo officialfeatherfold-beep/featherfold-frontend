@@ -139,9 +139,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [newPassword, setNewPassword] = useState('');
   const [resetLoading, setResetLoading] = useState(false);
   
-  const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://your-production-api.com' 
-    : 'http://localhost:5001';
+  const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5001';
   
   // Predefined options
   const CATEGORIES = [

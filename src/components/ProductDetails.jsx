@@ -34,9 +34,7 @@ const ProductDetails = () => {
   const [addingToCart, setAddingToCart] = useState(false);
 
   // Use dynamic API base URL consistent with AdminDashboard
-  const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://your-production-api.com' 
-    : 'http://localhost:5001';
+  const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5001';
 
   // Parse URL parameters for variants
   useEffect(() => {
