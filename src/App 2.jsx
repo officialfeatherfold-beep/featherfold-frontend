@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { apiService, handleGoogleCallback } from './services/api';
 import { makeUserAdmin, setDevAdmin } from './utils/adminUtils';
-import { wishlistUtils, cartUtils } from './utils/dataUtils';
+import { cartUtils } from './utils/dataUtils';
 
 // Core Components
 import Header from './components/Header';
@@ -36,7 +36,7 @@ import MattressConfigurator from './components/MattressConfigurator';
 import ColorSwatcher from './components/ColorSwatcher';
 import TrustSignals from './components/TrustSignals';
 import FAQSection from './components/FAQSection';
-import ProductPhotoCarousel from './components/ProductPhotoCarousel';
+import OrderTracking from './components/OrderTracking';
 
 // Cart & Checkout Components
 import Cart from './components/Cart';
@@ -47,6 +47,7 @@ import OrderSummary from './components/OrderSummary';
 import OrderSuccessPage from './components/OrderSuccessPage';
 import CustomerOrdersPage from './components/CustomerOrdersPage';
 import OrderDetailsPage from './components/OrderDetailsPage';
+import LiveOrderTracker from './components/LiveOrderTracker';
 import AuthModal from './components/AuthModal';
 import AdminDashboard from './components/AdminDashboard';
 import FavoritesPageNew from './components/FavoritesPageNew';
@@ -106,35 +107,24 @@ function App() {
     // Check for Google OAuth callback
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('token')) {
-      console.log('🔍 Google OAuth URL params found:', urlParams.toString());
       const authResult = handleGoogleCallback();
-      console.log('🔍 Google OAuth auth result:', authResult);
       if (authResult.success) {
         // Check if user should be admin
         const userWithAdmin = makeUserAdmin(authResult.user);
-        console.log('🔍 User after makeUserAdmin:', userWithAdmin);
         setUser(userWithAdmin);
         apiService.setToken(authResult.token);
         // Clean up URL
         window.history.replaceState({}, document.title, window.location.pathname);
-      } else {
-        console.error('❌ Google OAuth failed:', authResult.error);
       }
     } else {
-      console.log('🔍 No Google OAuth token in URL, checking saved user...');
       // Check for saved user
       const savedUser = localStorage.getItem('featherfold_user');
       const savedToken = localStorage.getItem('featherfold_token');
       
-      console.log('🔍 Saved user from localStorage:', savedUser);
-      console.log('🔍 Saved token from localStorage:', savedToken ? 'exists' : 'missing');
-      
       if (savedUser && savedToken) {
         const parsedUser = JSON.parse(savedUser);
-        console.log('🔍 Parsed saved user:', parsedUser);
         // Check if user should be admin
         const userWithAdmin = makeUserAdmin(parsedUser);
-        console.log('🔍 User after makeUserAdmin (saved):', userWithAdmin);
         setUser(userWithAdmin);
         apiService.setToken(savedToken);
       }
@@ -142,10 +132,8 @@ function App() {
   }, []);
 
   const handleLogin = (userData, token) => {
-    console.log('🔍 handleLogin called with:', { userData, token: token ? 'exists' : 'missing' });
     // Check if user should be admin
     const userWithAdmin = makeUserAdmin(userData);
-    console.log('🔍 User after makeUserAdmin (login):', userWithAdmin);
     setUser(userWithAdmin);
     localStorage.setItem('featherfold_user', JSON.stringify(userWithAdmin));
     if (token) {
@@ -155,14 +143,10 @@ function App() {
   };
 
   const handleLogout = () => {
-    console.log('handleLogout called');
-    wishlistUtils.clearWishlist();
-    cartUtils.clearCart();
     setUser(null);
     localStorage.removeItem('featherfold_user');
     localStorage.removeItem('featherfold_token');
     apiService.removeToken();
-    console.log('Logout cleanup completed');
   };
 
   const navigateToView = (view) => {
@@ -243,10 +227,15 @@ function App() {
                 onNavigate={navigateToView}
               />
               
-              <ProductPhotoCarousel 
+              <ProductShowcase 
+                selectedColor={selectedColor}
+                selectedSize={selectedSize}
+                selectedType={selectedType}
+                onColorChange={setSelectedColor}
+                onSizeChange={setSelectedSize}
+                onTypeChange={setSelectedType}
                 onAddToCart={(product, options) => cartUtils.addToCart(product, options)}
                 user={user}
-                onNavigate={navigateToView}
               />
               
               <MattressConfigurator 
@@ -265,6 +254,8 @@ function App() {
               />
               
               <FAQSection />
+              
+              {user && <OrderTracking />}
             </main>
           </>
         } />
@@ -436,6 +427,16 @@ function App() {
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
               onNavigate={navigateToView}
+            />
+          </>
+        } />
+
+        {/* Live Order Tracker Route */}
+        <Route path="/track/:orderId" element={
+          <>
+            <LiveOrderTracker 
+              user={user}
+              orderId={window.location.pathname.split('/').pop()}
             />
           </>
         } />

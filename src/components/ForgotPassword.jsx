@@ -24,7 +24,7 @@ export default function ForgotPassword() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/auth/forgot-password`,
+        `${import.meta.env.VITE_API_URL || 'https://featherfold-backendnew1-production.up.railway.app'}/api/auth/forgot-password`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

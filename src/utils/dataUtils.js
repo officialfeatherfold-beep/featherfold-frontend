@@ -102,8 +102,8 @@ export const resolveImage = (img) => {
   
   // Use dynamic API base URL consistent with AdminDashboard
   const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://your-production-api.com' 
-    : 'http://localhost:5001';
+    ? 'https://featherfold-backendnew1-production.up.railway.app' 
+    : 'https://featherfold-backendnew1-production.up.railway.app';
   
   return `${API_BASE}${img.startsWith('/') ? img : '/' + img}`;
 };
@@ -122,7 +122,7 @@ const getVariantSKU = async (product, colorName, size) => {
   
   // If no variants found, try to fetch fresh product data
   try {
-    const response = await fetch(`http://localhost:5001/api/products/${product.id}`);
+    const response = await fetch(`https://featherfold-backendnew1-production.up.railway.app/api/products/${product.id}`);
     const data = await response.json();
     if (data.product && data.product.variants) {
       const variant = data.product.variants.find(v => 

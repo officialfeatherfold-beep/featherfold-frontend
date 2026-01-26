@@ -140,8 +140,8 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [resetLoading, setResetLoading] = useState(false);
   
   const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://your-production-api.com' 
-    : 'http://localhost:5001';
+    ? 'https://featherfold-backendnew1-production.up.railway.app' 
+    : 'https://featherfold-backendnew1-production.up.railway.app';
   
   // Predefined options
   const CATEGORIES = [

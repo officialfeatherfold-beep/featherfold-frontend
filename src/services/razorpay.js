@@ -37,7 +37,7 @@ export class RazorpayService {
         escape: false,
         handleback: false,
       },
-      callback_url: 'http://localhost:5001/api/payment/verify',
+      callback_url: 'https://featherfold-backendnew1-production.up.railway.app/api/payment/verify',
       redirect: false,
     };
 
@@ -67,7 +67,7 @@ export class RazorpayService {
   // Create payment order
   async createOrder(amount, receipt) {
     try {
-      const response = await fetch('http://localhost:5001/api/payment/create-order', {
+      const response = await fetch('https://featherfold-backendnew1-production.up.railway.app/api/payment/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export class RazorpayService {
   // Verify payment
   async verifyPayment(paymentData) {
     try {
-      const response = await fetch('http://localhost:5001/api/payment/verify', {
+      const response = await fetch('https://featherfold-backendnew1-production.up.railway.app/api/payment/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

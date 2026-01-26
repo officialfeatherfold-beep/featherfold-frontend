@@ -35,8 +35,8 @@ const ProductDetails = () => {
 
   // Use dynamic API base URL consistent with AdminDashboard
   const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://your-production-api.com' 
-    : 'http://localhost:5001';
+    ? 'https://featherfold-backendnew1-production.up.railway.app' 
+    : 'https://featherfold-backendnew1-production.up.railway.app';
 
   // Parse URL parameters for variants
   useEffect(() => {
