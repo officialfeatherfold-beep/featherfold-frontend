@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Top-level pages -->
+  <url>
+    <loc>https://featherfold.in/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://featherfold.in/about-us</loc>
+  </url>
+
+  <url>
+    <loc>https://featherfold.in/contact-us</loc>
+  </url>
+
+  <url>
+    <loc>https://featherfold.in/faqs</loc>
+  </url>
+
+  <!-- Shop categories -->
+  <url>
+    <loc>https://featherfold.in/shop</loc>
+  </url>
+
+  <url>
+    <loc>https://featherfold.in/shop/bedsheets</loc>
+  </url>
+
+  <url>
+    <loc>https://featherfold.in/shop/bedsheets/king-bedsheets</loc>
+  </url>
+
+  <!-- Collections -->
+  <url>
+    <loc>https://featherfold.in/collections/new-arrivals</loc>
+  </url>
+
+  <url>
+    <loc>https://featherfold.in/collections/bestsellers</loc>
+  </url>
+
+  <!-- Blogs -->
+  <url>
+    <loc>https://featherfold.in/blogs</loc>
+  </url>
+
+  <url>
+    <loc>https://featherfold.in/blogs/how-to-choose-bedsheet-size</loc>
+  </url>
+
+</urlset>
