@@ -190,7 +190,11 @@ export const apiService = new ApiService();
 
 // Google OAuth
 export const initiateGoogleAuth = () => {
-  window.location.href = `${import.meta.env.VITE_API_BASE_URL || 'https://featherfold-backendnew1-production.up.railway.app/api'}/auth/google`;
+  // Use environment variable if available, otherwise fall back to production backend
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://featherfold-backendnew1-production.up.railway.app/api';
+  const authStart = `${baseUrl}/auth/google`;
+  console.log('Initiating Google Auth with URL:', authStart);
+  window.location.href = authStart;
 };
 
 // Handle Google OAuth callback

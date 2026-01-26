@@ -58,6 +58,7 @@ import ContactPage from './components/ContactPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import GoogleCallback from './pages/GoogleCallback';
 
 function App() {
   const navigate = useNavigate();
@@ -468,6 +469,11 @@ function App() {
           <>
             <ResetPassword />
           </>
+        } />
+
+        {/* Google Callback Route */}
+        <Route path="/google/callback" element={
+          <GoogleCallback />
         } />
 
         {/* Contact Route */}
