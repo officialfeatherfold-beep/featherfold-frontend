@@ -1,41 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Top-level pages -->
+  <!-- Home -->
   <url>
     <loc>https://featherfold.in/</loc>
     <priority>1.0</priority>
   </url>
 
-  <url>
-    <loc>https://featherfold.in/about-us</loc>
-  </url>
+  <!-- Top-level pages -->
+  <url><loc>https://featherfold.in/about-us</loc></url>
+  <url><loc>https://featherfold.in/contact-us</loc></url>
+  <url><loc>https://featherfold.in/faqs</loc></url>
+  <url><loc>https://featherfold.in/blogs</loc></url>
+  <url><loc>https://featherfold.in/privacy-policy</loc></url>
+  <url><loc>https://featherfold.in/terms-and-conditions</loc></url>
+  <url><loc>https://featherfold.in/shipping-and-delivery</loc></url>
+  <url><loc>https://featherfold.in/return-and-refund-policy</loc></url>
+  <url><loc>https://featherfold.in/track-order</loc></url>
 
-  <url>
-    <loc>https://featherfold.in/contact-us</loc>
-  </url>
+  <!-- Shop -->
+  <url><loc>https://featherfold.in/shop</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets</loc></url>
 
-  <!-- Shop categories -->
-  <url>
-    <loc>https://featherfold.in/shop</loc>
-  </url>
+  <!-- Bedsheets by size -->
+  <url><loc>https://featherfold.in/shop/bedsheets/single-bedsheets</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets/double-bedsheets</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets/queen-bedsheets</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets/king-bedsheets</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets/kids-bedsheets</loc></url>
 
-  <url>
-    <loc>https://featherfold.in/shop/bedsheets</loc>
-  </url>
+  <!-- Bedsheets by fabric -->
+  <url><loc>https://featherfold.in/shop/bedsheets-by-fabric/cotton</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-fabric/microfiber</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-fabric/satin</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-fabric/organic-cotton</loc></url>
 
-  <url>
-    <loc>https://featherfold.in/shop/bedsheets/king-bedsheets</loc>
-  </url>
+  <!-- Bedsheets by style -->
+  <url><loc>https://featherfold.in/shop/bedsheets-by-style/printed</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-style/solid</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-style/striped</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-style/floral</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-style/geometric</loc></url>
+
+  <!-- Bedsheets by feature -->
+  <url><loc>https://featherfold.in/shop/bedsheets-by-feature/elastic-fitted</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-feature/flat</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-feature/hotel-collection</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-feature/all-season</loc></url>
+
+  <!-- Bedsheets by thread count -->
+  <url><loc>https://featherfold.in/shop/bedsheets-by-thread-count/under-180-tc</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-thread-count/180-220-tc</loc></url>
+  <url><loc>https://featherfold.in/shop/bedsheets-by-thread-count/220-plus-tc</loc></url>
 
   <!-- Collections -->
-  <url>
-    <loc>https://featherfold.in/collections/new-arrivals</loc>
-  </url>
+  <url><loc>https://featherfold.in/collections</loc></url>
+  <url><loc>https://featherfold.in/collections/new-arrivals</loc></url>
+  <url><loc>https://featherfold.in/collections/bestsellers</loc></url>
+  <url><loc>https://featherfold.in/collections/festive-collection</loc></url>
+  <url><loc>https://featherfold.in/collections/offers-and-combos</loc></url>
+  <url><loc>https://featherfold.in/collections/hotel-and-homestay</loc></url>
+  <url><loc>https://featherfold.in/collections/wedding-gifting</loc></url>
+  <url><loc>https://featherfold.in/collections/under-499</loc></url>
+  <url><loc>https://featherfold.in/collections/premium-collection</loc></url>
 
   <!-- Blogs -->
-  <url>
-    <loc>https://featherfold.in/blogs</loc>
-  </url>
+  <url><loc>https://featherfold.in/blogs/how-to-choose-bedsheet-size</loc></url>
+  <url><loc>https://featherfold.in/blogs/cotton-vs-microfiber-bedsheets</loc></url>
+  <url><loc>https://featherfold.in/blogs/how-to-wash-and-care-bedsheets</loc></url>
+  <url><loc>https://featherfold.in/blogs/bedroom-color-and-mood-guide</loc></url>
+  <url><loc>https://featherfold.in/blogs/festive-bedroom-makeover-ideas</loc></url>
 
 </urlset>
