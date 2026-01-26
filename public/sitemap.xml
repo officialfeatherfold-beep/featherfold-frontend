@@ -15,10 +15,6 @@
     <loc>https://featherfold.in/contact-us</loc>
   </url>
 
-  <url>
-    <loc>https://featherfold.in/faqs</loc>
-  </url>
-
   <!-- Shop categories -->
   <url>
     <loc>https://featherfold.in/shop</loc>
@@ -37,17 +33,9 @@
     <loc>https://featherfold.in/collections/new-arrivals</loc>
   </url>
 
-  <url>
-    <loc>https://featherfold.in/collections/bestsellers</loc>
-  </url>
-
   <!-- Blogs -->
   <url>
     <loc>https://featherfold.in/blogs</loc>
-  </url>
-
-  <url>
-    <loc>https://featherfold.in/blogs/how-to-choose-bedsheet-size</loc>
   </url>
 
 </urlset>
