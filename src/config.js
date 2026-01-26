@@ -1,6 +1,6 @@
 // Base configuration for FeatherFold frontend
-export const BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'https://featherfold-backendnew1-production.up.railway.app';
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://featherfold-backendnew1-production.up.railway.app/api';
+export const BASE_URL = "https://featherfold-backendnew1-production.up.railway.app/api";
+export const API_BASE_URL = "https://featherfold-backendnew1-production.up.railway.app/api";
 
 // Railway backend URL for production
 export const RAILWAY_URL = 'https://featherfold-backendnew1-production.up.railway.app';
@@ -12,7 +12,7 @@ export const API_ENDPOINTS = {
   LOGIN: '/api/auth/login',
   FORGOT_PASSWORD: '/api/auth/forgot-password',
   RESET_PASSWORD: '/api/auth/reset-password',
-  GOOGLE_AUTH: '/auth/google',
+  GOOGLE_AUTH: '/api/auth/google',
   
   // Products
   PRODUCTS: '/api/products',
