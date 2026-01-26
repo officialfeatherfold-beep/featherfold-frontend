@@ -1,7 +1,7 @@
 // Razorpay payment service
 export class RazorpayService {
   constructor() {
-    this.keyId = 'rzp_test_demo_key_id'; // This should come from backend
+    this.keyId = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_demo_key_id';
   }
 
   // Load Razorpay script

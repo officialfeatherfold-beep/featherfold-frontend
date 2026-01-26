@@ -190,7 +190,7 @@ export const apiService = new ApiService();
 
 // Google OAuth
 export const initiateGoogleAuth = () => {
-  window.location.href = "https://featherfold-backendnew1-production.up.railway.app/api/auth/google";
+  window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`;
 };
 
 // Handle Google OAuth callback
