@@ -190,18 +190,7 @@ export const apiService = new ApiService();
 
 // Google OAuth
 export const initiateGoogleAuth = () => {
-  const clientId = '164497458134-npn3lpsiidpc2j46lhc1gu64oom929li.apps.googleusercontent.com';
-  const redirectUri = 'https://featherfold-backendnew1-production.up.railway.app/api/auth/google/callback';
-  const scope = 'email profile';
-  
-  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
-    `client_id=${clientId}&` +
-    `redirect_uri=${redirectUri}&` +
-    `response_type=code&` +
-    `scope=${scope}&` +
-    `access_type=offline`;
-  
-  window.location.href = authUrl;
+  window.location.href = "https://featherfold-backendnew1-production.up.railway.app/api/auth/google";
 };
 
 // Handle Google OAuth callback
