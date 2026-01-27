@@ -121,7 +121,7 @@ const AdminDashboard = ({ user, onLogout }) => {
     originalPrice: '',
     category: '',
     sizes: [],
-    colors: ['White'], // Default color - single value
+    colors: [],
     fabric: 'Cotton', // Default fabric
     availability: '',
     description: '',
@@ -367,7 +367,7 @@ const AdminDashboard = ({ user, onLogout }) => {
       category: '',
       sizes: [],
       colors: [],
-      fabric: '',
+      fabric: 'Cotton',
       availability: '',
       description: '',
       features: [],
@@ -388,7 +388,7 @@ const AdminDashboard = ({ user, onLogout }) => {
       originalPrice: '',
       category: '',
       sizes: ['Single'], // Default size
-      colors: ['White'], // Default color
+      colors: [COLORS[0]], // Default color
       fabric: 'Cotton', // Default fabric
       availability: '',
       description: '',
@@ -423,11 +423,28 @@ const AdminDashboard = ({ user, onLogout }) => {
     return `${namePrefix}${variantCode}${timestamp}${random}`;
   };
 
+  const normalizeColors = (colors) => {
+    if (!Array.isArray(colors)) {
+      return [];
+    }
+    return colors
+      .map((color) => {
+        if (!color) return null;
+        if (typeof color === 'string') {
+          const value = color.toLowerCase().replace(/\s+/g, '-');
+          return { name: color, value, class: '' };
+        }
+        return color;
+      })
+      .filter(Boolean);
+  };
+
   // Generate variants for all color + size combinations
   const generateVariants = (productName, colors, sizes) => {
     const variants = [];
-    if (colors && sizes) {
-      colors.forEach(color => {
+    const normalizedColors = normalizeColors(colors);
+    if (normalizedColors && sizes) {
+      normalizedColors.forEach(color => {
         sizes.forEach(size => {
           variants.push({
             size: size,
@@ -454,9 +471,18 @@ const AdminDashboard = ({ user, onLogout }) => {
       return;
     }
     
-    // Basic validation - only require name and price
-    if (!productForm.name || !productForm.price) {
-      setError('Please fill in Product Name and Price');
+    // Validation to satisfy backend requirements
+    const normalizedColors = normalizeColors(productForm.colors);
+    const missingFields = [];
+    if (!productForm.name) missingFields.push('Product Name');
+    if (!productForm.price) missingFields.push('Price');
+    if (!productForm.description) missingFields.push('Description');
+    if (!productForm.fabric) missingFields.push('Fabric');
+    if (!productForm.sizes || productForm.sizes.length === 0) missingFields.push('Sizes');
+    if (!normalizedColors || normalizedColors.length === 0) missingFields.push('Colors');
+    
+    if (missingFields.length > 0) {
+      setError(`Please fill in: ${missingFields.join(', ')}`);
       return;
     }
     
@@ -466,7 +492,7 @@ const AdminDashboard = ({ user, onLogout }) => {
     const finalSku = productForm.sku.trim() || generateSku(productForm.name);
     
     // Generate variants for each color + size combination
-    const finalVariants = generateVariants(productForm.name, productForm.colors, productForm.sizes);
+    const finalVariants = generateVariants(productForm.name, normalizedColors, productForm.sizes);
     
     if (!productForm.sku.trim()) {
       console.log('🏷️ Auto-generated main SKU:', finalSku, 'for product:', productForm.name);
@@ -485,6 +511,7 @@ const AdminDashboard = ({ user, onLogout }) => {
 
       const requestData = {
         ...productForm,
+        colors: normalizedColors,
         sku: finalSku,
         variants: finalVariants,
         price: parseFloat(productForm.price),
@@ -825,7 +852,8 @@ const AdminDashboard = ({ user, onLogout }) => {
       const finalSku = productForm.sku.trim() || generateSku(productForm.name);
       
       // Generate variants for each color + size combination
-      const finalVariants = generateVariants(productForm.name, productForm.colors, productForm.sizes);
+      const normalizedColors = normalizeColors(productForm.colors);
+      const finalVariants = generateVariants(productForm.name, normalizedColors, productForm.sizes);
       
       if (!productForm.sku.trim()) {
         console.log('🏷️ Auto-generated main SKU on update:', finalSku, 'for product:', productForm.name);
@@ -840,6 +868,7 @@ const AdminDashboard = ({ user, onLogout }) => {
         },
         body: JSON.stringify({
           ...productForm,
+          colors: normalizedColors,
           sku: finalSku,
           variants: finalVariants,
           price: parseFloat(productForm.price),
