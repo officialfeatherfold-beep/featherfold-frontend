@@ -947,7 +947,8 @@ const AdminDashboard = ({ user, onLogout }) => {
         
         // Store the returned image URL (not base64)
         if (result.imageUrl) {
-          imageArray.push(result.imageUrl);
+          const safeImageUrl = result.imageUrl.replace(/^http:\/\//i, 'https://');
+          imageArray.push(safeImageUrl);
           setProductForm({...productForm, images: imageArray});
         }
         
