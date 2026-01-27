@@ -84,8 +84,12 @@ export const resolveImage = (img) => {
     return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y3ZjdmNyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgTm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=';
   }
   
-  // If it's already a full URL or data URL, return as-is
+  // If it's already a full URL or data URL, return as-is (after HTTPS upgrade)
   if (img.startsWith('http') || img.startsWith('data:')) {
+    if (img.startsWith('http://')) {
+      const httpsUrl = img.replace('http://', 'https://');
+      return httpsUrl;
+    }
     return img;
   }
   
