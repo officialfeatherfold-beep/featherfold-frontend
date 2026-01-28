@@ -87,6 +87,15 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
     fetchProducts();
   }, [fetchProducts]);
 
+  const handleAddToCart = async (product) => {
+    try {
+      const safeProduct = normalizeProduct(product);
+      await cartUtils.addToCart(safeProduct);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
+
   const getSampleProducts = () => [
     {
       _id: 'sample-1',
