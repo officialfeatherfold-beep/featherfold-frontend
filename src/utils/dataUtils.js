@@ -342,6 +342,17 @@ export const wishlistUtils = {
 
   isInWishlist: (productId) => {
     return wishlistUtils.getWishlist().includes(productId);
+  },
+
+  clearWishlist: () => {
+    try {
+      localStorage.removeItem('wishlist');
+      window.dispatchEvent(new CustomEvent('wishlistUpdated', { detail: [] }));
+      return [];
+    } catch (error) {
+      console.error('Error clearing wishlist:', error);
+      return [];
+    }
   }
 };
 
