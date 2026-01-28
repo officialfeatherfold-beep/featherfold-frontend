@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Package, Calendar, DollarSign, Truck, Check, Clock, Home, ShoppingBag, Navigation, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Package, Calendar, DollarSign, Truck, Check, Clock, Home, ShoppingBag } from 'lucide-react';
 import Header from './Header';
-import LiveTrackerWidget from './LiveTrackerWidget';
 import { apiService } from '../services/api';
 
 const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCount, totalPrice }) => {
@@ -232,34 +231,7 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
             </div>
           </motion.div>
 
-          {/* Live Tracker Widget */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mb-8"
-          >
-            <LiveTrackerWidget order={order} />
-          </motion.div>
-
-          {/* Track Live Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mb-8 text-center"
-          >
-            <motion.button
-              onClick={() => navigate(`/track/${orderId}`)}
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center gap-3"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Navigation className="w-5 h-5" />
-              Track Live Order Journey
-              <TrendingUp className="w-5 h-5" />
-            </motion.button>
-          </motion.div>
+          
 
           {/* Order Items */}
           <motion.div

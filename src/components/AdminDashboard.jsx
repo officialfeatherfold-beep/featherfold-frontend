@@ -39,7 +39,6 @@ import {
   IndianRupee,
   User as UserIcon,
   Lock,
-  MapPin,
   Ban,
   Box,
   Truck,
@@ -153,8 +152,6 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showUserModal, setShowUserModal] = useState(false);
   const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
-  const [showAddressModal, setShowAddressModal] = useState(false);
-  const [userAddresses, setUserAddresses] = useState([]);
   const [newPassword, setNewPassword] = useState('');
   const [resetLoading, setResetLoading] = useState(false);
   
@@ -1189,27 +1186,6 @@ const AdminDashboard = ({ user, onLogout }) => {
     }
   };
 
-  const handleViewAddresses = async (userId) => {
-    try {
-      const token = localStorage.getItem('featherfold_token');
-      const response = await fetch(`${API_BASE}/api/users/${userId}/addresses`, {
-        headers: {
-          'Authorization': `Bearer ${token}` 
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserAddresses(data.addresses || []);
-        setShowAddressModal(true);
-      } else {
-        alert('Failed to fetch user addresses');
-      }
-    } catch (error) {
-      console.error('Error fetching addresses:', error);
-      alert('Error fetching addresses');
-    }
-  };
 
   const openUserModal = (user) => {
     setSelectedUser(user);
@@ -1512,13 +1488,6 @@ const AdminDashboard = ({ user, onLogout }) => {
                                   title="Reset Password"
                                 >
                                   <Lock className="w-4 h-4" />
-                                </button>
-                                <button
-                                  onClick={() => handleViewAddresses(user.id)}
-                                  className="text-green-600 hover:text-green-800 p-1 rounded hover:bg-green-50"
-                                  title="View Addresses"
-                                >
-                                  <MapPin className="w-4 h-4" />
                                 </button>
                                 <button
                                   onClick={() => handleSuspendUser(user.id, !user.suspended)}
@@ -3439,15 +3408,6 @@ const AdminDashboard = ({ user, onLogout }) => {
                   >
                     Reset Password
                   </button>
-                  <button
-                    onClick={() => {
-                      setShowUserModal(false);
-                      handleViewAddresses(selectedUser.id);
-                    }}
-                    className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                  >
-                    View Addresses
-                  </button>
                 </div>
               </div>
             </motion.div>
@@ -3520,63 +3480,6 @@ const AdminDashboard = ({ user, onLogout }) => {
                     )}
                   </button>
                 </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Address Modal */}
-      <AnimatePresence>
-        {showAddressModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-slate-900">User Addresses</h3>
-                <button
-                  onClick={() => setShowAddressModal(false)}
-                  className="p-2 hover:bg-slate-100 rounded-lg"
-                >
-                  <X className="w-5 h-5 text-slate-500" />
-                </button>
-              </div>
-              
-              <div className="space-y-4">
-                {userAddresses.length > 0 ? (
-                  userAddresses.map((address, index) => (
-                    <div key={index} className="border border-slate-200 rounded-lg p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-medium text-slate-900">
-                          {address.type || 'Address'} {index + 1}
-                        </h4>
-                        {address.isDefault && (
-                          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">Default</span>
-                        )}
-                      </div>
-                      <div className="space-y-1 text-sm text-slate-600">
-                        <p>{address.street}</p>
-                        <p>{address.city}, {address.state} {address.postalCode}</p>
-                        <p>{address.country}</p>
-                        <p>Phone: {address.phone}</p>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8">
-                    <MapPin className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                    <p className="text-slate-500">No addresses found for this user</p>
-                  </div>
-                )}
               </div>
             </motion.div>
           </motion.div>
