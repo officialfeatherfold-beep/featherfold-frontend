@@ -133,12 +133,12 @@ const AuthModal = ({ onClose, onLogin }) => {
           <div className="relative h-32 bg-gradient-to-br from-purple-600 to-pink-600">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
+              className="absolute top-4 right-4 z-10 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
             >
               <X className="w-5 h-5 text-white" />
             </button>
             
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="text-center">
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
                   <User className="w-8 h-8 text-white" />
