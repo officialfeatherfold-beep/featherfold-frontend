@@ -29,14 +29,13 @@ import { wishlistUtils, cartUtils } from './utils/dataUtils';
 // Core Components
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
-import ProductShowcase from './components/ProductShowcase';
+import ProductPhotoCarousel from './components/ProductPhotoCarousel';
 import Products from './components/Products';
 import ProductDetails from './components/ProductDetails';
 import MattressConfigurator from './components/MattressConfigurator';
 import ColorSwatcher from './components/ColorSwatcher';
 import TrustSignals from './components/TrustSignals';
 import FAQSection from './components/FAQSection';
-import ProductPhotoCarousel from './components/ProductPhotoCarousel';
 
 // Cart & Checkout Components
 import Cart from './components/Cart';
@@ -263,11 +262,7 @@ function App() {
                 onNavigate={navigateToView}
               />
               
-              <ProductPhotoCarousel 
-                onAddToCart={(product, options) => cartUtils.addToCart(product, options)}
-                user={user}
-                onNavigate={navigateToView}
-              />
+              <ProductPhotoCarousel />
               
               <MattressConfigurator 
                 selectedType={selectedType}
