@@ -185,11 +185,11 @@ const FAQSection = () => {
               {/* Quick Contact Options */}
               <div className="space-y-3 mb-6">
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+918168587844"
                   className="flex items-center space-x-3 p-3 rounded-xl hover:bg-white/30 transition-all"
                 >
                   <Phone className="w-5 h-5 text-purple-600" />
-                  <span className="text-gray-700">+91 98765 43210</span>
+                  <span className="text-gray-700">+91 81685 87844</span>
                 </a>
                 <a
                   href="mailto:officialfeatherfold@gmail.com"

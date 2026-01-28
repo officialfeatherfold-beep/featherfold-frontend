@@ -58,7 +58,7 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
         },
         {
           q: "How do I return a product?",
-          a: "Contact us at hello@featherfold.com or call +91 98765 43210 with your order number. We'll provide a return authorization number and arrange pickup (available in metro cities) or provide shipping instructions.",
+          a: "Contact us at officialfeatherfold@gmail.com or call +91 81685 87844 with your order number. We'll provide a return authorization number and arrange pickup (available in metro cities) or provide shipping instructions.",
         },
         {
           q: "How long do refunds take?",
@@ -96,7 +96,7 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
         },
         {
           q: "Can I change my order after placing it?",
-          a: "If you need to modify your order, please contact us immediately at hello@featherfold.com or +91 98765 43210. We'll do our best to accommodate changes if your order hasn't been processed yet.",
+          a: "If you need to modify your order, please contact us immediately at officialfeatherfold@gmail.com or +91 81685 87844. We'll do our best to accommodate changes if your order hasn't been processed yet.",
         },
         {
           q: "I forgot my password. How do I reset it?",

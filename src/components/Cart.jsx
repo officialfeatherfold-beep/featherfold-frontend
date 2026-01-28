@@ -82,7 +82,7 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
           city: 'Mumbai',
           state: 'Maharashtra',
           pincode: '400001',
-          phone: '+919876543210'
+          phone: '+918168587844'
         },
         totalAmount: total
       };
@@ -97,7 +97,7 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
             orderId: orderResponse.order.id,
             customerName: user.name,
             customerEmail: user.email,
-            customerPhone: '+919876543210'
+            customerPhone: '+918168587844'
           },
           async (paymentResponse) => {
             // Payment successful
