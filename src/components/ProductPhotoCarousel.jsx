@@ -217,7 +217,7 @@ const ProductPhotoCarousel = ({ onAddToCart, user, onNavigate }) => {
             </AnimatePresence>
 
             <div className="pointer-events-none absolute left-4 top-4 z-20 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm">
-              {currentIndex + 1} / {productImages.length}
+                {currentIndex + 1} / {featuredProducts.length}
             </div>
 
             <button
