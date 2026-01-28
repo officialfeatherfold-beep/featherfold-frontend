@@ -192,11 +192,11 @@ const FAQSection = () => {
                   <span className="text-gray-700">+91 98765 43210</span>
                 </a>
                 <a
-                  href="mailto:support@featherfold.com"
+                  href="mailto:officialfeatherfold@gmail.com"
                   className="flex items-center space-x-3 p-3 rounded-xl hover:bg-white/30 transition-all"
                 >
                   <Mail className="w-5 h-5 text-purple-600" />
-                  <span className="text-gray-700">support@featherfold.com</span>
+                  <span className="text-gray-700">officialfeatherfold@gmail.com</span>
                 </a>
               </div>
 

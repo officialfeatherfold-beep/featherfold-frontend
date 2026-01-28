@@ -175,10 +175,10 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Email</h3>
                     <a
-                      href="mailto:hello@featherfold.com"
+                      href="mailto:officialfeatherfold@gmail.com"
                       className="text-purple-600 hover:text-purple-700 transition-colors"
                     >
-                      hello@featherfold.com
+                      officialfeatherfold@gmail.com
                     </a>
                   </div>
                 </div>

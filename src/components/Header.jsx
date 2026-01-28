@@ -71,7 +71,7 @@ const Header = ({
             <motion.button
               type="button"
               onClick={() => onNavigate && onNavigate('home')}
-              className="flex items-center space-x-2 text-left"
+              className="flex items-center gap-3 text-left shrink-0"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -88,9 +88,9 @@ const Header = ({
                   </span>
                 )}
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-800">FeatherFold</h1>
-                <p className="text-xs text-gray-600">Premium Cotton</p>
+              <div className="min-w-0">
+                <h1 className="text-xl font-bold text-gray-800 whitespace-nowrap">FeatherFold</h1>
+                <p className="text-xs text-gray-600 whitespace-nowrap">Premium Cotton</p>
               </div>
             </motion.button>
 
