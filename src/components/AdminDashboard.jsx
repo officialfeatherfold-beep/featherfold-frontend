@@ -70,6 +70,21 @@ const AdminDashboard = ({ user, onLogout }) => {
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [settings, setSettings] = useState({
+    maintenanceMode: false,
+    emailNotifications: true,
+    guestCheckout: true,
+    storeName: 'FeatherFold',
+    contactEmail: 'support@featherfold.com',
+    phoneNumber: '+91 81685-87844',
+    currency: 'INR',
+    freeShippingThreshold: 500,
+    standardShippingFee: 40,
+    deliveryTime: '3-5 business days',
+    taxEnabled: true,
+    taxRate: 18
+  });
+  const [saveStatus, setSaveStatus] = useState('');
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalOrders: 0,
@@ -191,6 +206,30 @@ const AdminDashboard = ({ user, onLogout }) => {
   useEffect(() => {
     fetchDashboardData();
   }, []);
+
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('adminSettings');
+    if (savedSettings) {
+      try {
+        setSettings(JSON.parse(savedSettings));
+      } catch {
+        // ignore invalid settings
+      }
+    }
+  }, []);
+
+  const handleSaveSettings = () => {
+    localStorage.setItem('adminSettings', JSON.stringify(settings));
+    setSaveStatus('Settings saved successfully!');
+    setTimeout(() => setSaveStatus(''), 3000);
+  };
+
+  const handleSettingChange = (key, value) => {
+    setSettings((prev) => ({
+      ...prev,
+      [key]: value
+    }));
+  };
 
   const fetchDashboardData = async () => {
     try {
@@ -2437,34 +2476,236 @@ const AdminDashboard = ({ user, onLogout }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Analytics Dashboard</h3>
-              {analytics ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="p-4 bg-slate-50 rounded-xl">
-                    <h4 className="font-medium text-slate-900 mb-2">Revenue Overview</h4>
-                    <p className="text-2xl font-bold text-blue-600">₹{(analytics?.totalRevenue || 0).toLocaleString('en-IN')}</p>
-                    <p className="text-sm text-slate-500">Total revenue from all orders</p>
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-6">Analytics Overview</h3>
+                {analytics ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-blue-50 to-white">
+                      <p className="text-sm text-slate-500">Total Revenue</p>
+                      <p className="mt-2 text-2xl font-bold text-blue-700">₹{(analytics?.totalRevenue || 0).toLocaleString('en-IN')}</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-green-50 to-white">
+                      <p className="text-sm text-slate-500">Total Orders</p>
+                      <p className="mt-2 text-2xl font-bold text-green-700">{analytics.totalOrders}</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-purple-50 to-white">
+                      <p className="text-sm text-slate-500">Total Users</p>
+                      <p className="mt-2 text-2xl font-bold text-purple-700">{analytics.totalUsers}</p>
+                    </div>
+                    <div className="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-orange-50 to-white">
+                      <p className="text-sm text-slate-500">Conversion Rate</p>
+                      <p className="mt-2 text-2xl font-bold text-orange-700">{analytics.conversionRate}%</p>
+                    </div>
                   </div>
-                  <div className="p-4 bg-slate-50 rounded-xl">
-                    <h4 className="font-medium text-slate-900 mb-2">Order Statistics</h4>
-                    <p className="text-2xl font-bold text-green-600">{analytics.totalOrders}</p>
-                    <p className="text-sm text-slate-500">Total orders placed</p>
+                ) : (
+                  <p className="text-slate-500 text-center py-12">Loading analytics data...</p>
+                )}
+              </div>
+
+              {analytics && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <h4 className="text-md font-semibold text-slate-900 mb-4">Recent Orders</h4>
+                    <div className="space-y-3">
+                      {(analytics.recentOrders || []).length > 0 ? (
+                        analytics.recentOrders.map((order) => (
+                          <div key={order.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
+                            <div>
+                              <p className="text-sm font-medium text-slate-900">#{order.id}</p>
+                              <p className="text-xs text-slate-500">{new Date(order.createdAt).toLocaleDateString()}</p>
+                            </div>
+                            <div className="text-sm font-semibold text-slate-900">₹{(order.total || 0).toLocaleString('en-IN')}</div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-slate-500">No recent orders</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="p-4 bg-slate-50 rounded-xl">
-                    <h4 className="font-medium text-slate-900 mb-2">User Analytics</h4>
-                    <p className="text-2xl font-bold text-purple-600">{analytics.totalUsers}</p>
-                    <p className="text-sm text-slate-500">Registered users</p>
-                  </div>
-                  <div className="p-4 bg-slate-50 rounded-xl">
-                    <h4 className="font-medium text-slate-900 mb-2">Conversion Rate</h4>
-                    <p className="text-2xl font-bold text-orange-600">{analytics.conversionRate}%</p>
-                    <p className="text-sm text-slate-500">Orders per user</p>
+
+                  <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <h4 className="text-md font-semibold text-slate-900 mb-4">Top Products</h4>
+                    <div className="space-y-3">
+                      {(analytics.topProducts || []).length > 0 ? (
+                        analytics.topProducts.map((product) => (
+                          <div key={product.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden flex items-center justify-center">
+                                {product.images?.[0] ? (
+                                  <img src={resolveImage(product.images[0])} alt={product.name} className="w-full h-full object-contain" />
+                                ) : (
+                                  <Package className="w-4 h-4 text-slate-400" />
+                                )}
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-slate-900">{product.name}</p>
+                                <p className="text-xs text-slate-500">Stock: {product.availability || 0}</p>
+                              </div>
+                            </div>
+                            <div className="text-sm font-semibold text-slate-900">₹{(product.price || 0).toLocaleString('en-IN')}</div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-slate-500">No products found</p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              ) : (
-                <p className="text-slate-500 text-center py-12">Loading analytics data...</p>
               )}
+            </div>
+          </motion.div>
+        );
+
+      case 'settings':
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-6">Store Settings</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Store Name</label>
+                    <input
+                      type="text"
+                      value={settings.storeName}
+                      onChange={(e) => handleSettingChange('storeName', e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Contact Email</label>
+                    <input
+                      type="email"
+                      value={settings.contactEmail}
+                      onChange={(e) => handleSettingChange('contactEmail', e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={settings.phoneNumber}
+                      onChange={(e) => handleSettingChange('phoneNumber', e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Currency</label>
+                    <select
+                      value={settings.currency}
+                      onChange={(e) => handleSettingChange('currency', e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                      <option value="INR">₹ INR</option>
+                      <option value="USD">$ USD</option>
+                      <option value="EUR">€ EUR</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-6">Operational Settings</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-slate-900">Maintenance Mode</p>
+                      <p className="text-sm text-slate-500">Temporarily disable customer access</p>
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={settings.maintenanceMode}
+                      onChange={(e) => handleSettingChange('maintenanceMode', e.target.checked)}
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-slate-900">Email Notifications</p>
+                      <p className="text-sm text-slate-500">Send order confirmations</p>
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={settings.emailNotifications}
+                      onChange={(e) => handleSettingChange('emailNotifications', e.target.checked)}
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-slate-900">Guest Checkout</p>
+                      <p className="text-sm text-slate-500">Allow guest purchases</p>
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={settings.guestCheckout}
+                      onChange={(e) => handleSettingChange('guestCheckout', e.target.checked)}
+                      className="h-5 w-5"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-6">Shipping & Tax</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Free Shipping Threshold</label>
+                    <input
+                      type="number"
+                      value={settings.freeShippingThreshold}
+                      onChange={(e) => handleSettingChange('freeShippingThreshold', Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Standard Shipping Fee</label>
+                    <input
+                      type="number"
+                      value={settings.standardShippingFee}
+                      onChange={(e) => handleSettingChange('standardShippingFee', Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Delivery Time</label>
+                    <input
+                      type="text"
+                      value={settings.deliveryTime}
+                      onChange={(e) => handleSettingChange('deliveryTime', e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Tax Rate (%)</label>
+                    <input
+                      type="number"
+                      value={settings.taxRate}
+                      onChange={(e) => handleSettingChange('taxRate', Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-between">
+                  <div>
+                    {saveStatus && (
+                      <span className="text-green-600 text-sm font-medium">✅ {saveStatus}</span>
+                    )}
+                  </div>
+                  <button
+                    onClick={handleSaveSettings}
+                    className="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  >
+                    Save Settings
+                  </button>
+                </div>
+              </div>
             </div>
           </motion.div>
         );
@@ -2718,7 +2959,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="text"
                       name="sizes"
                       value={productForm.sizes.join(', ')}
-                      onChange={(e) => setProductForm({...productForm, sizes: e.target.value.split(',').map(s => s.trim()).filter(f => f.trim())})}
+                      onChange={(e) => setProductForm({...productForm, sizes: e.target.value.split(/,\s*/).map(s => s.trim()).filter(f => f.trim())})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Auto-generated if empty"
                     />
@@ -3012,7 +3253,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="text"
                       name="sizes"
                       value={productForm.sizes.join(', ')}
-                      onChange={(e) => setProductForm({...productForm, sizes: e.target.value.split(',').map(s => s.trim()).filter(f => f.trim())})}
+                      onChange={(e) => setProductForm({...productForm, sizes: e.target.value.split(/,\s*/).map(s => s.trim()).filter(f => f.trim())})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Auto-generated if empty"
                     />

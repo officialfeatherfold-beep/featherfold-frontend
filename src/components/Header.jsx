@@ -19,6 +19,7 @@ import {
 const Header = ({ 
   user, 
   cartCount, 
+  favoritesCount,
   onCartOpen, 
   onAuthOpen, 
   onLogout, 
@@ -31,6 +32,7 @@ const Header = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [greeting, setGreeting] = useState('');
+  const [logoFailed, setLogoFailed] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,16 +75,18 @@ const Header = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-purple-200 shadow-sm overflow-hidden">
+              <div className="relative w-10 h-10 rounded-full bg-white flex items-center justify-center border border-purple-200 shadow-sm overflow-hidden">
                 <img
                   src="/logo.png"
                   alt="FeatherFold"
-                  className="w-9 h-9 object-contain"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
+                  className="w-full h-full object-contain p-1"
+                  onError={() => setLogoFailed(true)}
                 />
-                <span className="text-purple-600 font-bold text-xl">F</span>
+                {logoFailed && (
+                  <span className="absolute inset-0 flex items-center justify-center text-purple-600 font-bold text-xl">
+                    F
+                  </span>
+                )}
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-800">FeatherFold</h1>
@@ -131,6 +135,11 @@ const Header = ({
               >
                 <Heart className="w-4 h-4" />
                 Favorites
+                {favoritesCount > 0 && (
+                  <span className="bg-purple-600 text-white text-xs rounded-full px-2 py-1 ml-2">
+                    {favoritesCount}
+                  </span>
+                )}
               </button>
               <button
                 onClick={() => onNavigate && onNavigate('features')}

@@ -74,6 +74,7 @@ function App() {
   const [backgroundColor, setBackgroundColor] = useState('#f8fafc');
   const [isPlaying, setIsPlaying] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [favoritesCount, setFavoritesCount] = useState(0);
 
   // Determine current view based on URL path
   const getCurrentView = () => {
@@ -217,6 +218,23 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const updateFavoritesState = () => {
+      try {
+        setFavoritesCount(wishlistUtils.getWishlist().length);
+      } catch {
+        setFavoritesCount(0);
+      }
+    };
+
+    updateFavoritesState();
+    window.addEventListener('wishlistUpdated', updateFavoritesState);
+
+    return () => {
+      window.removeEventListener('wishlistUpdated', updateFavoritesState);
+    };
+  }, []);
+
   return (
     <div 
       className="min-h-screen transition-all duration-1000 ease-in-out"
@@ -229,6 +247,7 @@ function App() {
             <Header 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -276,6 +295,7 @@ function App() {
             <Header 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -299,6 +319,7 @@ function App() {
             <Header 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -319,6 +340,7 @@ function App() {
             <FavoritesPageNew 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -335,6 +357,7 @@ function App() {
             <FeaturesPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -351,6 +374,7 @@ function App() {
             <ReviewsPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -367,6 +391,7 @@ function App() {
             <FAQPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -383,6 +408,7 @@ function App() {
             <CartPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -399,6 +425,7 @@ function App() {
             <CheckoutPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -415,6 +442,7 @@ function App() {
             <OrderSuccessPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -431,6 +459,7 @@ function App() {
             <CustomerOrdersPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -447,6 +476,7 @@ function App() {
             <OrderDetailsPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -482,6 +512,7 @@ function App() {
             <ContactPage 
               user={user}
               cartCount={cartCount}
+              favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => setIsAuthOpen(true)}
               onLogout={handleLogout}
@@ -499,6 +530,7 @@ function App() {
               <Header 
                 user={user}
                 cartCount={cartCount}
+                favoritesCount={favoritesCount}
                 onCartOpen={() => setIsCartOpen(true)}
                 onAuthOpen={() => setIsAuthOpen(true)}
                 onLogout={handleLogout}
