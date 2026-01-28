@@ -113,6 +113,10 @@ const AdminDashboard = ({ user, onLogout }) => {
   // Product management state
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [featuredProductIds, setFeaturedProductIds] = useState([]);
+  const [featuredRotationSeconds, setFeaturedRotationSeconds] = useState(5);
+  const [featuredAddProductId, setFeaturedAddProductId] = useState('');
+  const [featuredSaving, setFeaturedSaving] = useState(false);
   const [productForm, setProductForm] = useState({
     name: '',
     brand: 'FeatherFold',
@@ -232,6 +236,17 @@ const AdminDashboard = ({ user, onLogout }) => {
         }));
         setProducts(validatedProducts);
       }
+
+      try {
+        const featuredResponse = await fetch(`${API_BASE}/api/admin/featured-products`, { headers });
+        if (featuredResponse.ok) {
+          const featuredData = await featuredResponse.json();
+          setFeaturedProductIds(Array.isArray(featuredData.productIds) ? featuredData.productIds : []);
+          setFeaturedRotationSeconds(Number.isFinite(Number(featuredData.rotationSeconds)) ? Number(featuredData.rotationSeconds) : 5);
+        }
+      } catch (e) {
+        // ignore featured fetch errors
+      }
       
       // Fetch users and orders (protected endpoints)
       console.log('👥 Fetching users...');
@@ -334,6 +349,66 @@ const AdminDashboard = ({ user, onLogout }) => {
       setError('Failed to load dashboard data. Please check your connection.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddFeaturedProduct = () => {
+    if (!featuredAddProductId) return;
+    if (featuredProductIds.includes(featuredAddProductId)) return;
+    setFeaturedProductIds((prev) => [...prev, featuredAddProductId]);
+    setFeaturedAddProductId('');
+  };
+
+  const moveFeaturedProduct = (index, direction) => {
+    setFeaturedProductIds((prev) => {
+      const next = [...prev];
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= next.length) return prev;
+      const temp = next[index];
+      next[index] = next[targetIndex];
+      next[targetIndex] = temp;
+      return next;
+    });
+  };
+
+  const removeFeaturedProduct = (id) => {
+    setFeaturedProductIds((prev) => prev.filter((x) => x !== id));
+  };
+
+  const handleSaveFeaturedProducts = async () => {
+    try {
+      const token = localStorage.getItem('featherfold_token');
+      if (!token) {
+        setError('Please login to update featured products');
+        return;
+      }
+
+      setFeaturedSaving(true);
+
+      const response = await fetch(`${API_BASE}/api/admin/featured-products`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          productIds: featuredProductIds,
+          rotationSeconds: featuredRotationSeconds
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setFeaturedProductIds(Array.isArray(data.productIds) ? data.productIds : []);
+        setFeaturedRotationSeconds(Number.isFinite(Number(data.rotationSeconds)) ? Number(data.rotationSeconds) : featuredRotationSeconds);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || 'Failed to update featured products');
+      }
+    } catch (error) {
+      setError('Error updating featured products: ' + (error?.message || 'Unknown error'));
+    } finally {
+      setFeaturedSaving(false);
     }
   };
 
@@ -1559,6 +1634,108 @@ const AdminDashboard = ({ user, onLogout }) => {
                 </div>
               </div>
               <div className="p-6">
+                <div className="mb-6 p-4 border border-slate-200 rounded-xl bg-slate-50">
+                  <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <div>
+                      <h4 className="font-semibold text-slate-900">Featured Products (Homepage Carousel)</h4>
+                      <p className="text-sm text-slate-600">These products rotate on the homepage. Clicking a slide opens the product page.</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <label className="text-sm text-slate-700">
+                        Rotation (sec)
+                      </label>
+                      <input
+                        type="number"
+                        min={2}
+                        max={60}
+                        value={featuredRotationSeconds}
+                        onChange={(e) => setFeaturedRotationSeconds(Number(e.target.value))}
+                        className="w-24 px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      />
+                      <button
+                        onClick={handleSaveFeaturedProducts}
+                        disabled={featuredSaving}
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
+                      >
+                        <Save className="w-4 h-4" />
+                        Save
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex items-center gap-3 flex-wrap">
+                    <select
+                      value={featuredAddProductId}
+                      onChange={(e) => setFeaturedAddProductId(e.target.value)}
+                      className="flex-1 min-w-[240px] px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="">Select a product to add…</option>
+                      {products
+                        .filter((p) => p?.id && !featuredProductIds.includes(p.id))
+                        .map((p) => (
+                          <option key={p.id} value={p.id}>{p.name}</option>
+                        ))}
+                    </select>
+                    <button
+                      onClick={handleAddFeaturedProduct}
+                      className="px-4 py-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 flex items-center gap-2"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add
+                    </button>
+                  </div>
+
+                  <div className="mt-4 space-y-2">
+                    {featuredProductIds.length === 0 ? (
+                      <p className="text-sm text-slate-500">No featured products selected. Add at least 1 product and click Save.</p>
+                    ) : (
+                      featuredProductIds.map((id, index) => {
+                        const product = products.find((p) => p.id === id);
+                        return (
+                          <div key={id} className="flex items-center justify-between gap-3 p-3 bg-white border border-slate-200 rounded-lg">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <div className="w-12 h-12 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
+                                {product?.images?.[0] ? (
+                                  <img src={resolveImage(product.images[0])} alt={product?.name || 'Product'} className="w-full h-full object-contain" />
+                                ) : (
+                                  <Package className="w-5 h-5 text-slate-400" />
+                                )}
+                              </div>
+                              <div className="min-w-0">
+                                <p className="font-medium text-slate-900 truncate">{product?.name || id}</p>
+                                <p className="text-xs text-slate-500 truncate">{id}</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <button
+                                onClick={() => moveFeaturedProduct(index, -1)}
+                                className="p-2 rounded-lg border border-slate-200 hover:bg-slate-100"
+                                title="Move up"
+                              >
+                                <ArrowUp className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => moveFeaturedProduct(index, 1)}
+                                className="p-2 rounded-lg border border-slate-200 hover:bg-slate-100"
+                                title="Move down"
+                              >
+                                <ArrowDown className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => removeFeaturedProduct(id)}
+                                className="p-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
+                                title="Remove"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+
                 {products.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {products.map((product) => (
