@@ -68,6 +68,53 @@ const ProductDetails = () => {
     updateURL(selectedColor, size);
   };
 
+  const findVariantImageIndex = (productData, colorValue, sizeValue) => {
+    if (!productData?.images || productData.images.length === 0) return 0;
+
+    const images = productData.images;
+    const lowerImages = images.map((img) => (img || '').toString().toLowerCase());
+
+    const colorCandidates = [];
+    if (colorValue) {
+      colorCandidates.push(colorValue.toString().toLowerCase());
+    }
+    if (productData.colors && productData.colors.length > 0) {
+      const matchedColor = productData.colors.find((c) => {
+        if (typeof c === 'string') {
+          return c.toLowerCase() === colorValue?.toString().toLowerCase();
+        }
+        return (
+          c.value?.toLowerCase() === colorValue?.toString().toLowerCase() ||
+          c.name?.toLowerCase() === colorValue?.toString().toLowerCase()
+        );
+      });
+      if (matchedColor && typeof matchedColor !== 'string') {
+        if (matchedColor.name) colorCandidates.push(matchedColor.name.toLowerCase());
+        if (matchedColor.value) colorCandidates.push(matchedColor.value.toLowerCase());
+      }
+    }
+
+    const sizeCandidates = [];
+    if (sizeValue) sizeCandidates.push(sizeValue.toString().toLowerCase());
+
+    const matchesColor = (img) => colorCandidates.some((c) => c && img.includes(c));
+    const matchesSize = (img) => sizeCandidates.some((s) => s && img.includes(s));
+
+    // Prefer image matching both color and size
+    let idx = lowerImages.findIndex((img) => matchesColor(img) && matchesSize(img));
+    if (idx !== -1) return idx;
+
+    // Fallback to color-only
+    idx = lowerImages.findIndex((img) => matchesColor(img));
+    if (idx !== -1) return idx;
+
+    // Fallback to size-only
+    idx = lowerImages.findIndex((img) => matchesSize(img));
+    if (idx !== -1) return idx;
+
+    return 0;
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -110,6 +157,12 @@ const ProductDetails = () => {
       fetchProduct();
     }
   }, [id, navigate]);
+
+  useEffect(() => {
+    if (!product) return;
+    const idx = findVariantImageIndex(product, selectedColor, selectedSize);
+    setSelectedImageIndex(idx);
+  }, [product, selectedColor, selectedSize]);
 
   const handleAddToCart = async () => {
     if (!product) return;
