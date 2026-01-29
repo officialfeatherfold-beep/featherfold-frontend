@@ -3113,25 +3113,42 @@ const AdminDashboard = ({ user, onLogout }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <select
                         value={variantImageColor}
-                        onChange={(e) => setVariantImageColor(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setVariantImageColor(value);
+                          if (!value) return;
+                          // Ensure color exists in productForm
+                          const exists = (productForm.colors || []).some((c) =>
+                            typeof c === 'string' ? c === value : c.value === value
+                          );
+                          if (!exists) {
+                            addColor(value);
+                          }
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="">Select Color</option>
-                        {(productForm.colors || []).map((color) => {
-                          const value = typeof color === 'string' ? color : color.value || color.name;
-                          const label = typeof color === 'string' ? color : color.name || color.value;
-                          return (
-                            <option key={value} value={value}>{label}</option>
-                          );
-                        })}
+                        {COLORS.map((color) => (
+                          <option key={color.value} value={color.value}>{color.name}</option>
+                        ))}
                       </select>
                       <select
                         value={variantImageSize}
-                        onChange={(e) => setVariantImageSize(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setVariantImageSize(value);
+                          if (!value) return;
+                          if (!(productForm.sizes || []).includes(value)) {
+                            setProductForm((prev) => ({
+                              ...prev,
+                              sizes: [...(prev.sizes || []), value]
+                            }));
+                          }
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="">Select Size</option>
-                        {(productForm.sizes || []).map((size) => (
+                        {SIZES.map((size) => (
                           <option key={size} value={size}>{size}</option>
                         ))}
                       </select>
