@@ -133,6 +133,8 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [featuredSaving, setFeaturedSaving] = useState(false);
   const [variantImageColor, setVariantImageColor] = useState('');
   const [variantImageSize, setVariantImageSize] = useState('');
+  const [variantImagePrice, setVariantImagePrice] = useState('');
+  const [variantImageSku, setVariantImageSku] = useState('');
   const [productForm, setProductForm] = useState({
     name: '',
     brand: 'FeatherFold',
@@ -1075,7 +1077,7 @@ const AdminDashboard = ({ user, onLogout }) => {
     }
   };
 
-  const addVariantImageEntry = (colorValue, sizeValue, imageUrl) => {
+  const addVariantImageEntry = (colorValue, sizeValue, imageUrl, priceValue, skuValue) => {
     if (!colorValue || !sizeValue || !imageUrl) return;
 
     setProductForm((prev) => {
@@ -1088,11 +1090,13 @@ const AdminDashboard = ({ user, onLogout }) => {
       if (idx >= 0) {
         const updatedEntry = {
           ...next[idx],
+          price: priceValue ? Number(priceValue) : next[idx].price,
+          sku: skuValue || next[idx].sku,
           images: [...(next[idx].images || []), imageUrl]
         };
         next[idx] = updatedEntry;
       } else {
-        next.push({ color: colorValue, size: sizeValue, images: [imageUrl] });
+        next.push({ color: colorValue, size: sizeValue, price: priceValue ? Number(priceValue) : undefined, sku: skuValue || '', images: [imageUrl] });
       }
 
       return { ...prev, variantImages: next };
@@ -1129,7 +1133,7 @@ const AdminDashboard = ({ user, onLogout }) => {
 
       const result = await response.json();
       if (result.imageUrl) {
-        addVariantImageEntry(variantImageColor, variantImageSize, result.imageUrl);
+        addVariantImageEntry(variantImageColor, variantImageSize, result.imageUrl, variantImagePrice, variantImageSku);
       }
     } catch (error) {
       console.error('Variant image upload error:', error);
@@ -3154,6 +3158,23 @@ const AdminDashboard = ({ user, onLogout }) => {
                       </select>
                     </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <input
+                        type="number"
+                        value={variantImagePrice}
+                        onChange={(e) => setVariantImagePrice(e.target.value)}
+                        placeholder="Variant price (optional)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <input
+                        type="text"
+                        value={variantImageSku}
+                        onChange={(e) => setVariantImageSku(e.target.value)}
+                        placeholder="Variant SKU (optional)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
                     <div className="flex items-center gap-4">
                       <input
                         type="file"
@@ -3179,6 +3200,11 @@ const AdminDashboard = ({ user, onLogout }) => {
                             <div className="text-sm font-medium text-slate-700 mb-2">
                               {entry.color} • {entry.size}
                             </div>
+                            {(entry.price || entry.sku) && (
+                              <div className="text-xs text-slate-500 mb-2">
+                                {entry.price ? `₹${entry.price}` : ''} {entry.sku ? `• ${entry.sku}` : ''}
+                              </div>
+                            )}
                             <div className="flex flex-wrap gap-2">
                               {(entry.images || []).map((img, idx) => (
                                 <div key={img} className="relative">

@@ -202,13 +202,24 @@ const ProductDetails = () => {
     setSelectedImageIndex(idx);
   }, [product, selectedColor, selectedSize]);
 
+  const currentVariant = (product?.variantImages || []).find((variant) => {
+    const normalize = (value) => (value || '').toString().toLowerCase();
+    return normalize(variant.color) === (selectedColor || '').toString().toLowerCase()
+      && normalize(variant.size) === (selectedSize || '').toString().toLowerCase();
+  });
+
   const displayImages = getVariantImages(product, selectedColor, selectedSize) || product?.images || [];
 
   const variantThumbnailItems = (product?.variantImages || []).map((variant) => ({
     color: variant.color,
     size: variant.size,
-    image: variant.images?.[0]
+    image: variant.images?.[0],
+    price: variant.price,
+    sku: variant.sku
   })).filter((item) => item.image);
+
+  const displayPrice = typeof currentVariant?.price === 'number' ? currentVariant.price : product?.price;
+  const displaySku = currentVariant?.sku || product?.sku || '';
 
   const handleAddToCart = async () => {
     if (!product) return;
@@ -451,6 +462,12 @@ const ProductDetails = () => {
                     </span>
                   </div>
 
+                  {displaySku && (
+                    <div className="text-xs text-gray-500 mb-4">
+                      SKU: <span className="font-mono">{displaySku}</span>
+                    </div>
+                  )}
+
                   {/* Description */}
                   <div className="mb-8">
                     <p className="text-gray-700 leading-relaxed">
@@ -570,8 +587,8 @@ const ProductDetails = () => {
                       {/* Price */}
                       <div className="mb-6">
                         <div className="flex items-baseline gap-3 mb-2">
-                          <span className="text-2xl lg:text-3xl font-bold text-gray-900">₹{product.price.toLocaleString('en-IN')}</span>
-                          {product.originalPrice && product.originalPrice > product.price && (
+                          <span className="text-2xl lg:text-3xl font-bold text-gray-900">₹{(displayPrice || 0).toLocaleString('en-IN')}</span>
+                          {product.originalPrice && product.originalPrice > (displayPrice || product.price) && (
                             <span className="text-lg lg:text-xl text-gray-500 line-through">
                               ₹{product.originalPrice.toLocaleString('en-IN')}
                             </span>

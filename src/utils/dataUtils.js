@@ -364,6 +364,8 @@ export const normalizeProduct = (product) => {
     if (!Array.isArray(variantImages)) return [];
     return variantImages.map((variant) => ({
       ...variant,
+      price: typeof variant.price === 'number' ? variant.price : undefined,
+      sku: variant.sku || '',
       images: (variant.images || []).map(resolveImage)
     }));
   };
