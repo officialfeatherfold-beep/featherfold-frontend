@@ -33,7 +33,6 @@ import ProductPhotoCarousel from './components/ProductPhotoCarousel';
 import Products from './components/Products';
 import ProductDetails from './components/ProductDetails';
 import MattressConfigurator from './components/MattressConfigurator';
-import ColorSwatcher from './components/ColorSwatcher';
 import TrustSignals from './components/TrustSignals';
 import FAQSection from './components/FAQSection';
 
@@ -271,13 +270,6 @@ function App() {
                 onThicknessChange={setMattressThickness}
               />
               
-              <ColorSwatcher 
-                selectedColor={selectedColor}
-                onColorChange={(color) => {
-                  setSelectedColor(color);
-                  setBackgroundColor(color);
-                }}
-              />
               
               <FAQSection />
             </main>
