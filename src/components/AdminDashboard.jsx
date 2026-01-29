@@ -93,6 +93,8 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
+  const [productOrderIds, setProductOrderIds] = useState([]);
+  const [productOrderSaving, setProductOrderSaving] = useState(false);
   const [analytics, setAnalytics] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
@@ -276,6 +278,7 @@ const AdminDashboard = ({ user, onLogout }) => {
           isNew: product.isNew || false
         }));
         setProducts(validatedProducts);
+        syncProductOrder(validatedProducts);
       }
 
       try {
@@ -514,6 +517,76 @@ const AdminDashboard = ({ user, onLogout }) => {
       images: [],
       variantImages: []
     });
+  };
+
+  const syncProductOrder = (nextProducts) => {
+    const sorted = [...nextProducts].sort((a, b) => {
+      const orderDiff = Number(a.sortOrder || 0) - Number(b.sortOrder || 0);
+      if (orderDiff !== 0) return orderDiff;
+      return (a.name || '').localeCompare(b.name || '');
+    });
+    setProductOrderIds(sorted.map((p) => p.id));
+  };
+
+  const moveProductOrder = (productId, direction) => {
+    setProductOrderIds((prev) => {
+      const currentIndex = prev.indexOf(productId);
+      if (currentIndex === -1) return prev;
+      const nextIndex = currentIndex + direction;
+      if (nextIndex < 0 || nextIndex >= prev.length) return prev;
+      const next = [...prev];
+      const temp = next[currentIndex];
+      next[currentIndex] = next[nextIndex];
+      next[nextIndex] = temp;
+      return next;
+    });
+  };
+
+  const setProductOrderPosition = (productId, position) => {
+    setProductOrderIds((prev) => {
+      const currentIndex = prev.indexOf(productId);
+      if (currentIndex === -1) return prev;
+      const clamped = Math.max(1, Math.min(prev.length, position));
+      const next = [...prev];
+      next.splice(currentIndex, 1);
+      next.splice(clamped - 1, 0, productId);
+      return next;
+    });
+  };
+
+  const handleSaveProductOrder = async () => {
+    try {
+      const token = localStorage.getItem('featherfold_token');
+      if (!token) {
+        setError('Please login to update product order');
+        return;
+      }
+
+      setProductOrderSaving(true);
+      const response = await fetch(`${API_BASE}/api/admin/products/order`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ orderedIds: productOrderIds })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error || 'Failed to update product order');
+        return;
+      }
+
+      setProducts((prev) => prev.map((product) => ({
+        ...product,
+        sortOrder: productOrderIds.indexOf(product.id) + 1
+      })));
+    } catch (error) {
+      setError('Error updating product order: ' + (error?.message || 'Unknown error'));
+    } finally {
+      setProductOrderSaving(false);
+    }
   };
 
   // Auto-generate SKU function
@@ -1312,6 +1385,12 @@ const AdminDashboard = ({ user, onLogout }) => {
     </motion.div>
   );
 
+  const orderedProducts = productOrderIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter(Boolean);
+  const unorderedProducts = products.filter((product) => !productOrderIds.includes(product.id));
+  const displayProducts = [...orderedProducts, ...unorderedProducts];
+
   const renderContent = () => {
     if (loading) {
       return (
@@ -1727,6 +1806,22 @@ const AdminDashboard = ({ user, onLogout }) => {
                 </div>
               </div>
               <div className="p-6">
+                <div className="mb-6 p-4 border border-slate-200 rounded-xl bg-white">
+                  <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <div>
+                      <h4 className="font-semibold text-slate-900">Products Order (Products Page)</h4>
+                      <p className="text-sm text-slate-600">Set the exact position for each product. Position 1 appears first.</p>
+                    </div>
+                    <button
+                      onClick={handleSaveProductOrder}
+                      disabled={productOrderSaving || productOrderIds.length === 0}
+                      className="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 disabled:opacity-50 flex items-center gap-2"
+                    >
+                      <Save className="w-4 h-4" />
+                      Save Order
+                    </button>
+                  </div>
+                </div>
                 <div className="mb-6 p-4 border border-slate-200 rounded-xl bg-slate-50">
                   <div className="flex items-center justify-between gap-4 flex-wrap">
                     <div>
@@ -1829,9 +1924,9 @@ const AdminDashboard = ({ user, onLogout }) => {
                   </div>
                 </div>
 
-                {products.length > 0 ? (
+                {displayProducts.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {products.map((product) => (
+                    {displayProducts.map((product, index) => (
                       <div key={product.id} className="border border-slate-200 rounded-xl p-4 hover:shadow-lg transition-shadow">
                         <div className="aspect-square bg-slate-100 rounded-lg mb-4 flex items-center justify-center">
                           {editingProduct === product.id ? (
@@ -1884,6 +1979,35 @@ const AdminDashboard = ({ user, onLogout }) => {
                           <span className="text-xs px-2 py-1 bg-slate-100 text-slate-700 rounded-full">
                             {product.category || 'Uncategorized'}
                           </span>
+                        </div>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs text-slate-500">Position</span>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="number"
+                              min={1}
+                              max={displayProducts.length}
+                              value={index + 1}
+                              onChange={(e) => setProductOrderPosition(product.id, Number(e.target.value))}
+                              className="w-16 px-2 py-1 border border-slate-200 rounded text-xs text-slate-700"
+                            />
+                            <button
+                              onClick={() => moveProductOrder(product.id, -1)}
+                              disabled={index === 0}
+                              className="p-1 rounded border border-slate-200 disabled:opacity-40"
+                              title="Move up"
+                            >
+                              <ArrowUp className="w-3 h-3" />
+                            </button>
+                            <button
+                              onClick={() => moveProductOrder(product.id, 1)}
+                              disabled={index === displayProducts.length - 1}
+                              className="p-1 rounded border border-slate-200 disabled:opacity-40"
+                              title="Move down"
+                            >
+                              <ArrowDown className="w-3 h-3" />
+                            </button>
+                          </div>
                         </div>
                         <div className="flex gap-2">
                           <button

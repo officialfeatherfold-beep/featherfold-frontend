@@ -32,7 +32,7 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedSort, setSelectedSort] = useState('name');
+  const [selectedSort, setSelectedSort] = useState('position');
   const [viewMode, setViewMode] = useState('grid');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
@@ -250,6 +250,9 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
       });
       
       switch (selectedSort) {
+        case 'position':
+          return Number(a.sortOrder || 0) - Number(b.sortOrder || 0);
+
         case 'name':
           return a.name.localeCompare(b.name);
         
@@ -568,6 +571,7 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
                     }}
                     className="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
+                    <option value="position">Position</option>
                     <option value="name">Name</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
