@@ -131,6 +131,8 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [featuredRotationSeconds, setFeaturedRotationSeconds] = useState(5);
   const [featuredAddProductId, setFeaturedAddProductId] = useState('');
   const [featuredSaving, setFeaturedSaving] = useState(false);
+  const [variantImageColor, setVariantImageColor] = useState('');
+  const [variantImageSize, setVariantImageSize] = useState('');
   const [productForm, setProductForm] = useState({
     name: '',
     brand: 'FeatherFold',
@@ -145,7 +147,8 @@ const AdminDashboard = ({ user, onLogout }) => {
     description: '',
     features: [],
     careInstructions: [],
-    images: [] // Important: clear images completely for editing
+    images: [],
+    variantImages: [] // { color, size, images: [] }
   });
   
   // User management state
@@ -483,7 +486,8 @@ const AdminDashboard = ({ user, onLogout }) => {
       description: '',
       features: [],
       careInstructions: [],
-      images: []
+      images: [],
+      variantImages: []
     });
     setIsAddingProduct(false);
     setEditingProduct(null);
@@ -505,7 +509,8 @@ const AdminDashboard = ({ user, onLogout }) => {
       description: '',
       features: [],
       careInstructions: [],
-      images: [] // Important: clear images completely
+      images: [],
+      variantImages: []
     });
   };
 
@@ -1068,6 +1073,82 @@ const AdminDashboard = ({ user, onLogout }) => {
         alert(`Failed to upload ${file.name}: ${error.message}`);
       }
     }
+  };
+
+  const addVariantImageEntry = (colorValue, sizeValue, imageUrl) => {
+    if (!colorValue || !sizeValue || !imageUrl) return;
+
+    setProductForm((prev) => {
+      const existing = prev.variantImages || [];
+      const next = [...existing];
+      const idx = next.findIndex(
+        (entry) => entry.color === colorValue && entry.size === sizeValue
+      );
+
+      if (idx >= 0) {
+        const updatedEntry = {
+          ...next[idx],
+          images: [...(next[idx].images || []), imageUrl]
+        };
+        next[idx] = updatedEntry;
+      } else {
+        next.push({ color: colorValue, size: sizeValue, images: [imageUrl] });
+      }
+
+      return { ...prev, variantImages: next };
+    });
+  };
+
+  const handleVariantImageUpload = async (e) => {
+    const files = e.target.files;
+    if (!files || !variantImageColor || !variantImageSize) return;
+
+    const file = files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert(`Image ${file.name} is too large. Please use images smaller than 5MB.`);
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await fetch(`${API_BASE}/api/admin/upload-image`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('featherfold_token')}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      if (result.imageUrl) {
+        addVariantImageEntry(variantImageColor, variantImageSize, result.imageUrl);
+      }
+    } catch (error) {
+      console.error('Variant image upload error:', error);
+      alert(`Failed to upload ${file.name}: ${error.message}`);
+    }
+  };
+
+  const removeVariantImage = (colorValue, sizeValue, index) => {
+    setProductForm((prev) => {
+      const existing = prev.variantImages || [];
+      const next = existing
+        .map((entry) => {
+          if (entry.color !== colorValue || entry.size !== sizeValue) return entry;
+          const updatedImages = (entry.images || []).filter((_, i) => i !== index);
+          return { ...entry, images: updatedImages };
+        })
+        .filter((entry) => (entry.images || []).length > 0);
+      return { ...prev, variantImages: next };
+    });
   };
 
   const removeImage = (index) => {
@@ -1818,7 +1899,8 @@ const AdminDashboard = ({ user, onLogout }) => {
                                 description: product.description || '',
                                 features: product.features || [],
                                 careInstructions: product.careInstructions || [],
-                                images: product.images || []
+                                images: product.images || [],
+                                variantImages: product.variantImages || []
                               });
                             }}
                             className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
@@ -3018,6 +3100,86 @@ const AdminDashboard = ({ user, onLogout }) => {
                             >
                               <X className="w-3 h-3" />
                             </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Variant Images (Color + Size)</label>
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <select
+                        value={variantImageColor}
+                        onChange={(e) => setVariantImageColor(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="">Select Color</option>
+                        {(productForm.colors || []).map((color) => {
+                          const value = typeof color === 'string' ? color : color.value || color.name;
+                          const label = typeof color === 'string' ? color : color.name || color.value;
+                          return (
+                            <option key={value} value={value}>{label}</option>
+                          );
+                        })}
+                      </select>
+                      <select
+                        value={variantImageSize}
+                        onChange={(e) => setVariantImageSize(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="">Select Size</option>
+                        {(productForm.sizes || []).map((size) => (
+                          <option key={size} value={size}>{size}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleVariantImageUpload}
+                        className="hidden"
+                        id="variant-images"
+                      />
+                      <label
+                        htmlFor="variant-images"
+                        className="px-4 py-2 border-2 border-dashed border-slate-300 rounded-lg hover:border-blue-500 cursor-pointer transition-colors"
+                      >
+                        <Upload className="w-5 h-5 mr-2" />
+                        Upload Variant Image
+                      </label>
+                      <span className="text-xs text-gray-500">Select color + size first</span>
+                    </div>
+
+                    {(productForm.variantImages || []).length > 0 && (
+                      <div className="space-y-2">
+                        {productForm.variantImages.map((entry) => (
+                          <div key={`${entry.color}-${entry.size}`} className="border border-slate-200 rounded-lg p-3">
+                            <div className="text-sm font-medium text-slate-700 mb-2">
+                              {entry.color} • {entry.size}
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {(entry.images || []).map((img, idx) => (
+                                <div key={img} className="relative">
+                                  <img
+                                    src={resolveImage(img)}
+                                    alt={`${entry.color}-${entry.size}-${idx + 1}`}
+                                    className="w-20 h-20 object-contain rounded-lg border border-slate-200"
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => removeVariantImage(entry.color, entry.size, idx)}
+                                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         ))}
                       </div>

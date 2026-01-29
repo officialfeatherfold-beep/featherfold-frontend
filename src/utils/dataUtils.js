@@ -360,11 +360,20 @@ export const wishlistUtils = {
 export const normalizeProduct = (product) => {
   if (!product) return null;
 
+  const normalizeVariantImages = (variantImages = []) => {
+    if (!Array.isArray(variantImages)) return [];
+    return variantImages.map((variant) => ({
+      ...variant,
+      images: (variant.images || []).map(resolveImage)
+    }));
+  };
+
   return {
     ...product,
     id: product._id || product.id,
     colors: normalizeColors(product.colors),
     images: (product.images || []).map(resolveImage),
+    variantImages: normalizeVariantImages(product.variantImages),
     // Handle stock/availability from MongoDB format
     availability: product.availability || product.stock || 10,
     // Handle price

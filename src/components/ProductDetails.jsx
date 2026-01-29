@@ -68,6 +68,38 @@ const ProductDetails = () => {
     updateURL(selectedColor, size);
   };
 
+  const getVariantImages = (productData, colorValue, sizeValue) => {
+    if (!productData?.variantImages || productData.variantImages.length === 0) {
+      return null;
+    }
+
+    const normalizeColor = (value) => (value || '').toString().toLowerCase();
+    const normalizeSize = (value) => (value || '').toString().toLowerCase();
+    const selectedColorValue = normalizeColor(colorValue);
+    const selectedSizeValue = normalizeSize(sizeValue);
+
+    const matched = productData.variantImages.find((variant) => {
+      const variantColor = normalizeColor(variant.color || variant.colorValue || variant.name);
+      const variantSize = normalizeSize(variant.size);
+      return variantColor === selectedColorValue && variantSize === selectedSizeValue;
+    });
+
+    if (matched?.images?.length) {
+      return matched.images;
+    }
+
+    const colorMatch = productData.variantImages.find((variant) => {
+      const variantColor = normalizeColor(variant.color || variant.colorValue || variant.name);
+      return variantColor === selectedColorValue;
+    });
+
+    if (colorMatch?.images?.length) {
+      return colorMatch.images;
+    }
+
+    return null;
+  };
+
   const findVariantImageIndex = (productData, colorValue, sizeValue) => {
     if (!productData?.images || productData.images.length === 0) return 0;
 
@@ -160,9 +192,17 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (!product) return;
+    const variantImages = getVariantImages(product, selectedColor, selectedSize);
+    if (variantImages?.length) {
+      setSelectedImageIndex(0);
+      return;
+    }
+
     const idx = findVariantImageIndex(product, selectedColor, selectedSize);
     setSelectedImageIndex(idx);
   }, [product, selectedColor, selectedSize]);
+
+  const displayImages = getVariantImages(product, selectedColor, selectedSize) || product?.images || [];
 
   const handleAddToCart = async () => {
     if (!product) return;
@@ -324,13 +364,13 @@ const ProductDetails = () => {
               {/* Main Image */}
               <div className="relative">
                 <div className="bg-gray-100 border border-gray-200 rounded-xl overflow-hidden h-[260px] lg:h-[300px]">
-                  {product.images?.[selectedImageIndex] ? (
+                  {displayImages?.[selectedImageIndex] ? (
                     <img
-                      src={resolveImage(product.images[selectedImageIndex])}
+                      src={resolveImage(displayImages[selectedImageIndex])}
                       alt={product.name}
                       className="w-full h-full object-contain"
                       onError={(e) => {
-                        console.error('Main image failed to load:', product.images[selectedImageIndex]);
+                        console.error('Main image failed to load:', displayImages[selectedImageIndex]);
                         e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y3ZjdmNyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgTm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=';
                       }}
                     />
@@ -346,7 +386,7 @@ const ProductDetails = () => {
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Images</h3>
                 <div className="grid grid-cols-3 gap-2">
-                  {product.images?.map((image, index) => (
+                  {displayImages?.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
