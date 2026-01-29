@@ -204,6 +204,12 @@ const ProductDetails = () => {
 
   const displayImages = getVariantImages(product, selectedColor, selectedSize) || product?.images || [];
 
+  const variantThumbnailItems = (product?.variantImages || []).map((variant) => ({
+    color: variant.color,
+    size: variant.size,
+    image: variant.images?.[0]
+  })).filter((item) => item.image);
+
   const handleAddToCart = async () => {
     if (!product) return;
     
@@ -390,6 +396,7 @@ const ProductDetails = () => {
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
+                      onMouseEnter={() => setSelectedImageIndex(index)}
                       className={`relative border-2 rounded-lg overflow-hidden transition-all aspect-square ${
                         selectedImageIndex === index 
                           ? 'border-purple-500 ring-2 ring-purple-500' 
@@ -450,6 +457,37 @@ const ProductDetails = () => {
                       {product.description || 'Premium quality bedding product designed for ultimate comfort and style.'}
                     </p>
                   </div>
+
+                  {variantThumbnailItems.length > 0 && (
+                    <div className="mb-8">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-3">Variant Preview</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {variantThumbnailItems.map((variant) => (
+                          <button
+                            key={`${variant.color}-${variant.size}`}
+                            onClick={() => {
+                              if (variant.color) handleColorChange(variant.color);
+                              if (variant.size) handleSizeChange(variant.size);
+                              setSelectedImageIndex(0);
+                            }}
+                            onMouseEnter={() => {
+                              if (variant.color) handleColorChange(variant.color);
+                              if (variant.size) handleSizeChange(variant.size);
+                              setSelectedImageIndex(0);
+                            }}
+                            className="border border-gray-200 rounded-lg overflow-hidden w-16 h-16 hover:border-purple-500 transition"
+                            title={`${variant.color} • ${variant.size}`}
+                          >
+                            <img
+                              src={resolveImage(variant.image)}
+                              alt={`${variant.color}-${variant.size}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Features */}
                   <div className="mb-8">
