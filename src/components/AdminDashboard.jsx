@@ -93,6 +93,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [promos, setPromos] = useState([]);
   const [products, setProducts] = useState([]);
   const [productOrderIds, setProductOrderIds] = useState([]);
   const [productOrderSaving, setProductOrderSaving] = useState(false);
@@ -102,6 +103,16 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
+  const [promoSaving, setPromoSaving] = useState(false);
+  const [promoError, setPromoError] = useState('');
+  const [promoForm, setPromoForm] = useState({
+    code: '',
+    percent: 10,
+    startDate: '',
+    endDate: '',
+    maxUses: 100,
+    codeLength: 8
+  });
   
   // SKU management state
   const [skuSearchTerm, setSkuSearchTerm] = useState('');
@@ -336,6 +347,17 @@ const AdminDashboard = ({ user, onLogout }) => {
       if (messagesResponse.ok) {
         const messagesData = await messagesResponse.json();
         setMessages(messagesData.messages || []);
+      }
+
+      try {
+        console.log('🏷️ Fetching promo codes...');
+        const promosResponse = await fetch(`${API_BASE}/api/admin/promo`, { headers });
+        if (promosResponse.ok) {
+          const promosData = await promosResponse.json();
+          setPromos(promosData.promos || []);
+        }
+      } catch (e) {
+        console.warn('Failed to fetch promo codes', e);
       }
       
       // Fetch analytics from dedicated API
@@ -1323,12 +1345,101 @@ const AdminDashboard = ({ user, onLogout }) => {
     setNewPassword('');
   };
 
+  const generatePromoCode = () => {
+    const length = Math.max(4, Math.min(16, Number(promoForm.codeLength) || 8));
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < length; i += 1) {
+      code += chars[Math.floor(Math.random() * chars.length)];
+    }
+    setPromoForm((prev) => ({ ...prev, code }));
+  };
+
+  const handleCreatePromo = async () => {
+    setPromoError('');
+    const token = localStorage.getItem('featherfold_token');
+    if (!token) {
+      setPromoError('Please login to manage promo codes');
+      return;
+    }
+
+    if (!promoForm.code || !promoForm.percent) {
+      setPromoError('Code and discount percent are required');
+      return;
+    }
+
+    try {
+      setPromoSaving(true);
+      const response = await fetch(`${API_BASE}/api/admin/promo`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          code: promoForm.code.trim().toUpperCase(),
+          percent: Number(promoForm.percent),
+          startDate: promoForm.startDate || null,
+          endDate: promoForm.endDate || null,
+          maxUses: Number(promoForm.maxUses) || null
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setPromoError(data?.error || 'Failed to create promo code');
+        return;
+      }
+
+      setPromos((prev) => [data.promo, ...prev]);
+      setPromoForm((prev) => ({
+        ...prev,
+        code: ''
+      }));
+    } catch (err) {
+      console.error('Promo create error', err);
+      setPromoError('Failed to create promo code');
+    } finally {
+      setPromoSaving(false);
+    }
+  };
+
+  const handleDeletePromo = async (code) => {
+    const token = localStorage.getItem('featherfold_token');
+    if (!token) {
+      setPromoError('Please login to manage promo codes');
+      return;
+    }
+
+    if (!confirm(`Delete promo code "${code}"?`)) return;
+
+    try {
+      const response = await fetch(`${API_BASE}/api/admin/promo/${encodeURIComponent(code)}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        setPromos((prev) => prev.filter((promo) => promo.code !== code));
+      } else {
+        const data = await response.json();
+        setPromoError(data?.error || 'Failed to delete promo code');
+      }
+    } catch (err) {
+      console.error('Promo delete error', err);
+      setPromoError('Failed to delete promo code');
+    }
+  };
+
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
     { id: 'users', label: 'Users', icon: Users },
     { id: 'orders', label: 'Orders', icon: ShoppingBag },
     { id: 'products', label: 'Products', icon: Package },
     { id: 'messages', label: 'Messages', icon: Mail },
+    { id: 'promos', label: 'Promos', icon: Tag },
     { id: 'sku', label: 'SKU Management', icon: Search },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp },
     { id: 'settings', label: 'Settings', icon: Settings },
@@ -1796,6 +1907,143 @@ const AdminDashboard = ({ user, onLogout }) => {
                           Delete
                         </button>
                       </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </motion.div>
+        );
+
+      case 'promos':
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-900">Promo Codes</h3>
+                  <p className="text-sm text-slate-500">Create discounts and control duration + usage limits.</p>
+                </div>
+              </div>
+
+              {promoError && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                  {promoError}
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Promo Code</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={promoForm.code}
+                      onChange={(e) => setPromoForm({ ...promoForm, code: e.target.value.toUpperCase() })}
+                      className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      placeholder="SAVE10"
+                    />
+                    <button
+                      type="button"
+                      onClick={generatePromoCode}
+                      className="px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm"
+                    >
+                      Generate
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Discount (%)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="90"
+                    value={promoForm.percent}
+                    onChange={(e) => setPromoForm({ ...promoForm, percent: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Max Uses</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={promoForm.maxUses}
+                    onChange={(e) => setPromoForm({ ...promoForm, maxUses: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Start Date</label>
+                  <input
+                    type="date"
+                    value={promoForm.startDate}
+                    onChange={(e) => setPromoForm({ ...promoForm, startDate: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">End Date</label>
+                  <input
+                    type="date"
+                    value={promoForm.endDate}
+                    onChange={(e) => setPromoForm({ ...promoForm, endDate: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Code Length</label>
+                  <input
+                    type="number"
+                    min="4"
+                    max="16"
+                    value={promoForm.codeLength}
+                    onChange={(e) => setPromoForm({ ...promoForm, codeLength: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end mb-8">
+                <button
+                  onClick={handleCreatePromo}
+                  disabled={promoSaving}
+                  className="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50"
+                >
+                  {promoSaving ? 'Saving...' : 'Create Promo Code'}
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {promos.length === 0 ? (
+                  <p className="text-slate-500 text-center py-6">No promo codes yet.</p>
+                ) : (
+                  promos.map((promo) => (
+                    <div key={promo.code} className="flex flex-wrap items-center justify-between gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                      <div className="min-w-[200px]">
+                        <p className="font-semibold text-slate-900">{promo.code}</p>
+                        <p className="text-sm text-slate-500">
+                          {promo.percent}% off · {promo.uses || 0}/{promo.maxUses || '∞'} uses
+                        </p>
+                      </div>
+                      <div className="text-sm text-slate-500">
+                        {promo.startDate ? new Date(promo.startDate).toLocaleDateString() : 'No start'} → {promo.endDate ? new Date(promo.endDate).toLocaleDateString() : 'No end'}
+                      </div>
+                      <button
+                        onClick={() => handleDeletePromo(promo.code)}
+                        className="px-3 py-2 text-red-600 border border-red-200 rounded-lg hover:bg-red-50"
+                      >
+                        Delete
+                      </button>
                     </div>
                   ))
                 )}
