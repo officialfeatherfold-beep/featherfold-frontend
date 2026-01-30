@@ -112,6 +112,8 @@ const REVIEWS = [
   }
 ];
 
+const TOTAL_REVIEWS_DISPLAY = 2847;
+
 const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCount, totalPrice, onNavigate }) => {
   const [sortBy, setSortBy] = useState('recent');
   const [filterBy, setFilterBy] = useState('all');
@@ -169,14 +171,14 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
 
     return {
       averageRating,
-      totalReviews: REVIEWS.length,
+      totalReviews: TOTAL_REVIEWS_DISPLAY,
       fiveStarPercentage: Math.round((REVIEWS.filter(r => r.rating === 5).length / REVIEWS.length) * 100),
       ratingDistribution
     };
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-white">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -200,7 +202,7 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
             Customer Reviews
           </h1>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-            Real feedback from real customers who love FeatherFold products
+            Real feedback from customers who love FeatherFold products. Showing a curated set of reviews from {TOTAL_REVIEWS_DISPLAY.toLocaleString('en-IN')}+ buyers.
           </p>
         </motion.div>
 
@@ -223,9 +225,10 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
             </div>
             <div className="text-center">
               <div className="text-5xl font-bold text-gray-900 mb-2">
-                {statistics.totalReviews}
+                {statistics.totalReviews.toLocaleString('en-IN')}+
               </div>
               <p className="text-gray-600">Total Reviews</p>
+              <p className="text-xs text-gray-500 mt-1">Showing {REVIEWS.length} featured reviews</p>
             </div>
             <div className="text-center">
               <div className="text-5xl font-bold text-gray-900 mb-2">
