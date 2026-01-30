@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShoppingBag, 
@@ -32,6 +32,8 @@ const Header = ({
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [greeting, setGreeting] = useState('');
   const [logoFailed, setLogoFailed] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef(null);
   const isAdminView = currentView === 'admin';
 
   useEffect(() => {
@@ -53,6 +55,24 @@ const Header = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!headerRef.current) return;
+    const updateHeight = () => {
+      const nextHeight = headerRef.current?.getBoundingClientRect().height || 0;
+      setHeaderHeight(nextHeight);
+    };
+
+    updateHeight();
+    const resizeObserver = new ResizeObserver(updateHeight);
+    resizeObserver.observe(headerRef.current);
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, []);
+
   const freeShippingThreshold = 500;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - totalPrice);
   const freeShippingProgress = Math.min(100, (totalPrice / freeShippingThreshold) * 100);
@@ -60,6 +80,7 @@ const Header = ({
   return (
     <>
       <motion.header
+        ref={headerRef}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 glassmorphism shadow-lg`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -327,6 +348,7 @@ const Header = ({
           )}
         </div>
       </motion.header>
+      <div style={{ height: headerHeight }} aria-hidden="true" />
 
       {/* Mobile Menu */}
       <AnimatePresence>
