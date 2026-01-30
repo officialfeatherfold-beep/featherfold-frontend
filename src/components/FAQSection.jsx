@@ -78,12 +78,29 @@ const FAQSection = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
-    // Handle contact form submission
-    console.log('Contact form submitted:', contactForm);
-    // Reset form
-    setContactForm({ name: '', email: '', message: '' });
+    try {
+      const response = await fetch('https://featherfold-backendnew1-production.up.railway.app/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: contactForm.name,
+          email: contactForm.email,
+          message: contactForm.message,
+          source: 'faq-section'
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+      setContactForm({ name: '', email: '', message: '' });
+      alert('Thanks! Your message has been sent.');
+    } catch (error) {
+      console.error('Contact submit error:', error);
+      alert('Failed to send message. Please try again.');
+    }
   };
 
   return (

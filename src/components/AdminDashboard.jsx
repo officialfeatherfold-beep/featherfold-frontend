@@ -92,6 +92,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   });
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [products, setProducts] = useState([]);
   const [productOrderIds, setProductOrderIds] = useState([]);
   const [productOrderSaving, setProductOrderSaving] = useState(false);
@@ -333,6 +334,13 @@ const AdminDashboard = ({ user, onLogout }) => {
         setError('Admin access required for orders. Your account may not have admin privileges.');
         return;
       }
+
+      console.log('✉️ Fetching messages...');
+      const messagesResponse = await fetch(`${API_BASE}/api/admin/messages`, { headers });
+      if (messagesResponse.ok) {
+        const messagesData = await messagesResponse.json();
+        setMessages(messagesData.messages || []);
+      }
       
       // Fetch analytics from dedicated API
       console.log('📊 Fetching analytics...');
@@ -349,6 +357,7 @@ const AdminDashboard = ({ user, onLogout }) => {
           orders: analyticsData.orders,
           users: analyticsData.users,
           conversionRateData: analyticsData.conversionRate,
+          charts: analyticsData.charts,
           recentOrders: analyticsData.recentOrders?.slice(0, 3) || [],
           topProducts: products.slice(0, 3)
         };
@@ -1370,6 +1379,7 @@ const AdminDashboard = ({ user, onLogout }) => {
     { id: 'users', label: 'Users', icon: Users },
     { id: 'orders', label: 'Orders', icon: ShoppingBag },
     { id: 'products', label: 'Products', icon: Package },
+    { id: 'messages', label: 'Messages', icon: Mail },
     { id: 'sku', label: 'SKU Management', icon: Search },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp },
     { id: 'settings', label: 'Settings', icon: Settings },
@@ -1785,6 +1795,45 @@ const AdminDashboard = ({ user, onLogout }) => {
                   </div>
                 ) : (
                   <p className="text-slate-500 text-center py-12">No orders found.</p>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        );
+
+      case 'messages':
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200">
+              <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-slate-900">Contact Messages</h3>
+                <span className="text-sm text-slate-500">{messages.length} total</span>
+              </div>
+              <div className="p-6 space-y-4">
+                {messages.length === 0 ? (
+                  <p className="text-slate-500 text-center py-12">No messages yet.</p>
+                ) : (
+                  messages.map((msg) => (
+                    <div key={msg.id} className="border border-slate-200 rounded-xl p-4">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                          <p className="font-semibold text-slate-900">{msg.name}</p>
+                          <p className="text-sm text-slate-600">{msg.email}{msg.phone ? ` · ${msg.phone}` : ''}</p>
+                          {msg.subject && (
+                            <p className="text-sm text-slate-500">Subject: {msg.subject}</p>
+                          )}
+                        </div>
+                        <div className="text-sm text-slate-500">
+                          {msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}
+                        </div>
+                      </div>
+                      <p className="text-slate-700 mt-3 whitespace-pre-wrap">{msg.message}</p>
+                    </div>
+                  ))
                 )}
               </div>
             </div>
@@ -2696,6 +2745,44 @@ const AdminDashboard = ({ user, onLogout }) => {
 
               {analytics && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:col-span-2">
+                    <h4 className="text-md font-semibold text-slate-900 mb-4">Revenue (Last 7 Days)</h4>
+                    <div className="h-48">
+                      {(() => {
+                        const data = analytics?.charts?.revenueByDay || [];
+                        const values = data.map((point) => point.value || 0);
+                        const maxValue = Math.max(1, ...values);
+                        const points = data.map((point, index) => {
+                          const x = (index / Math.max(1, data.length - 1)) * 100;
+                          const y = 100 - (point.value / maxValue) * 100;
+                          return `${x},${y}`;
+                        }).join(' ');
+
+                        return (
+                          <svg viewBox="0 0 100 100" className="w-full h-full">
+                            <polyline
+                              fill="none"
+                              stroke="#7c3aed"
+                              strokeWidth="2"
+                              points={points}
+                            />
+                            {data.map((point, index) => {
+                              const x = (index / Math.max(1, data.length - 1)) * 100;
+                              const y = 100 - (point.value / maxValue) * 100;
+                              return (
+                                <circle key={point.date} cx={x} cy={y} r="2" fill="#7c3aed" />
+                              );
+                            })}
+                          </svg>
+                        );
+                      })()}
+                    </div>
+                    <div className="flex justify-between text-xs text-slate-500 mt-3">
+                      {(analytics?.charts?.revenueByDay || []).map((point) => (
+                        <span key={point.date}>{point.date.slice(5)}</span>
+                      ))}
+                    </div>
+                  </div>
                   <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                     <h4 className="text-md font-semibold text-slate-900 mb-4">Recent Orders</h4>
                     <div className="space-y-3">
