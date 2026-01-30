@@ -3080,39 +3080,6 @@ const AdminDashboard = ({ user, onLogout }) => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Group ID</label>
-                    <input
-                      type="text"
-                      name="variantGroupId"
-                      value={productForm.variantGroupId}
-                      onChange={(e) => setProductForm({...productForm, variantGroupId: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Same ID for all color/size pages"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Color (for this page)</label>
-                    <input
-                      type="text"
-                      name="variantColor"
-                      value={productForm.variantColor}
-                      onChange={(e) => setProductForm({...productForm, variantColor: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="e.g. Beige, Lemon"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Size (for this page)</label>
-                    <input
-                      type="text"
-                      name="variantSize"
-                      value={productForm.variantSize}
-                      onChange={(e) => setProductForm({...productForm, variantSize: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="e.g. Single, Queen"
-                    />
-                  </div>
-                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
                     <input
                       type="number"
