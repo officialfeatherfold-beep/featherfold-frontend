@@ -274,18 +274,7 @@ const FAQSection = () => {
                 </div>
               </div>
 
-              {/* Live Chat Badge */}
-              <motion.div
-                className="mt-4 text-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                <div className="inline-flex items-center space-x-2 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span>Live Chat Available</span>
-                </div>
-              </motion.div>
+              {/* Live Chat Badge removed */}
             </motion.div>
           </div>
         </div>

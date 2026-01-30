@@ -269,11 +269,8 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
           return Number(b.rating || 0) - Number(a.rating || 0);
         
         case 'newest':
-          // ✅ FIX 2: Correct Newest First logic
-          if (a.isNew !== b.isNew) {
-            return a.isNew ? -1 : 1;
-          }
-          return 0; // Keep stable order for same isNew status
+          // Newest first by createdAt, fallback to sortOrder desc
+          return new Date(b.createdAt || 0) - new Date(a.createdAt || 0) || Number(b.sortOrder || 0) - Number(a.sortOrder || 0);
         
         default:
           return 0;

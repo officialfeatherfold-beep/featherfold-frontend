@@ -603,6 +603,36 @@ const AdminDashboard = ({ user, onLogout }) => {
     }
   };
 
+  const handleDeleteMessage = async (messageId) => {
+    const token = localStorage.getItem('featherfold_token');
+    if (!token) {
+      setError('Please login to manage messages');
+      return;
+    }
+
+    const confirmDelete = confirm('Delete this message?');
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`${API_BASE}/api/admin/messages/${messageId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error || 'Failed to delete message');
+        return;
+      }
+
+      setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
+    } catch (error) {
+      setError('Error deleting message: ' + (error?.message || 'Unknown error'));
+    }
+  };
+
   // Auto-generate SKU function
   const generateSku = (productName, colorName = null, size = null) => {
     // Create SKU from product name and timestamp
@@ -1751,6 +1781,21 @@ const AdminDashboard = ({ user, onLogout }) => {
                         </div>
                       </div>
                       <p className="text-slate-700 mt-3 whitespace-pre-wrap">{msg.message}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <a
+                          href={`mailto:${msg.email}?subject=${encodeURIComponent(`Re: ${msg.subject || 'FeatherFold Support'}`)}&body=${encodeURIComponent(`Hi ${msg.name},\n\nThanks for reaching out.\n\n`)}`
+                          }
+                          className="px-3 py-2 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700"
+                        >
+                          Reply
+                        </a>
+                        <button
+                          onClick={() => handleDeleteMessage(msg.id)}
+                          className="px-3 py-2 border border-red-200 text-red-600 rounded-lg text-sm hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}
@@ -2689,7 +2734,12 @@ const AdminDashboard = ({ user, onLogout }) => {
                               const x = (index / Math.max(1, data.length - 1)) * 100;
                               const y = 100 - (point.value / maxValue) * 100;
                               return (
-                                <circle key={point.date} cx={x} cy={y} r="2" fill="#7c3aed" />
+                                <g key={point.date}>
+                                  <circle cx={x} cy={y} r="2" fill="#7c3aed" />
+                                  <text x={x} y={Math.max(4, y - 4)} textAnchor="middle" fontSize="4" fill="#4b5563">
+                                    {Math.round(point.value)}
+                                  </text>
+                                </g>
                               );
                             })}
                           </svg>
@@ -2700,6 +2750,62 @@ const AdminDashboard = ({ user, onLogout }) => {
                       {(analytics?.charts?.revenueByDay || []).map((point) => (
                         <span key={point.date}>{point.date.slice(5)}</span>
                       ))}
+                    </div>
+                  </div>
+                  <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:col-span-2">
+                    <h4 className="text-md font-semibold text-slate-900 mb-4">Orders & Users (Last 7 Days)</h4>
+                    <div className="h-48">
+                      {(() => {
+                        const ordersData = analytics?.charts?.ordersByDay || [];
+                        const usersData = analytics?.charts?.usersByDay || [];
+                        const maxValue = Math.max(
+                          1,
+                          ...ordersData.map((point) => point.value || 0),
+                          ...usersData.map((point) => point.value || 0)
+                        );
+
+                        return (
+                          <svg viewBox="0 0 100 100" className="w-full h-full">
+                            {ordersData.map((point, index) => {
+                              const barWidth = 100 / Math.max(1, ordersData.length) - 2;
+                              const x = index * (100 / Math.max(1, ordersData.length)) + 1;
+                              const height = (point.value / maxValue) * 80;
+                              const y = 90 - height;
+                              return (
+                                <g key={`orders-${point.date}`}>
+                                  <rect x={x} y={y} width={barWidth / 2} height={height} fill="#3b82f6" />
+                                  <text x={x + barWidth / 4} y={Math.max(6, y - 2)} textAnchor="middle" fontSize="3.5" fill="#374151">
+                                    {point.value}
+                                  </text>
+                                </g>
+                              );
+                            })}
+                            {usersData.map((point, index) => {
+                              const barWidth = 100 / Math.max(1, usersData.length) - 2;
+                              const x = index * (100 / Math.max(1, usersData.length)) + 1 + barWidth / 2;
+                              const height = (point.value / maxValue) * 80;
+                              const y = 90 - height;
+                              return (
+                                <g key={`users-${point.date}`}>
+                                  <rect x={x} y={y} width={barWidth / 2} height={height} fill="#10b981" />
+                                  <text x={x + barWidth / 4} y={Math.max(6, y - 2)} textAnchor="middle" fontSize="3.5" fill="#374151">
+                                    {point.value}
+                                  </text>
+                                </g>
+                              );
+                            })}
+                          </svg>
+                        );
+                      })()}
+                    </div>
+                    <div className="flex justify-between text-xs text-slate-500 mt-3">
+                      {(analytics?.charts?.ordersByDay || []).map((point) => (
+                        <span key={point.date}>{point.date.slice(5)}</span>
+                      ))}
+                    </div>
+                    <div className="mt-3 flex items-center gap-4 text-xs text-slate-600">
+                      <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-blue-500"></span>Orders</span>
+                      <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500"></span>Users</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">

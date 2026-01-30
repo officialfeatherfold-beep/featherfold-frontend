@@ -113,6 +113,14 @@ const REVIEWS = [
 ];
 
 const TOTAL_REVIEWS_DISPLAY = 2847;
+const WRITTEN_REVIEWS_LAST_3_MONTHS = 560;
+const RATING_DISTRIBUTION = [
+  { rating: 5, count: 2500 },
+  { rating: 4, count: 250 },
+  { rating: 3, count: 70 },
+  { rating: 2, count: 20 },
+  { rating: 1, count: 7 }
+];
 
 const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCount, totalPrice, onNavigate }) => {
   const [sortBy, setSortBy] = useState('recent');
@@ -162,17 +170,17 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
 
   // Memoized statistics
   const statistics = useMemo(() => {
-    const averageRating = REVIEWS.reduce((sum, review) => sum + review.rating, 0) / REVIEWS.length;
-    const ratingDistribution = [5, 4, 3, 2, 1].map(rating => ({
-      rating,
-      count: REVIEWS.filter(r => r.rating === rating).length,
-      percentage: (REVIEWS.filter(r => r.rating === rating).length / REVIEWS.length) * 100
+    const averageRating = RATING_DISTRIBUTION.reduce((sum, item) => sum + item.rating * item.count, 0) / TOTAL_REVIEWS_DISPLAY;
+    const ratingDistribution = RATING_DISTRIBUTION.map(item => ({
+      rating: item.rating,
+      count: item.count,
+      percentage: (item.count / TOTAL_REVIEWS_DISPLAY) * 100
     }));
 
     return {
       averageRating,
       totalReviews: TOTAL_REVIEWS_DISPLAY,
-      fiveStarPercentage: Math.round((REVIEWS.filter(r => r.rating === 5).length / REVIEWS.length) * 100),
+      fiveStarPercentage: Math.round((RATING_DISTRIBUTION.find((item) => item.rating === 5)?.count || 0) / TOTAL_REVIEWS_DISPLAY * 100),
       ratingDistribution
     };
   }, []);
@@ -203,6 +211,9 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
           </h1>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
             Real feedback from customers who love FeatherFold products. Showing a curated set of reviews from {TOTAL_REVIEWS_DISPLAY.toLocaleString('en-IN')}+ buyers.
+          </p>
+          <p className="text-sm text-gray-500 mt-3">
+            {WRITTEN_REVIEWS_LAST_3_MONTHS}+ written reviews in the last 3 months
           </p>
         </motion.div>
 
