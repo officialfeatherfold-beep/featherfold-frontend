@@ -108,8 +108,8 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [promoForm, setPromoForm] = useState({
     code: '',
     percent: 10,
-    startDate: '',
-    endDate: '',
+    startDate: new Date().toISOString().slice(0, 10),
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
     maxUses: 100,
     codeLength: 8
   });
@@ -1402,8 +1402,8 @@ const AdminDashboard = ({ user, onLogout }) => {
       return;
     }
 
-    if (!promoForm.code || !promoForm.percent) {
-      setPromoError('Code and discount percent are required');
+    if (!promoForm.code || !promoForm.percent || !promoForm.startDate || !promoForm.endDate) {
+      setPromoError('Code, discount percent, start date, and end date are required');
       return;
     }
 
@@ -1417,10 +1417,10 @@ const AdminDashboard = ({ user, onLogout }) => {
         },
         body: JSON.stringify({
           code: promoForm.code.trim().toUpperCase(),
-          percent: Number(promoForm.percent),
-          startDate: promoForm.startDate || null,
-          endDate: promoForm.endDate || null,
-          maxUses: Number(promoForm.maxUses) || null
+          discountPercent: Number(promoForm.percent),
+          startDate: promoForm.startDate,
+          endDate: promoForm.endDate,
+          maxUses: Number(promoForm.maxUses) || 0
         })
       });
 
