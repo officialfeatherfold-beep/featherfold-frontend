@@ -6,6 +6,7 @@ import { cartUtils } from '../utils/dataUtils';
 import CartItem from './CartItem';
 import OrderSummary from './OrderSummary';
 import EmptyCart from './EmptyCart';
+import { apiService } from '../services/api';
 
 const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCount, totalPrice, onNavigate }) => {
   const [promoCode, setPromoCode] = useState('');
@@ -13,6 +14,7 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentCart, setCurrentCart] = useState([]);
   const [error, setError] = useState(null);
+  const [appliedPromo, setAppliedPromo] = useState(null);
 
   // Listen to cart changes
   useEffect(() => {
@@ -31,6 +33,21 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
     };
   }, []);
 
+  useEffect(() => {
+    const savedPromo = localStorage.getItem('featherfold_promo');
+    if (!savedPromo) return;
+
+    try {
+      const parsed = JSON.parse(savedPromo);
+      if (parsed?.code && parsed?.percent) {
+        setPromoCode(parsed.code);
+        setAppliedPromo({ code: parsed.code, percent: Number(parsed.percent) });
+      }
+    } catch (error) {
+      console.error('Invalid promo data in storage');
+    }
+  }, []);
+
   const subtotal = currentCart.reduce((total, item) => total + (item.price * item.quantity), 0);
   const shipping = subtotal >= 500 ? 0 : 50;
   const total = subtotal + shipping - discount;
@@ -47,19 +64,36 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
     cartUtils.removeFromCart(id);
   };
 
-  const applyPromoCode = () => {
+  const applyPromoCode = async () => {
     if (!promoCode.trim()) {
       setError('Please enter a promo code');
       return;
     }
 
-    if (promoCode.toUpperCase() === 'FIRST10') {
-      setDiscount(subtotal * 0.1);
+    try {
+      const data = await apiService.validatePromo(promoCode.trim());
+      const percent = Number(data.discountPercent || 0);
+      const discountAmount = subtotal * (percent / 100);
+      setDiscount(discountAmount);
+      setAppliedPromo({ code: data.code, percent });
+      localStorage.setItem('featherfold_promo', JSON.stringify({ code: data.code, percent }));
       setError(null);
-    } else {
-      setError('Invalid promo code');
+    } catch (err) {
+      setAppliedPromo(null);
+      setDiscount(0);
+      localStorage.removeItem('featherfold_promo');
+      setError(err.message || 'Invalid promo code');
     }
   };
+
+  useEffect(() => {
+    if (!appliedPromo?.percent) {
+      setDiscount(0);
+      return;
+    }
+    const discountAmount = subtotal * (Number(appliedPromo.percent) / 100);
+    setDiscount(discountAmount);
+  }, [subtotal, appliedPromo]);
 
   const handleCheckout = async () => {
     if (!user) {
@@ -165,6 +199,7 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
                   isProcessing={isProcessing}
                   onCheckout={handleCheckout}
                   user={user}
+                  appliedPromo={appliedPromo}
                 />
               </div>
             </>

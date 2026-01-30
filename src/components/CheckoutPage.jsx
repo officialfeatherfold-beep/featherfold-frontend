@@ -49,6 +49,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
   const [currentStep, setCurrentStep] = useState(1);
   const [savedAddresses, setSavedAddresses] = useState([]);
   const [savedPaymentMethods, setSavedPaymentMethods] = useState([]);
+  const [promoInfo, setPromoInfo] = useState(null);
   
   // Form states
   const [formData, setFormData] = useState({
@@ -95,14 +96,28 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     handleCartUpdate();
     loadSavedData();
 
+    const savedPromo = localStorage.getItem('featherfold_promo');
+    if (savedPromo) {
+      try {
+        const parsed = JSON.parse(savedPromo);
+        if (parsed?.code && parsed?.percent) {
+          setPromoInfo({ code: parsed.code, percent: Number(parsed.percent) });
+        }
+      } catch (error) {
+        console.error('Invalid promo data');
+      }
+    }
+
     return () => {
       window.removeEventListener('cartUpdated', handleCartUpdate);
     };
   }, []);
 
   const subtotal = currentCart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const gst = subtotal * 0.18;
-  const total = subtotal + gst;
+  const discountAmount = promoInfo?.percent ? subtotal * (Number(promoInfo.percent) / 100) : 0;
+  const taxableSubtotal = Math.max(0, subtotal - discountAmount);
+  const gst = taxableSubtotal * 0.18;
+  const total = taxableSubtotal + gst;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -314,11 +329,16 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
         paymentMethod,
         paymentId,
         total: Math.round(total),
+        promoCode: promoInfo?.code,
+        discountPercent: promoInfo?.percent,
+        discountAmount: Math.round(discountAmount),
       });
 
       if (orderData.order) {
         // Clear cart
         cartUtils.clearCart();
+        localStorage.removeItem('featherfold_promo');
+        setPromoInfo(null);
         
         // Redirect to order success page
         onNavigate('order-success');
@@ -997,6 +1017,14 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                     <span className="text-gray-600 font-medium">Subtotal</span>
                     <span className="text-gray-900 font-semibold">₹{subtotal.toLocaleString()}</span>
                   </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-green-600 font-medium">
+                        Discount {promoInfo?.code ? `(${promoInfo.code})` : ''}
+                      </span>
+                      <span className="text-green-600 font-semibold">-₹{Math.round(discountAmount).toLocaleString()}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600 font-medium">GST (18%)</span>
                     <span className="text-gray-900 font-semibold">₹{gst.toFixed(0)}</span>
@@ -1021,6 +1049,13 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                     </div>
                   </div>
                 </div>
+
+                {promoInfo?.code && discountAmount > 0 && (
+                  <div className="flex items-center text-sm text-green-700 bg-green-50 p-3 rounded-lg">
+                    <Check className="w-4 h-4 mr-2 text-green-600" />
+                    Promo applied: {promoInfo.code} ({promoInfo.percent}%)
+                  </div>
+                )}
                 
                 <div className="space-y-3">
                   <div className="flex items-center text-sm text-gray-600 bg-green-50 p-3 rounded-lg">
