@@ -32,40 +32,53 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [groupProducts, setGroupProducts] = useState([]);
+  const [hoverImage, setHoverImage] = useState('');
 
   // Use dynamic API base URL consistent with AdminDashboard
   const API_BASE = process.env.NODE_ENV === 'production' 
     ? 'https://featherfold-backendnew1-production.up.railway.app' 
     : 'https://featherfold-backendnew1-production.up.railway.app';
 
-  // Parse URL parameters for variants
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const urlColor = searchParams.get('color');
-    const urlSize = searchParams.get('size');
-    
-    if (urlColor) setSelectedColor(urlColor);
-    if (urlSize) setSelectedSize(urlSize);
-  }, [location.search]);
+  const normalizeValue = (value) => (value || '').toString().toLowerCase();
 
-  // Update URL when variants change (pro-level enhancement)
-  const updateURL = (color, size) => {
-    const searchParams = new URLSearchParams();
-    if (color && color !== '') searchParams.set('color', color);
-    if (size && size !== '') searchParams.set('size', size);
-    
-    const newURL = `/products/${id}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
-    navigate(newURL, { replace: true });
+  const resolveVariantMatch = (variants, color, size) => {
+    if (!variants.length) return null;
+    const colorValue = normalizeValue(color);
+    const sizeValue = normalizeValue(size);
+
+    let match = variants.find((variant) =>
+      normalizeValue(variant.variantColor) === colorValue
+      && normalizeValue(variant.variantSize) === sizeValue
+    );
+
+    if (!match && colorValue) {
+      match = variants.find((variant) => normalizeValue(variant.variantColor) === colorValue);
+    }
+
+    if (!match && sizeValue) {
+      match = variants.find((variant) => normalizeValue(variant.variantSize) === sizeValue);
+    }
+
+    return match || null;
   };
 
   const handleColorChange = (color) => {
     setSelectedColor(color);
-    updateURL(color, selectedSize);
+    const variants = groupProducts.length ? groupProducts : [];
+    const match = resolveVariantMatch(variants, color, selectedSize || product?.variantSize);
+    if (match && match.id && match.id !== product?.id) {
+      navigate(`/products/${match.id}`);
+    }
   };
 
   const handleSizeChange = (size) => {
     setSelectedSize(size);
-    updateURL(selectedColor, size);
+    const variants = groupProducts.length ? groupProducts : [];
+    const match = resolveVariantMatch(variants, selectedColor || product?.variantColor, size);
+    if (match && match.id && match.id !== product?.id) {
+      navigate(`/products/${match.id}`);
+    }
   };
 
   const getVariantImages = (productData, colorValue, sizeValue) => {
@@ -163,16 +176,18 @@ const ProductDetails = () => {
           // Check if product is wishlisted
           setIsWishlisted(wishlistUtils.isInWishlist(normalizedProduct.id));
           
-          // Set default size and color
-          if (normalizedProduct.sizes && normalizedProduct.sizes.length > 0) {
+          if (normalizedProduct.variantSize) {
+            setSelectedSize(normalizedProduct.variantSize);
+          } else if (normalizedProduct.sizes && normalizedProduct.sizes.length > 0) {
             setSelectedSize(normalizedProduct.sizes[0]);
-            console.log('Set default size:', normalizedProduct.sizes[0]);
           }
-          if (normalizedProduct.colors && normalizedProduct.colors.length > 0) {
+
+          if (normalizedProduct.variantColor) {
+            setSelectedColor(normalizedProduct.variantColor);
+          } else if (normalizedProduct.colors && normalizedProduct.colors.length > 0) {
             const firstColor = normalizedProduct.colors[0];
             const colorValue = typeof firstColor === 'string' ? firstColor : firstColor.value || firstColor;
             setSelectedColor(colorValue);
-            console.log('Set default color:', colorValue);
           }
         } else {
           navigate('/products');
@@ -191,7 +206,33 @@ const ProductDetails = () => {
   }, [id, navigate]);
 
   useEffect(() => {
+    const fetchGroup = async () => {
+      if (!product?.variantGroupId) {
+        setGroupProducts([]);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/api/products/group/${product.variantGroupId}`);
+        const data = await response.json();
+        const normalized = (data.products || []).map(normalizeProduct);
+        setGroupProducts(normalized);
+      } catch (error) {
+        console.error('Failed to fetch group products:', error);
+        setGroupProducts([]);
+      }
+    };
+
+    fetchGroup();
+  }, [product?.variantGroupId]);
+
+  useEffect(() => {
     if (!product) return;
+    if (groupProducts.length > 0) {
+      setSelectedImageIndex(0);
+      return;
+    }
+
     const variantImages = getVariantImages(product, selectedColor, selectedSize);
     if (variantImages?.length) {
       setSelectedImageIndex(0);
@@ -200,26 +241,46 @@ const ProductDetails = () => {
 
     const idx = findVariantImageIndex(product, selectedColor, selectedSize);
     setSelectedImageIndex(idx);
-  }, [product, selectedColor, selectedSize]);
+  }, [product, selectedColor, selectedSize, groupProducts.length]);
 
   const currentVariant = (product?.variantImages || []).find((variant) => {
-    const normalize = (value) => (value || '').toString().toLowerCase();
-    return normalize(variant.color) === (selectedColor || '').toString().toLowerCase()
-      && normalize(variant.size) === (selectedSize || '').toString().toLowerCase();
+    return normalizeValue(variant.color) === normalizeValue(selectedColor)
+      && normalizeValue(variant.size) === normalizeValue(selectedSize);
   });
 
-  const displayImages = getVariantImages(product, selectedColor, selectedSize) || product?.images || [];
+  const groupVariants = groupProducts.length ? groupProducts : [];
+  const activeVariantProduct = resolveVariantMatch(groupVariants, selectedColor, selectedSize);
 
-  const variantThumbnailItems = (product?.variantImages || []).map((variant) => ({
-    color: variant.color,
-    size: variant.size,
-    image: variant.images?.[0],
-    price: variant.price,
-    sku: variant.sku
-  })).filter((item) => item.image);
+  const baseImages = groupProducts.length
+    ? (activeVariantProduct?.images || product?.images || [])
+    : (getVariantImages(product, selectedColor, selectedSize) || product?.images || []);
 
-  const displayPrice = typeof currentVariant?.price === 'number' ? currentVariant.price : product?.price;
-  const displaySku = currentVariant?.sku || product?.sku || '';
+  const displayImages = hoverImage
+    ? [hoverImage, ...baseImages.filter((img) => img !== hoverImage)]
+    : baseImages;
+
+  const variantThumbnailItems = groupProducts.length
+    ? groupVariants.map((variant) => ({
+        id: variant.id,
+        color: variant.variantColor,
+        size: variant.variantSize,
+        image: variant.images?.[0]
+      })).filter((item) => item.image)
+    : (product?.variantImages || []).map((variant) => ({
+        color: variant.color,
+        size: variant.size,
+        image: variant.images?.[0],
+        price: variant.price,
+        sku: variant.sku
+      })).filter((item) => item.image);
+
+  const displayPrice = groupProducts.length
+    ? (activeVariantProduct?.price || product?.price)
+    : (typeof currentVariant?.price === 'number' ? currentVariant.price : product?.price);
+
+  const displaySku = groupProducts.length
+    ? (activeVariantProduct?.sku || product?.sku || '')
+    : (currentVariant?.sku || product?.sku || '');
 
   const handleAddToCart = async () => {
     if (!product) return;
@@ -333,25 +394,27 @@ const ProductDetails = () => {
     return colorMap[colorValue?.toLowerCase()] || colorValue;
   };
 
-  const colors = product?.colors?.length
-    ? product.colors.map(color => {
-        if (typeof color === 'string') {
-          return { name: color, hex: getColorHex(color) || '#ffffff' };
-        }
-        return { name: color.name || color.value, hex: getColorHex(color.value || color.hex) || '#ffffff' };
-      })
-    : [
-        { name: 'White', hex: '#ffffff' },
-        { name: 'Ivory', hex: '#fffff0' },
-        { name: 'Sage Green', hex: '#9caf88' }
-      ];
+  const colors = groupProducts.length
+    ? Array.from(new Set(groupProducts.map((item) => item.variantColor).filter(Boolean)))
+        .map((color) => ({ name: color, hex: getColorHex(color) || '#ffffff' }))
+    : (product?.colors?.length
+        ? product.colors.map(color => {
+            if (typeof color === 'string') {
+              return { name: color, hex: getColorHex(color) || '#ffffff' };
+            }
+            return { name: color.name || color.value, hex: getColorHex(color.value || color.hex) || '#ffffff' };
+          })
+        : [
+            { name: 'White', hex: '#ffffff' },
+            { name: 'Ivory', hex: '#fffff0' },
+            { name: 'Sage Green', hex: '#9caf88' }
+          ]);
 
-  const sizes = product?.sizes?.length
-    ? product.sizes
-    : [
-        { name: 'Queen', dimensions: '60 x 80 in' },
-        { name: 'King', dimensions: '72 x 80 in' }
-      ];
+  const sizes = groupProducts.length
+    ? Array.from(new Set(groupProducts.map((item) => item.variantSize).filter(Boolean)))
+    : (product?.sizes?.length
+        ? product.sizes
+        : ['Queen', 'King']);
 
   const features = [
     { icon: Sparkles, text: '400 Thread Count Luxury' },
@@ -483,15 +546,19 @@ const ProductDetails = () => {
                           <button
                             key={`${variant.color}-${variant.size}`}
                             onClick={() => {
+                              if (groupProducts.length && variant.id) {
+                                navigate(`/products/${variant.id}`);
+                                return;
+                              }
                               if (variant.color) handleColorChange(variant.color);
                               if (variant.size) handleSizeChange(variant.size);
                               setSelectedImageIndex(0);
                             }}
                             onMouseEnter={() => {
-                              if (variant.color) handleColorChange(variant.color);
-                              if (variant.size) handleSizeChange(variant.size);
+                              if (variant.image) setHoverImage(variant.image);
                               setSelectedImageIndex(0);
                             }}
+                            onMouseLeave={() => setHoverImage('')}
                             className="border border-gray-200 rounded-lg overflow-hidden w-16 h-16 hover:border-purple-500 transition"
                             title={`${variant.color} • ${variant.size}`}
                           >

@@ -377,6 +377,9 @@ export const normalizeProduct = (product) => {
     images: (product.images || []).map(resolveImage),
     variantImages: normalizeVariantImages(product.variantImages),
     sortOrder: typeof product.sortOrder === 'number' ? product.sortOrder : 0,
+    variantGroupId: product.variantGroupId || '',
+    variantColor: product.variantColor || '',
+    variantSize: product.variantSize || '',
     // Handle stock/availability from MongoDB format
     availability: product.availability || product.stock || 10,
     // Handle price

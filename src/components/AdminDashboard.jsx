@@ -141,6 +141,9 @@ const AdminDashboard = ({ user, onLogout }) => {
     name: '',
     brand: 'FeatherFold',
     sku: '',
+    variantGroupId: '',
+    variantColor: '',
+    variantSize: '',
     price: '',
     originalPrice: '',
     category: '',
@@ -481,6 +484,9 @@ const AdminDashboard = ({ user, onLogout }) => {
       name: '',
       brand: 'FeatherFold',
       sku: '',
+      variantGroupId: '',
+      variantColor: '',
+      variantSize: '',
       price: '',
       originalPrice: '',
       category: '',
@@ -504,6 +510,9 @@ const AdminDashboard = ({ user, onLogout }) => {
       name: '',
       brand: 'FeatherFold',
       sku: '',
+      variantGroupId: '',
+      variantColor: '',
+      variantSize: '',
       price: '',
       originalPrice: '',
       category: '',
@@ -2017,6 +2026,9 @@ const AdminDashboard = ({ user, onLogout }) => {
                                 name: product.name,
                                 brand: product.brand,
                                 sku: product.sku || '',
+                                variantGroupId: product.variantGroupId || '',
+                                variantColor: product.variantColor || '',
+                                variantSize: product.variantSize || '',
                                 price: product.price.toString(),
                                 originalPrice: product.originalPrice?.toString() || '',
                                 category: product.category || '',
@@ -3032,6 +3044,72 @@ const AdminDashboard = ({ user, onLogout }) => {
                       onChange={(e) => setProductForm({...productForm, sku: e.target.value})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Leave empty to auto-generate"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Group ID</label>
+                    <input
+                      type="text"
+                      name="variantGroupId"
+                      value={productForm.variantGroupId}
+                      onChange={(e) => setProductForm({...productForm, variantGroupId: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Same ID for all color/size pages"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Color (for this page)</label>
+                    <input
+                      type="text"
+                      name="variantColor"
+                      value={productForm.variantColor}
+                      onChange={(e) => setProductForm({...productForm, variantColor: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g. Beige, Lemon"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Size (for this page)</label>
+                    <input
+                      type="text"
+                      name="variantSize"
+                      value={productForm.variantSize}
+                      onChange={(e) => setProductForm({...productForm, variantSize: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g. Single, Queen"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Group ID</label>
+                    <input
+                      type="text"
+                      name="variantGroupId"
+                      value={productForm.variantGroupId}
+                      onChange={(e) => setProductForm({...productForm, variantGroupId: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Same ID for all color/size pages"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Color (for this page)</label>
+                    <input
+                      type="text"
+                      name="variantColor"
+                      value={productForm.variantColor}
+                      onChange={(e) => setProductForm({...productForm, variantColor: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g. Beige, Lemon"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Variant Size (for this page)</label>
+                    <input
+                      type="text"
+                      name="variantSize"
+                      value={productForm.variantSize}
+                      onChange={(e) => setProductForm({...productForm, variantSize: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g. Single, Queen"
                     />
                   </div>
                   <div>
