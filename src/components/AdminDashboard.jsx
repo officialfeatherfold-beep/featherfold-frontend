@@ -1164,6 +1164,43 @@ const AdminDashboard = ({ user, onLogout }) => {
     console.log('📁 Files selected:', files.length);
     
     const imageArray = [...productForm.images];
+
+    const resizeImage = (file, maxSize = 1400, quality = 0.8) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+          const targetWidth = Math.round(img.width * scale);
+          const targetHeight = Math.round(img.height * scale);
+
+          const canvas = document.createElement('canvas');
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject(new Error('Canvas not supported'));
+            return;
+          }
+          ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) {
+                reject(new Error('Failed to resize image'));
+                return;
+              }
+              resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+            },
+            'image/jpeg',
+            quality
+          );
+        };
+        img.onerror = () => reject(new Error('Invalid image'));
+        img.src = reader.result;
+      };
+      reader.onerror = () => reject(new Error('Failed to read image'));
+      reader.readAsDataURL(file);
+    });
     
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -1181,11 +1218,13 @@ const AdminDashboard = ({ user, onLogout }) => {
       }
       
       try {
+        const resizedFile = await resizeImage(file);
+
         // Upload image to backend first
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', resizedFile);
         
-        console.log(`📤 Uploading image ${i + 1}:`, file.name);
+        console.log(`📤 Uploading image ${i + 1}:`, resizedFile.name);
         
         const response = await fetch(`${API_BASE}/api/admin/upload-image`, {
           method: 'POST',
