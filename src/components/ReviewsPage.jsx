@@ -12,108 +12,63 @@ import {
 } from 'lucide-react';
 import Header from './Header';
 
-// Move reviews outside component to prevent re-creation on every render
-const REVIEWS = [
-  {
-    id: 1,
-    name: "Priya Sharma",
-    rating: 5,
-    date: "2026-01-15",
-    product: "Premium Cotton Bedsheet - King Size",
-    title: "Absolutely Love It!",
-    content: "The quality is exceptional! The fabric is so soft and fit is perfect. Worth every penny. Have been using it for 3 months now and it still looks brand new.",
-    verified: true,
-    helpful: 24,
-    images: []
-  },
-  {
-    id: 2,
-    name: "Rahul Verma",
-    rating: 5,
-    date: "2026-01-12",
-    product: "Percale Weave Bedsheet - Double Size",
-    title: "Perfect for Indian Weather",
-    content: "These bedsheets are perfect for our climate. Breathable and comfortable even during summers. The color hasn't faded after multiple washes. Very satisfied!",
-    verified: true,
-    helpful: 18,
-    images: []
-  },
-  {
-    id: 3,
-    name: "Anjali Patel",
-    rating: 4,
-    date: "2026-01-10",
-    product: "Sateen Finish Bedsheet - Single Size",
-    title: "Luxurious Feel",
-    content: "The sateen finish feels so luxurious! Only giving 4 stars because it took a week longer than expected to arrive. But the product quality is amazing.",
-    verified: true,
-    helpful: 15,
-    images: []
-  },
-  {
-    id: 4,
-    name: "Vikram Singh",
-    rating: 5,
-    date: "2026-01-08",
-    product: "Premium Cotton Bedsheet - King Size",
-    title: "Better Than Expected",
-    content: "I've tried many brands but FeatherFold is by far the best. The thread count is amazing and it feels like sleeping in a 5-star hotel.",
-    verified: true,
-    helpful: 32,
-    images: []
-  },
-  {
-    id: 5,
-    name: "Kavita Reddy",
-    rating: 5,
-    date: "2026-01-05",
-    product: "Percale Weave Bedsheet - King Size",
-    title: "Excellent Customer Service",
-    content: "Had a small issue with my order and their customer service resolved it immediately. The bedsheets themselves are fantastic - soft, durable, and beautiful.",
-    verified: true,
-    helpful: 21,
-    images: []
-  },
-  {
-    id: 6,
-    name: "Amit Kumar",
-    rating: 4,
-    date: "2026-01-03",
-    product: "Sateen Finish Bedsheet - Double Size",
-    title: "Good Quality, Minor Issue",
-    content: "Overall very happy with the purchase. The fabric quality is excellent. Only minor issue was that the pillowcases were slightly smaller than expected.",
-    verified: true,
-    helpful: 12,
-    images: []
-  },
-  {
-    id: 7,
-    name: "Meera Joshi",
-    rating: 5,
-    date: "2026-01-01",
-    product: "Premium Cotton Bedsheet - Single Size",
-    title: "Perfect Gift",
-    content: "Bought this as a gift for my sister and she absolutely loves it! The packaging was beautiful and the quality is outstanding. Will definitely order again.",
-    verified: true,
-    helpful: 19,
-    images: []
-  },
-  {
-    id: 8,
-    name: "Rohit Gupta",
-    rating: 5,
-    date: "2025-12-28",
-    product: "Percale Weave Bedsheet - King Size",
-    title: "Worth the Investment",
-    content: "Initially thought it was expensive, but after using it for 2 months, I can say it's worth every rupee. The quality speaks for itself.",
-    verified: true,
-    helpful: 28,
-    images: []
-  }
+const NAME_POOL = [
+  'Aarav', 'Vivaan', 'Aditya', 'Vihaan', 'Arjun', 'Sai', 'Rohan', 'Karan', 'Rahul', 'Amit',
+  'Isha', 'Ananya', 'Neha', 'Riya', 'Pooja', 'Priya', 'Kavita', 'Meera', 'Nisha', 'Simran'
 ];
+const LAST_NAMES = [
+  'Sharma', 'Verma', 'Patel', 'Singh', 'Reddy', 'Kumar', 'Joshi', 'Gupta', 'Mehta', 'Khanna'
+];
+const PRODUCT_TITLES = [
+  'Premium Cotton Bedsheet', 'Sateen Finish Bedsheet', 'Percale Weave Bedsheet',
+  'Luxury Bedsheet Set', 'SoftTouch Bedsheet', 'Everyday Comfort Sheet'
+];
+const SIZES = ['Single', 'Double', 'Queen', 'King'];
+const REVIEW_TITLES = [
+  'Absolutely Love It!', 'Perfect for Indian Weather', 'Luxurious Feel', 'Better Than Expected',
+  'Great Quality', 'Soft and Comfortable', 'Value for Money', 'Would Buy Again'
+];
+const REVIEW_TEXTS = [
+  'The fabric is soft and the fit is perfect. Colors stay fresh after multiple washes.',
+  'Comfortable in summer and winter. Stitching is neat and packaging was good.',
+  'Feels premium and the elastic holds well on the mattress. Very satisfied.',
+  'Good thread count and smooth feel. Delivery was on time.',
+  'Bought for family and everyone likes it. Quality is consistent.',
+  'Nice finish and doesn’t wrinkle much. Worth the price.'
+];
+const RATING_PATTERN = [5, 5, 4, 5, 4, 5, 3, 5, 4, 5];
+
+const generateReviews = (count = 200) => {
+  const reviews = [];
+  const today = new Date();
+
+  for (let i = 0; i < count; i += 1) {
+    const daysAgo = i % 90;
+    const date = new Date(today);
+    date.setDate(today.getDate() - daysAgo);
+    const rating = RATING_PATTERN[i % RATING_PATTERN.length];
+
+    reviews.push({
+      id: i + 1,
+      name: `${NAME_POOL[i % NAME_POOL.length]} ${LAST_NAMES[i % LAST_NAMES.length]}`,
+      rating,
+      date: date.toISOString().slice(0, 10),
+      product: `${PRODUCT_TITLES[i % PRODUCT_TITLES.length]} - ${SIZES[i % SIZES.length]} Size`,
+      title: REVIEW_TITLES[i % REVIEW_TITLES.length],
+      content: REVIEW_TEXTS[i % REVIEW_TEXTS.length],
+      verified: true,
+      helpful: (i % 30) + 1,
+      images: []
+    });
+  }
+
+  return reviews;
+};
+
+const REVIEWS = generateReviews(200);
 
 const TOTAL_REVIEWS_DISPLAY = 2847;
-const WRITTEN_REVIEWS_LAST_3_MONTHS = 560;
+const WRITTEN_REVIEWS_LAST_3_MONTHS = 200;
 const RATING_DISTRIBUTION = [
   { rating: 5, count: 2500 },
   { rating: 4, count: 250 },
