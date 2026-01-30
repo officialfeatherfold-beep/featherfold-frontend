@@ -11,64 +11,10 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import Header from './Header';
-
-const NAME_POOL = [
-  'Aarav', 'Vivaan', 'Aditya', 'Vihaan', 'Arjun', 'Sai', 'Rohan', 'Karan', 'Rahul', 'Amit',
-  'Isha', 'Ananya', 'Neha', 'Riya', 'Pooja', 'Priya', 'Kavita', 'Meera', 'Nisha', 'Simran'
-];
-const LAST_NAMES = [
-  'Sharma', 'Verma', 'Patel', 'Singh', 'Reddy', 'Kumar', 'Joshi', 'Gupta', 'Mehta', 'Khanna'
-];
-const PRODUCT_TITLES = [
-  'Premium Cotton Bedsheet', 'Sateen Finish Bedsheet', 'Percale Weave Bedsheet',
-  'Luxury Bedsheet Set', 'SoftTouch Bedsheet', 'Everyday Comfort Sheet'
-];
-const SIZES = ['Single', 'Double', 'Queen', 'King'];
-const REVIEW_TITLES = [
-  'Absolutely Love It!', 'Perfect for Indian Weather', 'Luxurious Feel', 'Better Than Expected',
-  'Great Quality', 'Soft and Comfortable', 'Value for Money', 'Would Buy Again'
-];
-const REVIEW_TEXTS = [
-  'The fabric is soft and the fit is perfect. Colors stay fresh after multiple washes.',
-  'Comfortable in summer and winter. Stitching is neat and packaging was good.',
-  'Feels premium and the elastic holds well on the mattress. Very satisfied.',
-  'Good thread count and smooth feel. Delivery was on time.',
-  'Bought for family and everyone likes it. Quality is consistent.',
-  'Nice finish and doesn’t wrinkle much. Worth the price.'
-];
-const RATING_PATTERN = [5, 5, 4, 5, 4, 5, 3, 5, 4, 5];
-
-const generateReviews = (count = 200) => {
-  const reviews = [];
-  const today = new Date();
-
-  for (let i = 0; i < count; i += 1) {
-    const daysAgo = i % 90;
-    const date = new Date(today);
-    date.setDate(today.getDate() - daysAgo);
-    const rating = RATING_PATTERN[i % RATING_PATTERN.length];
-
-    reviews.push({
-      id: i + 1,
-      name: `${NAME_POOL[i % NAME_POOL.length]} ${LAST_NAMES[i % LAST_NAMES.length]}`,
-      rating,
-      date: date.toISOString().slice(0, 10),
-      product: `${PRODUCT_TITLES[i % PRODUCT_TITLES.length]} - ${SIZES[i % SIZES.length]} Size`,
-      title: REVIEW_TITLES[i % REVIEW_TITLES.length],
-      content: REVIEW_TEXTS[i % REVIEW_TEXTS.length],
-      verified: true,
-      helpful: (i % 30) + 1,
-      images: []
-    });
-  }
-
-  return reviews;
-};
-
-const REVIEWS = generateReviews(200);
+import REVIEWS from '../data/reviews.json';
 
 const TOTAL_REVIEWS_DISPLAY = 2847;
-const WRITTEN_REVIEWS_LAST_3_MONTHS = 200;
+const WRITTEN_REVIEWS_LAST_3_MONTHS = REVIEWS.length;
 const RATING_DISTRIBUTION = [
   { rating: 5, count: 2500 },
   { rating: 4, count: 250 },
