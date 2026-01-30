@@ -100,6 +100,10 @@ class ApiService {
     });
   }
 
+  async validatePromo(code) {
+    return this.request(`/promo/validate?code=${encodeURIComponent(code)}`);
+  }
+
   async getOrders(userId) {
     const endpoint = userId ? `/orders?userId=${userId}` : '/orders';
     return this.request(endpoint);
