@@ -323,29 +323,7 @@ const Header = ({
             </div>
           </div>
 
-          {/* Free Shipping Progress Bar */}
-          {totalPrice > 0 && totalPrice < freeShippingThreshold && (
-            <motion.div
-              className="mt-4 px-4 py-2 bg-green-50 rounded-lg border border-green-200"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-green-700 font-medium">
-                  🎉 Add ₹{remainingForFreeShipping} more for FREE Shipping!
-                </span>
-                <Truck className="w-4 h-4 text-green-600" />
-              </div>
-              <div className="w-full bg-green-200 rounded-full h-2">
-                <motion.div
-                  className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${freeShippingProgress}%` }}
-                  transition={{ duration: 0.5, ease: 'easeOut' }}
-                />
-              </div>
-            </motion.div>
-          )}
+          {/* Free Shipping Progress Bar removed */}
         </div>
       </motion.header>
       <div style={{ height: headerHeight }} aria-hidden="true" />
