@@ -102,6 +102,15 @@ function App() {
       console.error('API not accessible:', error);
     });
 
+    // Load global settings for all users
+    apiService.getSettings().then((data) => {
+      if (data?.settings) {
+        localStorage.setItem('adminSettings', JSON.stringify(data.settings));
+      }
+    }).catch(error => {
+      console.warn('Failed to load settings:', error);
+    });
+
     // Check for Google OAuth callback
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('token')) {

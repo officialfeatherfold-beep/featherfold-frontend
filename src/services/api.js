@@ -111,6 +111,17 @@ class ApiService {
     return this.request(`/promo/validate?code=${encodeURIComponent(code)}`);
   }
 
+  async getSettings() {
+    return this.request('/settings');
+  }
+
+  async updateSettings(settings) {
+    return this.request('/admin/settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings)
+    });
+  }
+
   async getOrders(userId) {
     const endpoint = userId ? `/orders?userId=${userId}` : '/orders';
     return this.request(endpoint);

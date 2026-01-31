@@ -223,20 +223,44 @@ const AdminDashboard = ({ user, onLogout }) => {
   }, []);
 
   useEffect(() => {
-    const savedSettings = localStorage.getItem('adminSettings');
-    if (savedSettings) {
+    const loadSettings = async () => {
       try {
-        setSettings(JSON.parse(savedSettings));
-      } catch {
-        // ignore invalid settings
+        const data = await apiService.getSettings();
+        if (data?.settings) {
+          setSettings(data.settings);
+          localStorage.setItem('adminSettings', JSON.stringify(data.settings));
+          return;
+        }
+      } catch (error) {
+        console.warn('Failed to fetch settings from API:', error);
       }
-    }
+
+      const savedSettings = localStorage.getItem('adminSettings');
+      if (savedSettings) {
+        try {
+          setSettings(JSON.parse(savedSettings));
+        } catch {
+          // ignore invalid settings
+        }
+      }
+    };
+
+    loadSettings();
   }, []);
 
-  const handleSaveSettings = () => {
-    localStorage.setItem('adminSettings', JSON.stringify(settings));
-    setSaveStatus('Settings saved successfully!');
-    setTimeout(() => setSaveStatus(''), 3000);
+  const handleSaveSettings = async () => {
+    try {
+      const saved = await apiService.updateSettings(settings);
+      const nextSettings = saved?.settings || settings;
+      localStorage.setItem('adminSettings', JSON.stringify(nextSettings));
+      setSettings(nextSettings);
+      setSaveStatus('Settings saved successfully!');
+      setTimeout(() => setSaveStatus(''), 3000);
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+      setSaveStatus('Failed to save settings. Please try again.');
+      setTimeout(() => setSaveStatus(''), 3000);
+    }
   };
 
   const handleSettingChange = (key, value) => {
