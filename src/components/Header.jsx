@@ -208,7 +208,7 @@ const Header = ({
             )}
 
             {/* Right Actions */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               {!isAdminView && (
               <>
                 {/* User Section */}
@@ -278,12 +278,12 @@ const Header = ({
               ) : (
                 <motion.button
                   onClick={onAuthOpen}
-                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all"
+                  className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <User className="w-4 h-4" />
-                  <span className="text-sm font-medium">Sign In</span>
+                  <span className="text-sm font-medium hidden sm:inline">Sign In</span>
                 </motion.button>
               )}
 
