@@ -1698,18 +1698,33 @@ const AdminDashboard = ({ user, onLogout }) => {
                   {analytics?.topProducts && analytics.topProducts.length > 0 ? (
                     analytics.topProducts.map((product) => (
                       <div key={product.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                            <Package className="w-5 h-5 text-green-600" />
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden flex items-center justify-center shrink-0">
+                            {product.images?.[0] ? (
+                              <img
+                                src={resolveImage(product.images[0])}
+                                alt={product.name}
+                                className="w-full h-full object-contain"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            ) : (
+                              <Package className="w-5 h-5 text-slate-400" />
+                            )}
                           </div>
                           <div>
-                            <p className="font-medium text-slate-900">{product.name}</p>
-                            <p className="text-sm text-slate-500">{(product.availability || 0)} in stock</p>
+                            <p className="font-medium text-slate-900 truncate max-w-[220px]">{product.name}</p>
+                            <p className="text-sm text-slate-500">
+                              Stock: {product.availability || 0} · Sold: {product.quantity || 0}
+                            </p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-1 text-green-600">
-                          <ArrowUp className="w-4 h-4" />
-                          <span className="text-sm font-medium">12%</span>
+                        <div className="text-right">
+                          <p className="text-sm font-semibold text-slate-900">
+                            ₹{Math.round(product.revenue || product.price || 0).toLocaleString('en-IN')}
+                          </p>
+                          <p className="text-xs text-slate-500">Revenue</p>
                         </div>
                       </div>
                     ))
@@ -3163,17 +3178,26 @@ const AdminDashboard = ({ user, onLogout }) => {
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden flex items-center justify-center">
                                 {product.images?.[0] ? (
-                                  <img src={resolveImage(product.images[0])} alt={product.name} className="w-full h-full object-contain" />
+                                  <img
+                                    src={resolveImage(product.images[0])}
+                                    alt={product.name}
+                                    className="w-full h-full object-contain"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none';
+                                    }}
+                                  />
                                 ) : (
                                   <Package className="w-4 h-4 text-slate-400" />
                                 )}
                               </div>
                               <div>
                                 <p className="text-sm font-medium text-slate-900">{product.name}</p>
-                                <p className="text-xs text-slate-500">Stock: {product.availability || 0}</p>
+                                <p className="text-xs text-slate-500">Stock: {product.availability || 0} · Sold: {product.quantity || 0}</p>
                               </div>
                             </div>
-                            <div className="text-sm font-semibold text-slate-900">₹{(product.price || 0).toLocaleString('en-IN')}</div>
+                            <div className="text-sm font-semibold text-slate-900">
+                              ₹{Math.round(product.revenue || product.price || 0).toLocaleString('en-IN')}
+                            </div>
                           </div>
                         ))
                       ) : (
