@@ -45,7 +45,7 @@ import OrderSummary from './components/OrderSummary';
 import OrderSuccessPage from './components/OrderSuccessPage';
 import CustomerOrdersPage from './components/CustomerOrdersPage';
 import OrderDetailsPage from './components/OrderDetailsPage';
-import AuthModal from './components/AuthModal';
+import LoginPage from './components/LoginPage';
 import AdminDashboard from './components/AdminDashboard';
 import FavoritesPageNew from './components/FavoritesPageNew';
 import FeaturesPage from './components/FeaturesPage';
@@ -62,7 +62,6 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [selectedColor, setSelectedColor] = useState('#ffffff');
@@ -151,7 +150,6 @@ function App() {
     if (token) {
       apiService.setToken(token);
     }
-    setIsAuthOpen(false);
   };
 
   const handleLogout = () => {
@@ -247,7 +245,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -284,7 +282,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -308,7 +306,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -329,7 +327,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -346,7 +344,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -363,7 +361,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -380,7 +378,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -397,7 +395,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -414,7 +412,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -431,7 +429,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -448,7 +446,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -465,7 +463,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -488,6 +486,11 @@ function App() {
           </>
         } />
 
+        {/* Login Route */}
+        <Route path="/login" element={
+          <LoginPage onLogin={handleLogin} />
+        } />
+
         {/* Google Callback Route */}
         <Route path="/google/callback" element={
           <GoogleCallback />
@@ -501,7 +504,7 @@ function App() {
               cartCount={cartCount}
               favoritesCount={favoritesCount}
               onCartOpen={() => setIsCartOpen(true)}
-              onAuthOpen={() => setIsAuthOpen(true)}
+              onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
               onAdminOpen={() => setIsAdminOpen(true)}
               totalPrice={getTotalPrice()}
@@ -519,7 +522,7 @@ function App() {
                 cartCount={cartCount}
                 favoritesCount={favoritesCount}
                 onCartOpen={() => setIsCartOpen(true)}
-                onAuthOpen={() => setIsAuthOpen(true)}
+                onAuthOpen={() => navigate('/login')}
                 onLogout={handleLogout}
                 onAdminOpen={() => setIsAdminOpen(true)}
                 totalPrice={getTotalPrice()}
@@ -534,15 +537,6 @@ function App() {
           </ProtectedRoute>
         } />
       </Routes>
-
-      <AnimatePresence>
-        {isAuthOpen && (
-          <AuthModal 
-            onClose={() => setIsAuthOpen(false)}
-            onLogin={handleLogin}
-          />
-        )}
-      </AnimatePresence>
 
       <AnimatePresence>
         {isCartOpen && (
