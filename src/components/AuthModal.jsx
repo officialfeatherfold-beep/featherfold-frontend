@@ -119,7 +119,7 @@ const AuthModal = ({ onClose, onLogin }) => {
         onClick={onClose}
       >
         <div
-          className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+          className="relative w-[92vw] max-w-md bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden"
           style={{
             transform: 'none',
             maxHeight: '90vh',
@@ -130,20 +130,20 @@ const AuthModal = ({ onClose, onLogin }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="relative h-32 bg-gradient-to-br from-purple-600 to-pink-600">
+          <div className="relative h-24 sm:h-32 bg-gradient-to-br from-purple-600 to-pink-600">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
             >
               <X className="w-5 h-5 text-white" />
             </button>
             
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="text-center">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <User className="w-8 h-8 text-white" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <User className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-xl sm:text-2xl font-bold text-white">
                   {isLogin ? 'Welcome Back' : 'Join FeatherFold'}
                 </h2>
               </div>
@@ -151,7 +151,7 @@ const AuthModal = ({ onClose, onLogin }) => {
           </div>
 
           {/* Form */}
-          <div className="p-8">
+          <div className="p-5 sm:p-8">
             {/* Toggle */}
             <div className="flex bg-gray-100 rounded-xl p-1 mb-6">
               <button
@@ -179,7 +179,7 @@ const AuthModal = ({ onClose, onLogin }) => {
             {/* Google Login */}
             <button
               onClick={handleGoogleLogin}
-              className="w-full py-3 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center space-x-3 mb-6"
+              className="w-full py-3 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center space-x-3 mb-6 text-sm sm:text-base"
             >
               <Chrome className="w-5 h-5" />
               <span className="font-medium text-gray-700">

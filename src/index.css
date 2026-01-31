@@ -28,6 +28,26 @@
     font-feature-settings: "kern" 1, "liga" 1;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  img,
+  video,
+  canvas,
+  svg,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  input,
+  textarea,
+  select {
+    max-width: 100%;
   }
 
   #modal-root {
@@ -99,6 +119,7 @@
   }
   
   .container-custom {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
@@ -107,6 +128,16 @@
   @media (min-width: 640px) {
     .container-custom {
       padding: 0 2rem;
+    }
+  }
+
+  .page-section {
+    padding: 4rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .page-section {
+      padding: 2.5rem 0;
     }
   }
   
