@@ -74,6 +74,13 @@ class ApiService {
     });
   }
 
+  async resetPasswordWithToken(token, email, newPassword) {
+    return this.request('/auth/reset-password-with-token', {
+      method: 'POST',
+      body: JSON.stringify({ token, email, newPassword }),
+    });
+  }
+
   async getProfile() {
     return this.request('/user/profile');
   }

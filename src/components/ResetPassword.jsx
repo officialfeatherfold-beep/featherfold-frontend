@@ -37,16 +37,9 @@ const ResetPassword = () => {
       }
 
       try {
-        // In a real app, you would validate the token with the backend
-        // For now, we'll simulate token validation
         console.log('🔑 Validating reset token:', token);
         console.log('📧 For email:', email);
-        
-        // Simulate API call to validate token
-        setTimeout(() => {
-          setTokenValid(true);
-        }, 1000);
-        
+        setTokenValid(true);
       } catch (error) {
         console.error('Token validation error:', error);
         setTokenValid(false);
@@ -91,26 +84,25 @@ const ResetPassword = () => {
     setError('');
 
     try {
-      // In a real app, you would send the new password to the backend
       console.log('🔒 Resetting password for:', email);
-      console.log('🔑 New password:', formData.password);
       console.log('🎫 Token:', token);
 
-      // Simulate API call
-      setTimeout(() => {
+      const response = await apiService.resetPasswordWithToken(token, email, formData.password);
+
+      if (response?.message) {
         setSuccess(true);
-        setIsLoading(false);
-        
-        // Clear form
         setFormData({
           password: '',
           confirmPassword: ''
         });
-      }, 2000);
+      } else {
+        setError('Failed to reset password. Please try again.');
+      }
 
     } catch (error) {
       console.error('Reset password error:', error);
-      setError('Failed to reset password. Please try again.');
+      setError(error.message || 'Failed to reset password. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
