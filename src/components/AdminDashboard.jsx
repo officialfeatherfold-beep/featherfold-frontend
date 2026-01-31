@@ -252,20 +252,24 @@ const AdminDashboard = ({ user, onLogout }) => {
       (order.items || []).forEach((item) => {
         const productId = item.productId || item.id || item.sku || item.name;
         if (!productId) return;
-        const current = counts.get(productId) || { quantity: 0, revenue: 0 };
+        const current = counts.get(productId) || { quantity: 0, revenue: 0, name: item.name };
         counts.set(productId, {
           quantity: current.quantity + (item.quantity || 1),
-          revenue: current.revenue + ((item.price || 0) * (item.quantity || 1))
+          revenue: current.revenue + ((item.price || 0) * (item.quantity || 1)),
+          name: current.name || item.name
         });
       });
     });
 
     const ranked = Array.from(counts.entries())
       .map(([productId, stats]) => {
-        const product = productList.find((p) => p.id === productId) || productList.find((p) => p.sku === productId) || {};
+        const product = productList.find((p) => p.id === productId)
+          || productList.find((p) => p._id === productId)
+          || productList.find((p) => p.sku === productId)
+          || {};
         return {
           id: product.id || productId,
-          name: product.name || productId,
+          name: product.name || stats.name || productId,
           availability: product.availability || 0,
           images: product.images || [],
           quantity: stats.quantity,

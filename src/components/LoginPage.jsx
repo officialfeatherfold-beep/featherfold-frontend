@@ -74,39 +74,56 @@ const LoginPage = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="relative h-24 sm:h-32 bg-gradient-to-br from-purple-600 to-pink-600">
-          <button
-            onClick={() => navigate(-1)}
-            className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
-            aria-label="Back"
-          >
-            <ArrowLeft className="w-5 h-5 text-white" />
-          </button>
-          <button
-            onClick={() => navigate('/')}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
-            aria-label="Close"
-          >
-            <X className="w-5 h-5 text-white" />
-          </button>
-          
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="text-center">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                <User className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white">
-                {isLogin ? 'Welcome Back' : 'Join FeatherFold'}
-              </h2>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-2">
+        {/* Left Brand Panel */}
+        <div className="relative hidden md:flex flex-col justify-center bg-gradient-to-br from-purple-600 to-pink-600 text-white p-10">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+              <User className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold">FeatherFold</h2>
+              <p className="text-white/80 text-sm">Premium Cotton</p>
             </div>
           </div>
+          <h3 className="text-3xl font-semibold mb-4">
+            {isLogin ? 'Welcome back' : 'Create your account'}
+          </h3>
+          <p className="text-white/80">
+            Manage orders, save favorites, and unlock member-only discounts.
+          </p>
         </div>
 
-        {/* Form */}
-        <div className="p-5 sm:p-8">
+        {/* Right Form Panel */}
+        <div className="relative p-6 sm:p-10">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+              aria-label="Back"
+            >
+              <ArrowLeft className="w-5 h-5 text-gray-700" />
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5 text-gray-700" />
+            </button>
+          </div>
+
+          <div className="text-center mb-6 md:hidden">
+            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <User className="w-6 h-6 text-purple-600" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-900">
+              {isLogin ? 'Welcome Back' : 'Join FeatherFold'}
+            </h2>
+          </div>
+
+          {/* Form */}
           {/* Toggle */}
           <div className="flex bg-gray-100 rounded-xl p-1 mb-6">
             <button
