@@ -145,6 +145,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [featuredRotationSeconds, setFeaturedRotationSeconds] = useState(5);
   const [featuredAddProductId, setFeaturedAddProductId] = useState('');
   const [featuredSaving, setFeaturedSaving] = useState(false);
+  const [variantGroupOptions, setVariantGroupOptions] = useState([]);
   const [productForm, setProductForm] = useState({
     name: '',
     brand: 'FeatherFold',
@@ -305,6 +306,12 @@ const AdminDashboard = ({ user, onLogout }) => {
     return ranked.slice(0, 3);
   };
 
+  const generateVariantGroupId = (name = '') => {
+    const clean = name.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 4) || 'VAR';
+    const stamp = Date.now().toString().slice(-5);
+    return `${clean}-${stamp}`;
+  };
+
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
@@ -349,6 +356,8 @@ const AdminDashboard = ({ user, onLogout }) => {
           isNew: product.isNew || false
         }));
         productsList = validatedProducts;
+        const groupIds = Array.from(new Set(validatedProducts.map((p) => p.variantGroupId).filter(Boolean)));
+        setVariantGroupOptions(groupIds);
         setProducts(validatedProducts);
         syncProductOrder(validatedProducts);
       }
@@ -3535,14 +3544,43 @@ const AdminDashboard = ({ user, onLogout }) => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Variant Group ID</label>
-                    <input
-                      type="text"
-                      name="variantGroupId"
-                      value={productForm.variantGroupId}
-                      onChange={(e) => setProductForm({...productForm, variantGroupId: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Same ID for all color/size pages"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        name="variantGroupId"
+                        value={productForm.variantGroupId}
+                        onChange={(e) => setProductForm({...productForm, variantGroupId: e.target.value})}
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Same ID for all color/size pages"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setProductForm((prev) => ({
+                          ...prev,
+                          variantGroupId: generateVariantGroupId(prev.name)
+                        }))}
+                        className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                      >
+                        Generate
+                      </button>
+                    </div>
+                    {variantGroupOptions.length > 0 && (
+                      <select
+                        value=""
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value) {
+                            setProductForm((prev) => ({ ...prev, variantGroupId: value }));
+                          }
+                        }}
+                        className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Pick existing group ID…</option>
+                        {variantGroupOptions.map((groupId) => (
+                          <option key={groupId} value={groupId}>{groupId}</option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Variant Color (for this page)</label>
