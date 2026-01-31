@@ -246,6 +246,37 @@ const AdminDashboard = ({ user, onLogout }) => {
     }));
   };
 
+  const buildTopProducts = (orderList, productList) => {
+    const counts = new Map();
+    (orderList || []).forEach((order) => {
+      (order.items || []).forEach((item) => {
+        const productId = item.productId || item.id || item.sku || item.name;
+        if (!productId) return;
+        const current = counts.get(productId) || { quantity: 0, revenue: 0 };
+        counts.set(productId, {
+          quantity: current.quantity + (item.quantity || 1),
+          revenue: current.revenue + ((item.price || 0) * (item.quantity || 1))
+        });
+      });
+    });
+
+    const ranked = Array.from(counts.entries())
+      .map(([productId, stats]) => {
+        const product = productList.find((p) => p.id === productId) || productList.find((p) => p.sku === productId) || {};
+        return {
+          id: product.id || productId,
+          name: product.name || productId,
+          availability: product.availability || 0,
+          images: product.images || [],
+          quantity: stats.quantity,
+          revenue: stats.revenue
+        };
+      })
+      .sort((a, b) => b.quantity - a.quantity);
+
+    return ranked.slice(0, 3);
+  };
+
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
@@ -268,6 +299,7 @@ const AdminDashboard = ({ user, onLogout }) => {
       };
       
       // Fetch products (public endpoint)
+      let productsList = [];
       console.log('📦 Fetching products...');
       const productsResponse = await fetch(`${API_BASE}/api/products`);
       if (productsResponse.ok) {
@@ -288,6 +320,7 @@ const AdminDashboard = ({ user, onLogout }) => {
           images: product.images && product.images.length > 0 && !product.images[0].includes('🛏️') ? product.images : [],
           isNew: product.isNew || false
         }));
+        productsList = validatedProducts;
         setProducts(validatedProducts);
         syncProductOrder(validatedProducts);
       }
@@ -325,6 +358,7 @@ const AdminDashboard = ({ user, onLogout }) => {
         return;
       }
       
+      let ordersList = [];
       console.log('🛒 Fetching orders...');
       const ordersResponse = await fetch(`${API_BASE}/api/admin/orders`, { headers });
       console.log('🛒 Orders response status:', ordersResponse.status);
@@ -334,6 +368,7 @@ const AdminDashboard = ({ user, onLogout }) => {
         const sortedOrders = [...(ordersData.orders || [])].sort(
           (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
+        ordersList = sortedOrders;
         setOrders(sortedOrders);
       } else if (ordersResponse.status === 403) {
         const errorData = await ordersResponse.json();
@@ -364,6 +399,7 @@ const AdminDashboard = ({ user, onLogout }) => {
       console.log('📊 Fetching analytics...');
       const analyticsResponse = await fetch(`${API_BASE}/api/admin/analytics`, { headers });
       console.log('📊 Analytics response status:', analyticsResponse.status);
+      const computedTopProducts = buildTopProducts(ordersList, productsList);
       if (analyticsResponse.ok) {
         const analyticsData = await analyticsResponse.json();
         const transformedAnalytics = {
@@ -377,7 +413,7 @@ const AdminDashboard = ({ user, onLogout }) => {
           conversionRateData: analyticsData.conversionRate,
           charts: analyticsData.charts,
           recentOrders: analyticsData.recentOrders?.slice(0, 3) || [],
-          topProducts: products.slice(0, 3)
+          topProducts: computedTopProducts.length > 0 ? computedTopProducts : productsList.slice(0, 3)
         };
         setAnalytics(transformedAnalytics);
         
@@ -395,8 +431,8 @@ const AdminDashboard = ({ user, onLogout }) => {
         return;
       } else {
         // Fallback to client-side calculation if API fails
-        const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
-        const totalOrders = orders.length;
+        const totalRevenue = ordersList.reduce((sum, order) => sum + (order.total || 0), 0);
+        const totalOrders = ordersList.length;
         const totalUsers = users.length;
         const conversionRate = totalUsers > 0 ? ((totalOrders / totalUsers) * 100).toFixed(1) : '0';
         
@@ -405,8 +441,8 @@ const AdminDashboard = ({ user, onLogout }) => {
           totalOrders,
           totalUsers,
           conversionRate: parseFloat(conversionRate),
-          recentOrders: orders.slice(0, 3),
-          topProducts: products.slice(0, 3)
+          recentOrders: ordersList.slice(0, 3),
+          topProducts: computedTopProducts.length > 0 ? computedTopProducts : productsList.slice(0, 3)
         };
         
         setAnalytics(fallbackAnalytics);
