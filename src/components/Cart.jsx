@@ -22,6 +22,11 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentCart, setCurrentCart] = useState(cart || []);
+  const [storeSettings, setStoreSettings] = useState({
+    taxRate: 18,
+    standardShippingFee: 50,
+    freeShippingThreshold: 500
+  });
 
   // Sync with cart utilities
   useEffect(() => {
@@ -42,9 +47,26 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      const savedSettings = localStorage.getItem('adminSettings');
+      if (savedSettings) {
+        const parsed = JSON.parse(savedSettings);
+        setStoreSettings({
+          taxRate: Number(parsed.taxRate ?? 18),
+          standardShippingFee: Number(parsed.standardShippingFee ?? 50),
+          freeShippingThreshold: Number(parsed.freeShippingThreshold ?? 500)
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load admin settings');
+    }
+  }, []);
+
   const subtotal = currentCart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const shipping = subtotal >= 500 ? 0 : 50;
-  const total = subtotal + shipping - discount;
+  const shipping = subtotal >= storeSettings.freeShippingThreshold ? 0 : storeSettings.standardShippingFee;
+  const gst = subtotal * (storeSettings.taxRate / 100);
+  const total = subtotal + shipping + gst - discount;
 
   const updateQuantity = (id, newQuantity, options = {}) => {
     if (newQuantity === 0) {
@@ -319,6 +341,10 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
                     <span className="font-medium text-green-600">-₹{discount}</span>
                   </div>
                 )}
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Tax</span>
+                  <span className="font-medium text-gray-900">₹{gst.toFixed(0)}</span>
+                </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping</span>
                   <span className="font-medium text-gray-900">

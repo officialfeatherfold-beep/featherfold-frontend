@@ -50,6 +50,11 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
   const [savedAddresses, setSavedAddresses] = useState([]);
   const [savedPaymentMethods, setSavedPaymentMethods] = useState([]);
   const [promoInfo, setPromoInfo] = useState(null);
+  const [storeSettings, setStoreSettings] = useState({
+    taxRate: 18,
+    standardShippingFee: 50,
+    freeShippingThreshold: 500
+  });
   
   // Form states
   const [formData, setFormData] = useState({
@@ -108,6 +113,20 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
       }
     }
 
+    try {
+      const savedSettings = localStorage.getItem('adminSettings');
+      if (savedSettings) {
+        const parsed = JSON.parse(savedSettings);
+        setStoreSettings({
+          taxRate: Number(parsed.taxRate ?? 18),
+          standardShippingFee: Number(parsed.standardShippingFee ?? 50),
+          freeShippingThreshold: Number(parsed.freeShippingThreshold ?? 500)
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load admin settings');
+    }
+
     return () => {
       window.removeEventListener('cartUpdated', handleCartUpdate);
     };
@@ -116,8 +135,9 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
   const subtotal = currentCart.reduce((total, item) => total + (item.price * item.quantity), 0);
   const discountAmount = promoInfo?.percent ? subtotal * (Number(promoInfo.percent) / 100) : 0;
   const taxableSubtotal = Math.max(0, subtotal - discountAmount);
-  const gst = taxableSubtotal * 0.18;
-  const total = taxableSubtotal + gst;
+  const gst = taxableSubtotal * (storeSettings.taxRate / 100);
+  const shipping = taxableSubtotal >= storeSettings.freeShippingThreshold ? 0 : storeSettings.standardShippingFee;
+  const total = taxableSubtotal + gst + shipping;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -1033,7 +1053,9 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                     <span className="text-gray-600 font-medium">Shipping</span>
                     <div className="flex items-center">
                       <Truck className="w-4 h-4 text-green-600 mr-1" />
-                      <span className="text-green-600 font-bold">FREE</span>
+                      <span className="text-green-600 font-bold">
+                        {shipping === 0 ? 'FREE' : `₹${shipping.toFixed(0)}`}
+                      </span>
                     </div>
                   </div>
                 </div>

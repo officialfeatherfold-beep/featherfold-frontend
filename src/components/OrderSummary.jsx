@@ -6,6 +6,7 @@ const OrderSummary = ({
   items, 
   subtotal, 
   shipping, 
+  tax,
   total, 
   promoCode, 
   setPromoCode, 
@@ -13,7 +14,8 @@ const OrderSummary = ({
   discount, 
   isProcessing, 
   onCheckout, 
-  user 
+  user,
+  appliedPromo
 }) => {
   return (
     <motion.div 
@@ -53,6 +55,12 @@ const OrderSummary = ({
               <div className="flex justify-between text-sm">
                 <span className="text-green-600">Discount</span>
                 <span className="font-medium text-green-600">-₹{discount}</span>
+              </div>
+            )}
+            {typeof tax === 'number' && tax > 0 && (
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">Tax</span>
+                <span className="font-medium text-gray-900">₹{tax.toFixed(0)}</span>
               </div>
             )}
             <div className="flex justify-between text-sm">
@@ -103,12 +111,11 @@ const OrderSummary = ({
             )}
           </motion.button>
 
-          {/* User Discount Notice */}
-          {user && (
+          {appliedPromo && (
             <div className="flex items-center space-x-2 p-3 bg-green-50 rounded-lg">
               <CheckCircle className="w-4 h-4 text-green-600" />
               <span className="text-sm text-green-700">
-                10% discount applied for logged-in users
+                Promo applied: {appliedPromo.code} ({appliedPromo.percent}%)
               </span>
             </div>
           )}

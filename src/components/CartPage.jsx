@@ -15,6 +15,11 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
   const [currentCart, setCurrentCart] = useState([]);
   const [error, setError] = useState(null);
   const [appliedPromo, setAppliedPromo] = useState(null);
+  const [storeSettings, setStoreSettings] = useState({
+    taxRate: 18,
+    standardShippingFee: 50,
+    freeShippingThreshold: 500
+  });
 
   // Listen to cart changes
   useEffect(() => {
@@ -48,9 +53,26 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      const savedSettings = localStorage.getItem('adminSettings');
+      if (savedSettings) {
+        const parsed = JSON.parse(savedSettings);
+        setStoreSettings({
+          taxRate: Number(parsed.taxRate ?? 18),
+          standardShippingFee: Number(parsed.standardShippingFee ?? 50),
+          freeShippingThreshold: Number(parsed.freeShippingThreshold ?? 500)
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load admin settings');
+    }
+  }, []);
+
   const subtotal = currentCart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const shipping = subtotal >= 500 ? 0 : 50;
-  const total = subtotal + shipping - discount;
+  const shipping = subtotal >= storeSettings.freeShippingThreshold ? 0 : storeSettings.standardShippingFee;
+  const gst = subtotal * (storeSettings.taxRate / 100);
+  const total = subtotal + shipping + gst - discount;
 
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity === 0) {
@@ -191,6 +213,7 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
                   items={currentCart}
                   subtotal={subtotal}
                   shipping={shipping}
+                  tax={gst}
                   total={total}
                   promoCode={promoCode}
                   setPromoCode={setPromoCode}
