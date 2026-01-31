@@ -92,11 +92,11 @@ const Header = ({
             <motion.button
               type="button"
               onClick={() => onNavigate && onNavigate('home')}
-              className="flex items-center gap-3 text-left shrink-0"
+              className="flex items-center gap-2 sm:gap-3 text-left shrink-0"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="relative w-10 h-10 rounded-full bg-white flex items-center justify-center border border-purple-200 shadow-sm overflow-hidden">
+              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center border border-purple-200 shadow-sm overflow-hidden">
                 <img
                   src="/logo.png"
                   alt="FeatherFold"
@@ -110,8 +110,8 @@ const Header = ({
                 )}
               </div>
               <div className="min-w-0">
-                <h1 className="text-xl font-bold text-gray-800 whitespace-nowrap">FeatherFold</h1>
-                <p className="text-xs text-gray-600 whitespace-nowrap">Premium Cotton</p>
+                <h1 className="text-lg sm:text-xl font-bold text-gray-800 whitespace-nowrap">FeatherFold</h1>
+                <p className="hidden sm:block text-xs text-gray-600 whitespace-nowrap">Premium Cotton</p>
               </div>
             </motion.button>
 
