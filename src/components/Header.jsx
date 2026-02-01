@@ -110,14 +110,14 @@ const Header = ({
                 )}
               </div>
               <div className="min-w-0">
-                <h1 className="text-lg sm:text-xl font-bold text-gray-800 whitespace-nowrap">FeatherFold</h1>
-                <p className="hidden sm:block text-xs text-gray-600 whitespace-nowrap">Premium Cotton</p>
+                <h1 className="text-base sm:text-lg lg:text-xl font-bold text-gray-800 whitespace-nowrap">FeatherFold</h1>
+                <p className="hidden lg:block text-xs text-gray-600 whitespace-nowrap">Premium Cotton</p>
               </div>
             </motion.button>
 
             {/* Desktop Navigation */}
             {!isAdminView ? (
-              <nav className="hidden md:flex items-center space-x-8">
+              <nav className="hidden lg:flex items-center space-x-8">
                 <button
                   onClick={() => onNavigate && onNavigate('home')}
                   className={`text-gray-700 hover:text-purple-600 transition-colors font-medium ${
