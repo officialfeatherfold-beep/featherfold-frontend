@@ -4393,13 +4393,19 @@ const AdminDashboard = ({ user, onLogout }) => {
                     <h4 className="font-semibold text-slate-900 mb-4">Shipping Address</h4>
                     <div className="bg-slate-50 p-4 rounded-lg">
                       <div className="space-y-1 text-sm text-slate-600">
-                        <p>{selectedOrder.shippingAddress.street}</p>
+                        <p>{selectedOrder.shippingAddress.address || selectedOrder.shippingAddress.street}</p>
                         <p>
-                          {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state} {selectedOrder.shippingAddress.postalCode}
+                          {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state}{' '}
+                          {selectedOrder.shippingAddress.pincode || selectedOrder.shippingAddress.postalCode}
                         </p>
-                        <p>{selectedOrder.shippingAddress.country}</p>
+                        {selectedOrder.shippingAddress.country && (
+                          <p>{selectedOrder.shippingAddress.country}</p>
+                        )}
                         {selectedOrder.shippingAddress.phone && (
                           <p>Phone: {selectedOrder.shippingAddress.phone}</p>
+                        )}
+                        {selectedOrder.shippingAddress.email && (
+                          <p>Email: {selectedOrder.shippingAddress.email}</p>
                         )}
                       </div>
                     </div>
