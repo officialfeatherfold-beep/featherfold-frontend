@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { apiService } from '../services/api';
-import { buildProductUrl } from '../utils/routeUtils';
 import { normalizeProduct, resolveImage } from '../utils/dataUtils';
 
 const ProductPhotoCarousel = () => {
@@ -82,7 +81,7 @@ const ProductPhotoCarousel = () => {
   const handleProductClick = () => {
     const productId = currentProduct?.id || currentProduct?._id;
     if (!productId) return;
-    navigate(buildProductUrl({ id: productId, name: product?.name }));
+    navigate(`/products/${productId}`);
   };
 
   return (

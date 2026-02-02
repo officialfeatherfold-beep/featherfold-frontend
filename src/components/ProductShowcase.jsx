@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { apiService } from '../services/api';
 import { resolveImage, normalizeProduct } from '../utils/dataUtils';
-import { buildProductUrl } from '../utils/routeUtils';
 
 const ProductShowcase = () => {
   const navigate = useNavigate();
@@ -52,7 +51,7 @@ const ProductShowcase = () => {
     const product = featuredProducts[currentIndex];
     const productId = product?.id;
     if (!productId) return;
-    navigate(buildProductUrl(product));
+    navigate(`/products/${productId}`);
   };
 
   if (loading) {

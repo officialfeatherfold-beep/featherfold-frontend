@@ -24,7 +24,6 @@ import {
 } from 'lucide-react';
 import { apiService } from '../services/api';
 import { wishlistUtils, cartUtils, normalizeProduct, resolveImage } from '../utils/dataUtils';
-import { buildProductUrl } from '../utils/routeUtils';
 
 const Products = ({ user, onAddToCart, onNavigate }) => {
   const navigate = useNavigate();
@@ -325,7 +324,7 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
     });
 
     return (
-      <Link to={buildProductUrl(product)} className="block">
+      <Link to={`/products/${product.id}`} className="block">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -378,7 +377,7 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
                 e.preventDefault();
                 e.stopPropagation();
                 // Navigate using React Router
-                navigate(buildProductUrl(product));
+                navigate(`/products/${product.id}`);
               }}
               className="p-3 bg-white/90 rounded-full hover:bg-white transition-colors mr-4"
               title="View Details"

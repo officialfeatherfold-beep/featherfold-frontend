@@ -308,7 +308,7 @@ function App() {
         } />
 
         {/* Product Details Route */}
-        <Route path="/products/:slug" element={
+        <Route path="/products/:id" element={
           <>
             <Header 
               user={user}
