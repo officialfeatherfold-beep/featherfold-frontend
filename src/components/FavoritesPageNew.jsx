@@ -16,6 +16,7 @@ import {
   Truck
 } from 'lucide-react';
 import { wishlistUtils, cartUtils, normalizeProduct, resolveImage } from '../utils/dataUtils';
+import { buildProductUrl } from '../utils/routeUtils';
 import Header from './Header';
 
 const FavoritesPageNew = ({ 
@@ -521,7 +522,7 @@ const FavoritesPageNew = ({
                               </div>
                               <div className="flex gap-2">
                                 <button
-                                  onClick={() => navigate(`/products/${product?.id}`)}
+                                  onClick={() => navigate(buildProductUrl(product))}
                                   className="px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
                                 >
                                   View Details

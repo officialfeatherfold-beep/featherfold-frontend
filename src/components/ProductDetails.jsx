@@ -19,9 +19,11 @@ import {
   Loader2
 } from 'lucide-react';
 import { wishlistUtils, cartUtils, normalizeProduct, resolveImage } from '../utils/dataUtils';
+import { buildProductUrl, getProductIdFromParam } from '../utils/routeUtils';
 
 const ProductDetails = () => {
-  const { id } = useParams();
+  const { id: slug } = useParams();
+  const productId = getProductIdFromParam(slug);
   const navigate = useNavigate();
   const location = useLocation();
   const [product, setProduct] = useState(null);
@@ -68,7 +70,7 @@ const ProductDetails = () => {
     const variants = groupProducts.length ? groupProducts : [];
     const match = resolveVariantMatch(variants, color, selectedSize || product?.variantSize);
     if (match && match.id && match.id !== product?.id) {
-      navigate(`/products/${match.id}`);
+      navigate(buildProductUrl(match));
     }
   };
 
@@ -77,7 +79,7 @@ const ProductDetails = () => {
     const variants = groupProducts.length ? groupProducts : [];
     const match = resolveVariantMatch(variants, selectedColor || product?.variantColor, size);
     if (match && match.id && match.id !== product?.id) {
-      navigate(`/products/${match.id}`);
+      navigate(buildProductUrl(match));
     }
   };
 
@@ -164,7 +166,7 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${API_BASE}/api/products/${id}`);
+        const response = await fetch(`${API_BASE}/api/products/${productId}`);
         const data = await response.json();
         
         if (data.product) {
@@ -200,10 +202,10 @@ const ProductDetails = () => {
       }
     };
 
-    if (id) {
+    if (productId) {
       fetchProduct();
     }
-  }, [id, navigate]);
+  }, [productId, navigate]);
 
   useEffect(() => {
     const fetchGroup = async () => {
@@ -547,7 +549,7 @@ const ProductDetails = () => {
                             key={`${variant.color}-${variant.size}`}
                             onClick={() => {
                               if (groupProducts.length && variant.id) {
-                                navigate(`/products/${variant.id}`);
+                                navigate(buildProductUrl(variant));
                                 return;
                               }
                               if (variant.color) handleColorChange(variant.color);
