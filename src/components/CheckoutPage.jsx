@@ -29,8 +29,7 @@ const validatePincode = (pincode) => {
 
 const steps = [
   { id: 1, name: "Address", completed: false },
-  { id: 2, name: "Payment", completed: false },
-  { id: 3, name: "Review", completed: false },
+  { id: 2, name: "Payment", completed: false }
 ];
 
 const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCount, totalPrice, onNavigate }) => {
@@ -191,7 +190,12 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
       setError("Please select a payment method");
       return;
     }
-    if (currentStep < 3) {
+    if (currentStep === 2) {
+      setError(null);
+      handlePlaceOrder();
+      return;
+    }
+    if (currentStep < 2) {
       setCurrentStep(currentStep + 1);
     }
     setError(null);
@@ -208,6 +212,14 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     try {
       setProcessing(true);
       const method = paymentMethodOverride || formData.paymentMethod || 'razorpay';
+
+      if (total <= 0) {
+        throw new Error('Invalid order total. Please review your cart.');
+      }
+
+      if (!window.Razorpay) {
+        throw new Error('Razorpay SDK failed to load. Please refresh the page.');
+      }
 
       // Create order on backend
       const orderData = await apiService.createPaymentOrder({
@@ -661,34 +673,6 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                               </div>
                             </div>
                           </div>
-                          
-                          <div
-                            className={`p-6 rounded-xl border-2 cursor-pointer transition-all ${
-                              formData.paymentMethod === 'cod'
-                                ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
-                                : 'border-gray-200 hover:border-gray-300 bg-white'
-                            }`}
-                            onClick={() => setFormData({...formData, paymentMethod: 'cod'})}
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
-                                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                                  <span className="text-blue-600 font-bold text-sm">₹</span>
-                                </div>
-                                <div>
-                                  <p className="font-semibold text-gray-800">Cash on Delivery</p>
-                                  <p className="text-sm text-gray-600">Pay when you receive</p>
-                                </div>
-                              </div>
-                              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                                formData.paymentMethod === 'cod' ? 'border-blue-500' : 'border-gray-300'
-                              }`}>
-                                {formData.paymentMethod === 'cod' && (
-                                  <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
                         </div>
                       </div>
 
@@ -713,14 +697,13 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                           onClick={handleNext}
                           className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-lg"
                         >
-                          Continue to Review
+                          Pay with Razorpay
                           <ArrowLeft className="w-5 h-5 ml-2 rotate-180" />
                         </button>
                       </div>
                     </div>
                   </div>
                 )}
-
                 {/* Step 3: Order Review */}
                 {currentStep === 3 && (
                   <div>
