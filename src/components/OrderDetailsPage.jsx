@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Package, Calendar, DollarSign, Truck, Check, Clock, Home, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, Package, Calendar, IndianRupee, Truck, Check, Clock, Home, ShoppingBag } from 'lucide-react';
 import Header from './Header';
 import { apiService } from '../services/api';
 
@@ -215,7 +215,7 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
                 </div>
               </div>
               <div className="flex items-center gap-3 text-gray-600">
-                <DollarSign className="w-5 h-5" />
+                <IndianRupee className="w-5 h-5" />
                 <div>
                   <p className="text-sm">Total Amount</p>
                   <p className="font-medium">₹{order.total?.toLocaleString()}</p>
@@ -244,8 +244,20 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
             <div className="space-y-4">
               {order.items?.map((item, index) => (
                 <div key={index} className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg">
-                  <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <Package className="w-8 h-8 text-gray-600" />
+                  <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM5YWEwYTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48L3N2Zz4=';
+                        }}
+                      />
+                    ) : (
+                      <Package className="w-8 h-8 text-gray-600" />
+                    )}
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-gray-800">{item.name}</p>

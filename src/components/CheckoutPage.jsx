@@ -303,6 +303,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
           size: item.selectedSize,
           color: item.selectedColor,
           sku: safeSku || undefined,
+          image: item.image,
           price: item.price,
           quantity: item.quantity,
         };
