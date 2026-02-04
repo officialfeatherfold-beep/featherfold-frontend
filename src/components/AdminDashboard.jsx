@@ -173,6 +173,9 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [resetLoading, setResetLoading] = useState(false);
+  const [refundAmount, setRefundAmount] = useState('');
+  const [refundReason, setRefundReason] = useState('');
+  const [refundLoading, setRefundLoading] = useState(false);
   
   const API_BASE = process.env.NODE_ENV === 'production' 
     ? 'https://featherfold-backendnew1-production.up.railway.app' 
@@ -1442,6 +1445,54 @@ const AdminDashboard = ({ user, onLogout }) => {
       alert('Error resetting password');
     } finally {
       setResetLoading(false);
+    }
+  };
+
+  const handleRefundOrder = async (mode = 'auto') => {
+    if (!selectedOrder) return;
+
+    const token = localStorage.getItem('featherfold_token');
+    if (!token) {
+      alert('Please login to process refunds');
+      return;
+    }
+
+    const parsedAmount = refundAmount ? Number(refundAmount) : undefined;
+    if (refundAmount && (!Number.isFinite(parsedAmount) || parsedAmount <= 0)) {
+      alert('Refund amount must be a valid positive number');
+      return;
+    }
+
+    setRefundLoading(true);
+    try {
+      const response = await fetch(`${API_BASE}/api/admin/orders/${selectedOrder.id}/refund`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          amount: parsedAmount,
+          reason: refundReason,
+          mode
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Refund failed');
+      }
+
+      const updatedOrder = data.order || selectedOrder;
+      setSelectedOrder(updatedOrder);
+      setOrders((prev) => prev.map((order) => order.id === updatedOrder.id ? updatedOrder : order));
+      setRefundAmount('');
+      setRefundReason('');
+      alert(mode === 'manual' ? 'Order marked as refunded (manual)' : 'Refund issued successfully');
+    } catch (error) {
+      alert(error.message || 'Refund failed');
+    } finally {
+      setRefundLoading(false);
     }
   };
 
@@ -4339,9 +4390,26 @@ const AdminDashboard = ({ user, onLogout }) => {
                         {selectedOrder.items?.map((item, index) => (
                           <tr key={index} className="border-t border-slate-200">
                             <td className="p-4">
-                              <div>
-                                <p className="font-medium text-slate-900">{item.name}</p>
-                                <p className="text-sm text-slate-500">{item.fabric || 'Standard'}</p>
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
+                                  {item.image ? (
+                                    <img
+                                      src={item.image}
+                                      alt={item.name}
+                                      className="w-full h-full object-cover"
+                                      onError={(e) => {
+                                        e.currentTarget.onerror = null;
+                                        e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iOCIgc3R5bGU9ImZvbnQtZmFtaWx5OnNhbnM7IiBmaWxsPSIjOWFhMGE2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1nPC90ZXh0Pjwvc3ZnPg==';
+                                      }}
+                                    />
+                                  ) : (
+                                    <Package className="w-5 h-5 text-slate-400" />
+                                  )}
+                                </div>
+                                <div>
+                                  <p className="font-medium text-slate-900">{item.name}</p>
+                                  <p className="text-sm text-slate-500">{item.fabric || 'Standard'}</p>
+                                </div>
                               </div>
                             </td>
                             <td className="p-4">
@@ -4407,6 +4475,57 @@ const AdminDashboard = ({ user, onLogout }) => {
                         {selectedOrder.shippingAddress.email && (
                           <p>Email: {selectedOrder.shippingAddress.email}</p>
                         )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Refund Controls */}
+                {selectedOrder.paymentStatus === 'paid' && selectedOrder.paymentMethod === 'razorpay' && (
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-4">Refund</h4>
+                    <div className="bg-slate-50 p-4 rounded-lg space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">Refund Amount (₹)</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max={selectedOrder.total || undefined}
+                            value={refundAmount}
+                            onChange={(e) => setRefundAmount(e.target.value)}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder={`Full amount: ${selectedOrder.total || 0}`}
+                          />
+                          <p className="text-xs text-slate-500 mt-1">Leave blank for full refund.</p>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">Reason (optional)</label>
+                          <input
+                            type="text"
+                            value={refundReason}
+                            onChange={(e) => setRefundReason(e.target.value)}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Refund reason"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap gap-3">
+                        <button
+                          onClick={() => handleRefundOrder('auto')}
+                          disabled={refundLoading}
+                          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                        >
+                          {refundLoading ? 'Processing...' : 'Issue Refund'}
+                        </button>
+                        <button
+                          onClick={() => handleRefundOrder('manual')}
+                          disabled={refundLoading}
+                          className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-100 disabled:opacity-50"
+                        >
+                          Mark as Refunded (Manual)
+                        </button>
                       </div>
                     </div>
                   </div>
