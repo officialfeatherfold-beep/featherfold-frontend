@@ -162,10 +162,14 @@ class ApiService {
   }
 
   // Payment
-  async createPaymentOrder(amount, currency = 'INR', receipt) {
+  async createPaymentOrder(amountOrPayload, currency = 'INR', receipt) {
+    const payload = typeof amountOrPayload === 'object'
+      ? amountOrPayload
+      : { amount: amountOrPayload, currency, receipt };
+
     return this.request('/payment/create-order', {
       method: 'POST',
-      body: JSON.stringify({ amount, currency, receipt }),
+      body: JSON.stringify(payload),
     });
   }
 

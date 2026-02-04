@@ -249,9 +249,10 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     setError(null);
   };
 
-  const handleRazorpayPayment = async () => {
+  const handleRazorpayPayment = async (paymentMethodOverride) => {
     try {
       setProcessing(true);
+      const method = paymentMethodOverride || formData.paymentMethod || 'razorpay';
 
       // Create order on backend
       const orderData = await apiService.createPaymentOrder({
@@ -261,6 +262,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
         notes: {
           userId: user?.id || 'guest',
           items: currentCart.length,
+          paymentMethod: method,
         },
       });
 
@@ -268,7 +270,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
         throw new Error('Failed to create payment order');
       }
 
-      const razorpayKeyId = process.env.REACT_APP_RAZORPAY_KEY_ID;
+      const razorpayKeyId = import.meta.env.VITE_RAZORPAY_KEY;
       if (!razorpayKeyId) {
         throw new Error('Razorpay key not configured');
       }
@@ -290,7 +292,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
 
           if (verifyData.success) {
             // Create order in database
-            await createOrder('razorpay', response.razorpay_payment_id);
+            await createOrder(method, response.razorpay_payment_id);
           } else {
             setError('Payment verification failed. Please contact support.');
             setProcessing(false);
@@ -328,7 +330,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     try {
       const orderData = await apiService.createOrder({
         items: currentCart.map((item) => ({
-          productId: item.id.split('-')[0],
+          productId: item.id,
           name: item.name,
           size: item.selectedSize,
           color: item.selectedColor,
@@ -362,7 +364,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
         
         // Redirect to order success page
         onNavigate('order-success');
-        window.history.pushState({}, '', `/order-success?orderId=${orderData.order.id}`);
+        window.location.href = `/order-success?orderId=${orderData.order.id}`;
       } else {
         throw new Error('Failed to create order');
       }
@@ -379,14 +381,13 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
       return;
     }
 
-    if (formData.paymentMethod === 'cod') {
-      setProcessing(true);
-      await createOrder('cod');
-    } else if (formData.paymentMethod === 'razorpay') {
-      await handleRazorpayPayment();
-    } else {
+    if (!formData.paymentMethod) {
       setError('Please select a payment method');
+      return;
     }
+
+    // Always route through Razorpay as requested
+    await handleRazorpayPayment(formData.paymentMethod);
   };
 
   if (currentCart.length === 0) {
