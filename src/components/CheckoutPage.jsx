@@ -295,16 +295,21 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
 
   const createOrder = async (paymentMethod, paymentId) => {
     try {
-      const orderData = await apiService.createOrder({
-        items: currentCart.map((item) => ({
+      const safeItems = currentCart.map((item) => {
+        const safeSku = typeof item.sku === 'string' ? item.sku : '';
+        return {
           productId: item.id,
           name: item.name,
           size: item.selectedSize,
           color: item.selectedColor,
-          sku: item.sku,
+          sku: safeSku || undefined,
           price: item.price,
           quantity: item.quantity,
-        })),
+        };
+      });
+
+      const orderData = await apiService.createOrder({
+        items: safeItems,
         userId: user?.id || 'guest',
         shippingAddress: {
           name: formData.name,

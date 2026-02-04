@@ -155,9 +155,8 @@ export const cartUtils = {
       const cart = JSON.parse(localStorage.getItem('featherfold_cart') || '[]');
       // Ensure all existing cart items have correct SKUs from product variants
       const updatedCart = cart.map(item => {
-        if (!item.sku || item.sku.includes('CARTC')) {
-          // Try to get SKU from product variants
-          item.sku = getVariantSKU(item, item.selectedColor?.name || 'unknown', item.selectedSize || 'standard');
+        if (typeof item.sku !== 'string') {
+          item.sku = '';
         }
         return item;
       });
@@ -280,8 +279,9 @@ export const cartUtils = {
 
     if (item) {
       item.quantity = Math.max(1, quantity);
-      // Update SKU to ensure it's correct
-      item.sku = getVariantSKU(item, item.selectedColor?.name || 'unknown', item.selectedSize || 'standard');
+      if (typeof item.sku !== 'string') {
+        item.sku = '';
+      }
       cartUtils.saveCart(cart);
     }
 
