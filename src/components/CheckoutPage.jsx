@@ -6,15 +6,6 @@ import { cartUtils } from '../utils/dataUtils';
 import { apiService } from '../services/api';
 
 // Validation functions
-const formatCardNumber = (value) => {
-  const digitsOnly = value.replace(/\D/g, '').slice(0, 12);
-  return digitsOnly.replace(/(\d{4})(\d{4})(\d{4})/, '$1 $2 $3');
-};
-
-const formatCVV = (value) => {
-  return value.replace(/\D/g, '').slice(0, 3);
-};
-
 const formatPhoneNumber = (value) => {
   return value.replace(/\D/g, '');
 };
@@ -65,13 +56,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     city: '',
     state: '',
     pincode: '',
-    paymentMethod: 'razorpay',
-    cardNumber: '',
-    expiryMonth: '',
-    expiryYear: '',
-    cvv: '',
-    holderName: '',
-    upiId: ''
+    paymentMethod: 'razorpay'
   });
 
   // Load cart data and saved data
@@ -84,13 +69,8 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     const loadSavedData = () => {
       try {
         const savedAddrs = localStorage.getItem('featherfold_addresses');
-        const savedPayments = localStorage.getItem('featherfold_payment_methods');
-        
         if (savedAddrs) {
           setSavedAddresses(JSON.parse(savedAddrs));
-        }
-        if (savedPayments) {
-          setSavedPaymentMethods(JSON.parse(savedPayments));
         }
       } catch (error) {
         console.error('Error loading saved data:', error);
@@ -145,11 +125,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     let processedValue = value;
     
     // Format specific fields
-    if (name === 'cardNumber') {
-      processedValue = formatCardNumber(value);
-    } else if (name === 'cvv') {
-      processedValue = formatCVV(value);
-    } else if (name === 'phone') {
+    if (name === 'phone') {
       processedValue = formatPhoneNumber(value);
     }
     
@@ -172,28 +148,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     }
   };
 
-  const handleSavedPaymentSelect = (paymentId) => {
-    const method = savedPaymentMethods.find(pm => pm.id === paymentId);
-    if (method) {
-      if (method.type === 'UPI') {
-        setFormData({
-          ...formData,
-          paymentMethod: 'upi',
-          upiId: method.upiId
-        });
-      } else {
-        setFormData({
-          ...formData,
-          paymentMethod: 'card',
-          cardNumber: method.cardNumber || '',
-          expiryMonth: method.expiry ? method.expiry.split('/')[0] : '',
-          expiryYear: method.expiry ? `20${method.expiry.split('/')[1]}` : '',
-          cvv: method.cvv || '',
-          holderName: method.holderName || ''
-        });
-      }
-    }
-  };
+  const handleSavedPaymentSelect = () => {};
 
   const validateStep1 = () => {
     const errors = [];
@@ -677,48 +632,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                       </div>
                     </div>
                     
-                    {/* Saved Payment Methods */}
-                    {savedPaymentMethods.length > 0 && (
-                      <div className="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
-                        <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-                          <Shield className="w-5 h-5 mr-2 text-green-600" />
-                          Quick Payment Selection
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {savedPaymentMethods.map((method) => (
-                            <div
-                              key={method.id}
-                              className="bg-white p-4 rounded-xl border-2 border-gray-200 hover:border-green-400 hover:shadow-md transition-all cursor-pointer"
-                              onClick={() => handleSavedPaymentSelect(method.id)}
-                            >
-                              <div className="flex items-start justify-between">
-                                <div>
-                                  <p className="font-semibold text-gray-800">
-                                    {method.type === 'UPI' ? 'UPI Payment' : 'Card Payment'}
-                                  </p>
-                                  <p className="text-sm text-gray-600 mt-1">
-                                    {method.type === 'UPI' 
-                                      ? `•••• ${method.upiId?.slice(-8) || '****'}` 
-                                      : `•••• ${method.last4 || '****'}`
-                                    }
-                                  </p>
-                                </div>
-                                <div className="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center">
-                                  <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="mt-4 pt-4 border-t border-green-200">
-                          <p className="text-sm text-green-700 font-medium">
-                            💡 Click a payment method above to use it, or add a new one below
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className={`space-y-6 ${savedPaymentMethods.length > 0 ? 'border-t-2 border-gray-200 pt-8' : ''}`}>
+                    <div className="space-y-6">
                       <div className="space-y-4">
                         <h3 className="font-semibold text-gray-800 text-lg">Select Payment Type</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -779,120 +693,11 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                       </div>
 
                       {formData.paymentMethod === 'razorpay' && (
-                        <div className="space-y-6 bg-gray-50 p-6 rounded-xl">
-                          <h3 className="font-semibold text-gray-800">Payment Details</h3>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                              <label className="block text-sm font-semibold text-gray-700">
-                                UPI ID
-                              </label>
-                              <div className="relative">
-                                <div className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
-                                  <span className="text-blue-600 font-bold text-xs">U</span>
-                                </div>
-                                <input
-                                  type="text"
-                                  name="upiId"
-                                  value={formData.upiId}
-                                  onChange={handleInputChange}
-                                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                  placeholder="yourupi@paytm"
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="block text-sm font-semibold text-gray-700">
-                                Card Number
-                              </label>
-                              <div className="relative">
-                                <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                <input
-                                  type="text"
-                                  name="cardNumber"
-                                  value={formData.cardNumber}
-                                  onChange={handleInputChange}
-                                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                  placeholder="1234 5678 9012 3456"
-                                  maxLength={19}
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="block text-sm font-semibold text-gray-700">
-                                Expiry Month
-                              </label>
-                              <select
-                                name="expiryMonth"
-                                value={formData.expiryMonth}
-                                onChange={handleInputChange}
-                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                              >
-                                <option value="">Month</option>
-                                {Array.from({length: 12}, (_, i) => (
-                                  <option key={i + 1} value={String(i + 1).padStart(2, '0')}>
-                                    {String(i + 1).padStart(2, '0')}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="block text-sm font-semibold text-gray-700">
-                                Expiry Year
-                              </label>
-                              <select
-                                name="expiryYear"
-                                value={formData.expiryYear}
-                                onChange={handleInputChange}
-                                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                              >
-                                <option value="">Year</option>
-                                {Array.from({length: 10}, (_, i) => (
-                                  <option key={new Date().getFullYear() + i} value={new Date().getFullYear() + i}>
-                                    {new Date().getFullYear() + i}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="block text-sm font-semibold text-gray-700">
-                                CVV
-                              </label>
-                              <div className="relative">
-                                <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                <input
-                                  type="text"
-                                  name="cvv"
-                                  value={formData.cvv}
-                                  onChange={handleInputChange}
-                                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                  placeholder="123"
-                                  maxLength={3}
-                                />
-                              </div>
-                            </div>
-                            
-                            <div className="space-y-2">
-                              <label className="block text-sm font-semibold text-gray-700">
-                                Cardholder Name
-                              </label>
-                              <div className="relative">
-                                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                <input
-                                  type="text"
-                                  name="holderName"
-                                  value={formData.holderName}
-                                  onChange={handleInputChange}
-                                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                  placeholder="Enter cardholder name"
-                                />
-                              </div>
-                            </div>
-                          </div>
+                        <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                          <h3 className="font-semibold text-gray-800 mb-2">Payment via Razorpay</h3>
+                          <p className="text-sm text-gray-600">
+                            You will be redirected to the Razorpay secure checkout to complete payment.
+                          </p>
                         </div>
                       )}
                       
