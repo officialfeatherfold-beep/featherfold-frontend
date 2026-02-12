@@ -341,7 +341,7 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
           </motion.div>
 
           {/* Shipping Tracking */}
-          {order?.shiprocketAwb || order?.shiprocketShipmentId ? (
+          {order?.shiprocketAwb || order?.shiprocketShipmentId || order?.shiprocketOrderId ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -360,6 +360,10 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
               </div>
               <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-700 mb-4">
                 <div>
+                  <p className="text-gray-500">Shiprocket Order ID</p>
+                  <p className="font-medium">{order.shiprocketOrderId || '—'}</p>
+                </div>
+                <div>
                   <p className="text-gray-500">AWB</p>
                   <p className="font-medium">{order.shiprocketAwb || '—'}</p>
                 </div>
@@ -369,9 +373,14 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
                 </div>
                 <div>
                   <p className="text-gray-500">Status</p>
-                  <p className="font-medium">{order.shiprocketStatus || '—'}</p>
+                  <p className="font-medium">{order.shiprocketStatus || (order.shiprocketAwb ? 'Awaiting updates' : 'Shipment created • AWB pending')}</p>
                 </div>
               </div>
+              {!order.shiprocketAwb && (
+                <p className="text-xs text-slate-500 mb-3">
+                  Shipment has been created in Shiprocket. AWB will appear after courier assignment/pickup.
+                </p>
+              )}
               {order.shiprocketTrackingUrl && (
                 <a
                   href={order.shiprocketTrackingUrl}

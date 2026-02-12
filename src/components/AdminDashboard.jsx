@@ -4536,7 +4536,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                 )}
 
                 {/* Shiprocket Tracking */}
-                {(selectedOrder.shiprocketAwb || selectedOrder.shiprocketShipmentId) && (
+                {(selectedOrder.shiprocketAwb || selectedOrder.shiprocketShipmentId || selectedOrder.shiprocketOrderId) && (
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="font-semibold text-slate-900">Shiprocket Tracking</h4>
@@ -4549,6 +4549,10 @@ const AdminDashboard = ({ user, onLogout }) => {
                     </div>
                     <div className="bg-slate-50 p-4 rounded-lg text-sm text-slate-700 space-y-2">
                       <div className="flex justify-between">
+                        <span>Shiprocket Order ID</span>
+                        <span className="font-medium">{selectedOrder.shiprocketOrderId || '—'}</span>
+                      </div>
+                      <div className="flex justify-between">
                         <span>AWB</span>
                         <span className="font-medium">{selectedOrder.shiprocketAwb || '—'}</span>
                       </div>
@@ -4558,8 +4562,13 @@ const AdminDashboard = ({ user, onLogout }) => {
                       </div>
                       <div className="flex justify-between">
                         <span>Status</span>
-                        <span className="font-medium">{selectedOrder.shiprocketStatus || '—'}</span>
+                        <span className="font-medium">{selectedOrder.shiprocketStatus || (selectedOrder.shiprocketAwb ? 'Awaiting updates' : 'Shipment created • AWB pending')}</span>
                       </div>
+                      {!selectedOrder.shiprocketAwb && (
+                        <p className="text-xs text-slate-500">
+                          Shipment is created in Shiprocket. AWB will be generated after courier assignment/pickup.
+                        </p>
+                      )}
                       {selectedOrder.shiprocketTrackingUrl && (
                         <a
                           href={selectedOrder.shiprocketTrackingUrl}
