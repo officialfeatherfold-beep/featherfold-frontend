@@ -291,15 +291,14 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
                       >
                         View Details
                       </motion.button>
-                      {order.status === 'delivered' && (
-                        <motion.button
-                          className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          Track Order
-                        </motion.button>
-                      )}
+                      <motion.button
+                        onClick={() => navigate(`/orders/${order.id}/track`)}
+                        className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Track Order
+                      </motion.button>
                     </div>
                   </div>
 

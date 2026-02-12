@@ -45,6 +45,7 @@ import OrderSummary from './components/OrderSummary';
 import OrderSuccessPage from './components/OrderSuccessPage';
 import CustomerOrdersPage from './components/CustomerOrdersPage';
 import OrderDetailsPage from './components/OrderDetailsPage';
+import OrderTracking from './components/OrderTracking';
 import LoginPage from './components/LoginPage';
 import AdminDashboard from './components/AdminDashboard';
 import FavoritesPageNew from './components/FavoritesPageNew';
@@ -471,6 +472,22 @@ function App() {
               user={user}
               cartCount={cartCount}
               favoritesCount={favoritesCount}
+              onCartOpen={() => setIsCartOpen(true)}
+              onAuthOpen={() => navigate('/login')}
+              onLogout={handleLogout}
+              onAdminOpen={() => setIsAdminOpen(true)}
+              totalPrice={getTotalPrice()}
+              onNavigate={navigateToView}
+            />
+          </>
+        } />
+
+        {/* Order Tracking Route */}
+        <Route path="/orders/:orderId/track" element={
+          <>
+            <OrderTracking
+              user={user}
+              cartCount={cartCount}
               onCartOpen={() => setIsCartOpen(true)}
               onAuthOpen={() => navigate('/login')}
               onLogout={handleLogout}
