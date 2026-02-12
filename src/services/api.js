@@ -161,6 +161,16 @@ class ApiService {
     }
   }
 
+  async getOrderTracking(orderId) {
+    return this.request(`/orders/${orderId}/tracking`);
+  }
+
+  async createShipment(orderId) {
+    return this.request(`/admin/orders/${orderId}/create-shipment`, {
+      method: 'POST'
+    });
+  }
+
   // Payment
   async createPaymentOrder(amountOrPayload, currency = 'INR', receipt) {
     const payload = typeof amountOrPayload === 'object'

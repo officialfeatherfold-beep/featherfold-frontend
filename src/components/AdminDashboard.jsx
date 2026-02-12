@@ -1496,6 +1496,61 @@ const AdminDashboard = ({ user, onLogout }) => {
     }
   };
 
+  const handleCreateShipment = async () => {
+    if (!selectedOrder) return;
+    const token = localStorage.getItem('featherfold_token');
+    if (!token) {
+      alert('Please login to create shipment');
+      return;
+    }
+    try {
+      const response = await fetch(`${API_BASE}/api/admin/orders/${selectedOrder.id}/create-shipment`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create shipment');
+      }
+      if (data.order) {
+        setSelectedOrder(data.order);
+        setOrders((prev) => prev.map((order) => order.id === data.order.id ? data.order : order));
+      }
+      alert('Shipment created successfully');
+    } catch (error) {
+      alert(error.message || 'Failed to create shipment');
+    }
+  };
+
+  const handleRefreshTracking = async () => {
+    if (!selectedOrder) return;
+    const token = localStorage.getItem('featherfold_token');
+    if (!token) {
+      alert('Please login to refresh tracking');
+      return;
+    }
+    try {
+      const response = await fetch(`${API_BASE}/api/orders/${selectedOrder.id}/tracking`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      if (data.order) {
+        setSelectedOrder(data.order);
+        setOrders((prev) => prev.map((order) => order.id === data.order.id ? data.order : order));
+      }
+      if (data.error) {
+        alert(data.error);
+      }
+    } catch (error) {
+      alert('Failed to refresh tracking');
+    }
+  };
+
 
   const openUserModal = (user) => {
     setSelectedUser(user);
@@ -4477,6 +4532,61 @@ const AdminDashboard = ({ user, onLogout }) => {
                         )}
                       </div>
                     </div>
+                  </div>
+                )}
+
+                {/* Shiprocket Tracking */}
+                {(selectedOrder.shiprocketAwb || selectedOrder.shiprocketShipmentId) && (
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="font-semibold text-slate-900">Shiprocket Tracking</h4>
+                      <button
+                        onClick={handleRefreshTracking}
+                        className="px-3 py-1 text-sm bg-slate-100 rounded-lg hover:bg-slate-200"
+                      >
+                        Refresh
+                      </button>
+                    </div>
+                    <div className="bg-slate-50 p-4 rounded-lg text-sm text-slate-700 space-y-2">
+                      <div className="flex justify-between">
+                        <span>AWB</span>
+                        <span className="font-medium">{selectedOrder.shiprocketAwb || '—'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Courier</span>
+                        <span className="font-medium">{selectedOrder.shiprocketCourier || '—'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Status</span>
+                        <span className="font-medium">{selectedOrder.shiprocketStatus || '—'}</span>
+                      </div>
+                      {selectedOrder.shiprocketTrackingUrl && (
+                        <a
+                          href={selectedOrder.shiprocketTrackingUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-feather-600 hover:text-feather-700"
+                        >
+                          Open Tracking Page →
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Create Shipment (if not created) */}
+                {selectedOrder.paymentStatus === 'paid' && !selectedOrder.shiprocketShipmentId && (
+                  <div className="bg-slate-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-slate-900 mb-2">Create Shipment</h4>
+                    <p className="text-sm text-slate-600 mb-3">
+                      No Shiprocket shipment found for this order. Create one now.
+                    </p>
+                    <button
+                      onClick={handleCreateShipment}
+                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                    >
+                      Create Shipment
+                    </button>
                   </div>
                 )}
 

@@ -11,6 +11,8 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [trackingLoading, setTrackingLoading] = useState(false);
+  const [trackingError, setTrackingError] = useState('');
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -21,6 +23,10 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
         const response = await apiService.getOrder(orderId);
         console.log('📦 Order details response:', response);
         setOrder(response.order);
+        setTrackingError('');
+        if (response?.order?.shiprocketAwb || response?.order?.shiprocketShipmentId) {
+          await refreshTracking(response.order.id);
+        }
       } catch (error) {
         console.error('💥 Failed to fetch order details:', error);
         if (error.message.includes('Invalid or expired token')) {
@@ -37,6 +43,24 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
       fetchOrder();
     }
   }, [orderId]);
+
+  const refreshTracking = async (id) => {
+    try {
+      setTrackingLoading(true);
+      setTrackingError('');
+      const data = await apiService.getOrderTracking(id);
+      if (data?.order) {
+        setOrder(data.order);
+      }
+      if (data?.error) {
+        setTrackingError(data.error);
+      }
+    } catch (error) {
+      setTrackingError('Failed to refresh tracking');
+    } finally {
+      setTrackingLoading(false);
+    }
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -315,6 +339,64 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
               </div>
             </div>
           </motion.div>
+
+          {/* Shipping Tracking */}
+          {order?.shiprocketAwb || order?.shiprocketShipmentId ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="bg-white rounded-2xl shadow-lg p-8 mb-8"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Live Tracking</h2>
+                <button
+                  onClick={() => refreshTracking(order.id)}
+                  disabled={trackingLoading}
+                  className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50"
+                >
+                  {trackingLoading ? 'Refreshing...' : 'Refresh'}
+                </button>
+              </div>
+              <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-700 mb-4">
+                <div>
+                  <p className="text-gray-500">AWB</p>
+                  <p className="font-medium">{order.shiprocketAwb || '—'}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Courier</p>
+                  <p className="font-medium">{order.shiprocketCourier || '—'}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Status</p>
+                  <p className="font-medium">{order.shiprocketStatus || '—'}</p>
+                </div>
+              </div>
+              {order.shiprocketTrackingUrl && (
+                <a
+                  href={order.shiprocketTrackingUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-feather-600 hover:text-feather-700 font-medium"
+                >
+                  Open Tracking Page →
+                </a>
+              )}
+              {trackingError && (
+                <p className="text-sm text-red-600 mt-2">{trackingError}</p>
+              )}
+              {Array.isArray(order.shiprocketTrackingEvents) && order.shiprocketTrackingEvents.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  {order.shiprocketTrackingEvents.slice(0, 6).map((event, idx) => (
+                    <div key={idx} className="text-sm text-gray-600 border-b border-gray-100 pb-2">
+                      <p className="font-medium text-gray-800">{event.activity || event.status || 'Update'}</p>
+                      <p>{event.date || event.timestamp || ''} {event.location ? `• ${event.location}` : ''}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          ) : null}
 
           {/* Action Buttons */}
           <motion.div
