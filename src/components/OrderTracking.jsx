@@ -83,9 +83,7 @@ const OrderTracking = ({ user, cartCount, onCartOpen, onAuthOpen, onLogout, onAd
   const warehouseLabel = order?.shiprocketPickupLocation
     ? `Warehouse - ${order.shiprocketPickupLocation}`
     : 'Warehouse - Panipat';
-  const warehouseMapQuery = order?.shiprocketPickupLocation
-    ? `${order.shiprocketPickupLocation} warehouse panipat`
-    : 'Panipat Haryana warehouse';
+  const warehouseMapQuery = 'Khanna Enterprises, 16, Ashok Nagar, Patel Nagar, Tehsil Camp, Panipat, Haryana 132103';
   const trackingUpdatedAt = order?.shiprocketTrackingEventsUpdatedAt || tracking?.updatedAt;
   const parseEventTime = (event) => {
     if (!event) return 0;
