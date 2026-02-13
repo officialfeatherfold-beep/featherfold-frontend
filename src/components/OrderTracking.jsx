@@ -73,7 +73,7 @@ const OrderTracking = ({ user, cartCount, onCartOpen, onAuthOpen, onLogout, onAd
     setRefreshing(false);
   };
 
-  const statusSteps = ['confirmed', 'shipped', 'delivered'];
+  const statusSteps = ['confirmed', 'shipped', 'in_transit', 'delivered'];
   const orderStatus = order?.status || 'confirmed';
   const awbValue = (order?.shiprocketAwb || '').toString().trim();
   const hasAwb = Boolean(awbValue) && !/pending/i.test(awbValue);
@@ -102,6 +102,13 @@ const OrderTracking = ({ user, cartCount, onCartOpen, onAuthOpen, onLogout, onAd
     if (orderStatus === 'cancelled') return 'pending';
     if (step === 'confirmed') return 'completed';
     if (step === 'shipped') return orderStatus === 'shipped' || orderStatus === 'delivered' ? 'completed' : 'pending';
+    if (step === 'in_transit') {
+      const hasTransitEvent = sortedEvents.some((event) => {
+        const label = `${event.status || ''} ${event.message || ''} ${event.description || ''}`.toLowerCase();
+        return label.includes('in transit') || label.includes('picked up') || label.includes('out for delivery');
+      });
+      return hasTransitEvent || orderStatus === 'delivered' ? 'completed' : 'pending';
+    }
     if (step === 'delivered') return orderStatus === 'delivered' ? 'completed' : 'pending';
     return 'pending';
   };
@@ -118,6 +125,14 @@ const OrderTracking = ({ user, cartCount, onCartOpen, onAuthOpen, onLogout, onAd
       title: 'Shipped',
       description: hasShipment ? 'Shipment created with delivery partner' : 'Shipment will be created soon',
       icon: Truck
+    },
+    {
+      id: 'in_transit',
+      title: 'In Transit',
+      description: hasAwb
+        ? 'Courier is moving your package to the destination'
+        : 'Awaiting pickup scan from courier',
+      icon: Navigation
     },
     {
       id: 'delivered',
@@ -336,7 +351,12 @@ const OrderTracking = ({ user, cartCount, onCartOpen, onAuthOpen, onLogout, onAd
                     {stepConfig.map((step, index) => {
                       const stepStatus = getStepStatus(step.id);
                       const Icon = step.icon;
-                      const isActive = step.id === 'shipped' ? hasShipment : stepStatus === 'completed';
+                      const isActive =
+                        step.id === 'shipped'
+                          ? hasShipment
+                          : step.id === 'in_transit'
+                            ? stepStatus === 'completed' && orderStatus !== 'delivered'
+                            : stepStatus === 'completed';
                       return (
                         <motion.div
                           key={step.id}
@@ -415,12 +435,17 @@ const OrderTracking = ({ user, cartCount, onCartOpen, onAuthOpen, onLogout, onAd
                 </div>
                 <div className="aspect-square rounded-xl overflow-hidden bg-white border border-purple-100 relative">
                   {hasAwb ? (
-                    <div className="h-full w-full bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center text-center px-4">
-                      <div>
-                        <MapPin className="w-10 h-10 text-purple-500 mx-auto mb-2" />
-                        <p className="text-sm font-medium text-gray-700">
-                          {tracking?.currentLocation || 'Location will appear once the courier updates'}
-                        </p>
+                    <div className="h-full w-full bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center text-center px-4 relative">
+                      <div className="relative">
+                        <motion.div
+                          className="absolute -inset-6 rounded-full border-2 border-purple-300/60"
+                          animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0.2, 0.5] }}
+                          transition={{ duration: 2.4, repeat: Infinity }}
+                        />
+                        <MapPin className="w-10 h-10 text-purple-500 mx-auto mb-2 relative z-10" />
+                      </div>
+                      <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-white/90 backdrop-blur px-3 py-2 text-xs font-medium text-gray-700 shadow">
+                        {tracking?.currentLocation || 'In transit — location will update after courier scan'}
                       </div>
                     </div>
                   ) : (
