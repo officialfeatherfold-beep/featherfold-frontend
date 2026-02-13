@@ -277,7 +277,7 @@ const OrderTracking = ({ user, cartCount, onCartOpen, onAuthOpen, onLogout, onAd
                   </div>
                 </div>
 
-                <div className="mt-6 grid md:grid-cols-3 gap-4 text-sm text-gray-600">
+                <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     <span>{formatDate(order.createdAt)}</span>

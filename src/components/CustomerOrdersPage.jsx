@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Package, Calendar, DollarSign, Truck, Check, Clock, X, ArrowLeft, Home, ShoppingBag } from 'lucide-react';
+import { Package, Calendar, Truck, Check, Clock, X, ArrowLeft, Home, ShoppingBag } from 'lucide-react';
 import Header from './Header';
 import { apiService } from '../services/api';
 
@@ -259,7 +259,6 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
                               <span>{formatDate(order.createdAt)}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600">
-                              <DollarSign className="w-4 h-4" />
                               <span className="font-semibold">₹{order.total?.toLocaleString()}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600">
