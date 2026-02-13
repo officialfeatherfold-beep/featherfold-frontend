@@ -259,7 +259,11 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
 
           if (verifyData.success) {
             // Create order in database
-            await createOrder(method, response.razorpay_payment_id);
+            await createOrder(method, response.razorpay_payment_id, {
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+            });
           } else {
             setError('Payment verification failed. Please contact support.');
             setProcessing(false);
@@ -293,7 +297,7 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
     }
   };
 
-  const createOrder = async (paymentMethod, paymentId) => {
+  const createOrder = async (paymentMethod, paymentId, razorpayDetails = {}) => {
     try {
       const safeItems = currentCart.map((item) => {
         const safeSku = typeof item.sku === 'string' ? item.sku : '';
@@ -323,6 +327,9 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
         },
         paymentMethod,
         paymentId,
+        razorpayOrderId: razorpayDetails.razorpayOrderId,
+        razorpayPaymentId: razorpayDetails.razorpayPaymentId,
+        razorpaySignature: razorpayDetails.razorpaySignature,
         total: Math.round(total),
         promoCode: promoInfo?.code,
         discountPercent: promoInfo?.percent,
