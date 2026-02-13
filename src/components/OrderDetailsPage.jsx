@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Package, Calendar, IndianRupee, Truck, Check, Clock, Home, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, Package, Calendar, Truck, Check, Clock, Home, ShoppingBag } from 'lucide-react';
 import Header from './Header';
 import { apiService } from '../services/api';
 
@@ -105,6 +105,7 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
       minute: '2-digit'
     });
   };
+  const hasAwb = Boolean(order?.shiprocketAwb && String(order.shiprocketAwb).trim() && !/pending/i.test(String(order.shiprocketAwb)));
 
   if (loading) {
     return (
@@ -239,7 +240,6 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
                 </div>
               </div>
               <div className="flex items-center gap-3 text-gray-600">
-                <IndianRupee className="w-5 h-5" />
                 <div>
                   <p className="text-sm">Total Amount</p>
                   <p className="font-medium">₹{order.total?.toLocaleString()}</p>
@@ -391,7 +391,7 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
                   Open Tracking Page →
                 </a>
               )}
-              {trackingError && (
+              {trackingError && hasAwb && (
                 <p className="text-sm text-red-600 mt-2">{trackingError}</p>
               )}
               {Array.isArray(order.shiprocketTrackingEvents) && order.shiprocketTrackingEvents.length > 0 && (
