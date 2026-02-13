@@ -92,7 +92,7 @@ const Header = ({
             <motion.button
               type="button"
               onClick={() => onNavigate && onNavigate('home')}
-              className="flex items-center gap-2 sm:gap-3 text-left shrink-0"
+              className="flex items-center gap-2 sm:gap-3 text-left shrink-0 -ml-2 sm:-ml-3"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
