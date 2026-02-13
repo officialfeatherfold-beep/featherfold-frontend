@@ -140,7 +140,7 @@ const HeroSection = ({ isPlaying, onPlayToggle, onNavigate }) => {
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-20 left-2/5 transform -translate-x-1/2 z-20"
+        className="absolute bottom-24 left-2/5 transform -translate-x-1/2 z-20"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
