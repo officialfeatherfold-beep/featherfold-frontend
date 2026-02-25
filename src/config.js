@@ -1,8 +1,15 @@
 // Base configuration for FeatherFold frontend
-export const BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://featherfold-backendnew1-production.up.railway.app/api";
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://featherfold-backendnew1-production.up.railway.app/api";
+const RAW_BASE =
+  import.meta.env.VITE_API_BASE ||
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.BACKEND_URL ||
+  'https://featherfold-backendnew1-production.up.railway.app';
 
-// Railway backend URL for production
+export const API_ORIGIN = RAW_BASE.replace(/\/$/, '').replace(/\/api$/, '');
+export const API_BASE_URL = `${API_ORIGIN}/api`;
+export const BASE_URL = API_BASE_URL;
+
+// Railway backend URL fallback (legacy)
 export const RAILWAY_URL = 'https://featherfold-backendnew1-production.up.railway.app';
 
 // API endpoints

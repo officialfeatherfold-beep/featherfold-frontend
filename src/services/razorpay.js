@@ -1,4 +1,6 @@
 // Razorpay payment service
+import { API_BASE_URL } from '../config';
+
 export class RazorpayService {
   constructor() {
     this.keyId = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_demo_key_id';
@@ -37,7 +39,7 @@ export class RazorpayService {
         escape: false,
         handleback: false,
       },
-      callback_url: 'https://featherfold-backendnew1-production.up.railway.app/api/payment/verify',
+      callback_url: `${API_BASE_URL}/payment/verify`,
       redirect: false,
     };
 
@@ -67,7 +69,7 @@ export class RazorpayService {
   // Create payment order
   async createOrder(amount, receipt) {
     try {
-      const response = await fetch('https://featherfold-backendnew1-production.up.railway.app/api/payment/create-order', {
+      const response = await fetch(`${API_BASE_URL}/payment/create-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +94,7 @@ export class RazorpayService {
   // Verify payment
   async verifyPayment(paymentData) {
     try {
-      const response = await fetch('https://featherfold-backendnew1-production.up.railway.app/api/payment/verify', {
+      const response = await fetch(`${API_BASE_URL}/payment/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

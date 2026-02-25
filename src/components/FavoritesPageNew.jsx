@@ -16,6 +16,7 @@ import {
   Truck
 } from 'lucide-react';
 import { wishlistUtils, cartUtils, normalizeProduct, resolveImage } from '../utils/dataUtils';
+import { API_ORIGIN } from '../config';
 import Header from './Header';
 
 const FavoritesPageNew = ({ 
@@ -37,9 +38,7 @@ const FavoritesPageNew = ({
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   // Use dynamic API base URL consistent with AdminDashboard
-  const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://featherfold-backendnew1-production.up.railway.app' 
-    : 'https://featherfold-backendnew1-production.up.railway.app';
+  const API_BASE = API_ORIGIN;
 
   useEffect(() => {
     const loadFavorites = async () => {

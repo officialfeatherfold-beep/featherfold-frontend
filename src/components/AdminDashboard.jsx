@@ -57,6 +57,7 @@ import {
   RefreshCw as RotateCcw
 } from 'lucide-react';
 import { apiService } from '../services/api';
+import { API_ORIGIN } from '../config';
 import { resolveImage, getColorHex } from '../utils/dataUtils';
 
 const AdminDashboard = ({ user, onLogout }) => {
@@ -177,9 +178,7 @@ const AdminDashboard = ({ user, onLogout }) => {
   const [refundReason, setRefundReason] = useState('');
   const [refundLoading, setRefundLoading] = useState(false);
   
-  const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://featherfold-backendnew1-production.up.railway.app' 
-    : 'https://featherfold-backendnew1-production.up.railway.app';
+  const API_BASE = API_ORIGIN;
   
   // Predefined options
   const CATEGORIES = [

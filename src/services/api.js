@@ -226,9 +226,7 @@ export const apiService = new ApiService();
 
 // Google OAuth
 export const initiateGoogleAuth = () => {
-  // Use environment variable if available, otherwise fall back to production backend
-  const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://featherfold-backendnew1-production.up.railway.app/api';
-  const authStart = `${baseUrl}/auth/google`;
+  const authStart = `${API_BASE_URL}/auth/google`;
   console.log('Initiating Google Auth with URL:', authStart);
   window.location.href = authStart;
 };

@@ -19,6 +19,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { wishlistUtils, cartUtils, normalizeProduct, resolveImage } from '../utils/dataUtils';
+import { API_ORIGIN } from '../config';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -36,9 +37,7 @@ const ProductDetails = () => {
   const [hoverImage, setHoverImage] = useState('');
 
   // Use dynamic API base URL consistent with AdminDashboard
-  const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://featherfold-backendnew1-production.up.railway.app' 
-    : 'https://featherfold-backendnew1-production.up.railway.app';
+  const API_BASE = API_ORIGIN;
 
   const normalizeValue = (value) => (value || '').toString().toLowerCase();
 

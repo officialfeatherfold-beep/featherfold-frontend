@@ -1,5 +1,6 @@
 // Centralized utility functions for consistent data handling
 import { generateSKUFromCartItem } from './skuUtils';
+import { API_ORIGIN, API_BASE_URL } from '../config';
 
 // Color hex mapping for common colors
 const COLOR_HEX_MAP = {
@@ -104,12 +105,7 @@ export const resolveImage = (img) => {
     return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2Y3ZjdmNyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE4IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgTm90IEF2YWlsYWJsZTwvdGV4dD48L3N2Zz4=';
   }
   
-  // Use dynamic API base URL consistent with AdminDashboard
-  const API_BASE = process.env.NODE_ENV === 'production' 
-    ? 'https://featherfold-backendnew1-production.up.railway.app' 
-    : 'https://featherfold-backendnew1-production.up.railway.app';
-  
-  return `${API_BASE}${img.startsWith('/') ? img : '/' + img}`;
+  return `${API_ORIGIN}${img.startsWith('/') ? img : '/' + img}`;
 };
 
 // Get variant SKU from product variants
@@ -126,7 +122,7 @@ const getVariantSKU = async (product, colorName, size) => {
   
   // If no variants found, try to fetch fresh product data
   try {
-    const response = await fetch(`https://featherfold-backendnew1-production.up.railway.app/api/products/${product.id}`);
+    const response = await fetch(`${API_BASE_URL}/products/${product.id}`);
     const data = await response.json();
     if (data.product && data.product.variants) {
       const variant = data.product.variants.find(v => 
