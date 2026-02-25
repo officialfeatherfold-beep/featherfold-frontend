@@ -155,7 +155,7 @@ const CartPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCou
         onNavigate={onNavigate}
       />
 
-      <div className="container-custom py-20">
+      <div className="container-custom pt-6 pb-16">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

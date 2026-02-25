@@ -315,7 +315,7 @@ const Header = ({
                 {/* Mobile Menu Toggle */}
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="md:hidden p-2 rounded-lg glassmorphism hover:bg-white/30 transition-all"
+                  className="lg:hidden p-2 rounded-lg glassmorphism hover:bg-white/30 transition-all"
                 >
                   {isMobileMenuOpen ? (
                     <X className="w-6 h-6 text-gray-700" />
@@ -337,7 +337,7 @@ const Header = ({
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

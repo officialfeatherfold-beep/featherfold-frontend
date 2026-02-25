@@ -59,7 +59,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
       />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-stone-100 via-amber-100 to-blue-100 py-20">
+      <section className="bg-gradient-to-br from-stone-100 via-amber-100 to-blue-100 pt-6 pb-12">
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

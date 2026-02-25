@@ -110,7 +110,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
         onNavigate={onNavigate}
       />
       
-      <main className="container-custom py-20">
+      <main className="container-custom pt-6 pb-16">
         {/* Hero Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

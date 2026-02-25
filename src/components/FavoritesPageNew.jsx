@@ -182,7 +182,7 @@ const FavoritesPageNew = ({
         onNavigate={onNavigate}
       />
       
-      <main className="container-custom py-8" style={{ paddingTop: '120px' }}>
+      <main className="container-custom pt-6 pb-16">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
           <motion.div 

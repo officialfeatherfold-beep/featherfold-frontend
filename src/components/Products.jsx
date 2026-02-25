@@ -504,99 +504,113 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50">
-      {/* Products Section */}
-      <section className="pt-20 pb-12">
-        <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-stone-50">
+      {/* Hero Banner */}
+      <section className="relative pt-8 pb-10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#3d2e1e]/5 via-transparent to-[#c9982e]/5" />
+        <div className="container mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-8"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', delay: 0.1 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-stone-100 to-amber-100 border border-stone-200/60 mb-4"
+            >
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span className="text-sm font-medium text-stone-700">
+                {filteredProducts.length} Premium Product{filteredProducts.length !== 1 ? 's' : ''}
+              </span>
+            </motion.div>
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#3d2e1e] via-[#8b6f47] to-[#c9982e] bg-clip-text text-transparent mb-3">
+              Our Collection
+            </h1>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Discover premium bedding crafted for ultimate comfort and elegance
+            </p>
+          </motion.div>
+
           {/* Search and Filters */}
-          <div className="mb-8 mt-8">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white/70 backdrop-blur-md rounded-2xl shadow-lg border border-white/40 p-4 sm:p-6"
+          >
+            <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-end">
               {/* Search */}
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => {
-                    console.log('🔍 Search input changed:', e.target.value);
-                    setSearchTerm(e.target.value);
-                  }}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
-                />
+              <div className="relative flex-1">
+                <label className="block mb-1.5 text-sm font-medium text-gray-600">Search</label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c9982e]/40 focus:border-[#c9982e] transition-all"
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                {/* Category Filter */}
-                <div className="flex flex-col text-sm">
-                  <label className="mb-1 text-gray-600 font-medium">
-                    Category
-                  </label>
-
-                  <div className="relative">
-                    <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <select
-                      value={selectedCategory}
-                      onChange={(e) => {
-                        console.log('🔍 Category changed:', e.target.value);
-                        setSelectedCategory(e.target.value);
-                      }}
-                      className="pl-9 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-500"
-                    >
-                      <option value="all">All Categories</option>
-                      {categories
-                        .filter(c => c !== 'all')
-                        .map(category => (
-                          <option key={category} value={category}>
-                            {category}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Sort */}
-                <div className="flex flex-col text-sm">
-                  <label className="mb-1 text-gray-600 font-medium">
-                    Sort By
-                  </label>
+              {/* Category Filter */}
+              <div className="min-w-0 sm:min-w-[160px]">
+                <label className="block mb-1.5 text-sm font-medium text-gray-600">Category</label>
+                <div className="relative">
+                  <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                   <select
-                    value={selectedSort}
-                    onChange={(e) => {
-                      console.log('🔄 Sort changed:', e.target.value);
-                      setSelectedSort(e.target.value);
-                    }}
-                    className="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-500"
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full pl-9 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c9982e]/40 focus:border-[#c9982e] transition-all appearance-none"
                   >
-                    <option value="position">Position</option>
-                    <option value="name">Name</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="rating">Rating</option>
-                    <option value="newest">Newest First</option>
+                    <option value="all">All Categories</option>
+                    {categories
+                      .filter(c => c !== 'all')
+                      .map(category => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
                   </select>
                 </div>
+              </div>
 
-                {/* View Mode Toggle */}
+              {/* Sort */}
+              <div className="min-w-0 sm:min-w-[160px]">
+                <label className="block mb-1.5 text-sm font-medium text-gray-600">Sort By</label>
+                <select
+                  value={selectedSort}
+                  onChange={(e) => setSelectedSort(e.target.value)}
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#c9982e]/40 focus:border-[#c9982e] transition-all appearance-none"
+                >
+                  <option value="position">Position</option>
+                  <option value="name">Name</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="rating">Rating</option>
+                  <option value="newest">Newest First</option>
+                </select>
+              </div>
+
+              {/* View Mode Toggle */}
+              <div>
+                <label className="block mb-1.5 text-sm font-medium text-gray-600 invisible lg:visible">View</label>
                 <div className="flex bg-gray-100 rounded-xl p-1">
                   <button
-                    onClick={() => {
-                      console.log('🔄 Grid button clicked');
-                      setViewMode('grid');
-                    }}
-                    className={`p-2 rounded-lg transition-colors ${
-                      viewMode === 'grid' ? 'bg-white shadow-sm' : 'text-gray-600 hover:text-gray-900'
+                    onClick={() => setViewMode('grid')}
+                    className={`p-2.5 rounded-lg transition-all ${
+                      viewMode === 'grid' ? 'bg-white shadow-sm text-[#8b6f47]' : 'text-gray-500 hover:text-gray-900'
                     }`}
                   >
                     <Grid className="w-5 h-5" />
                   </button>
                   <button
-                    onClick={() => {
-                      console.log('🔄 List button clicked');
-                      setViewMode('list');
-                    }}
-                    className={`p-2 rounded-lg transition-colors ${
-                      viewMode === 'list' ? 'bg-white shadow-sm' : 'text-gray-600 hover:text-gray-900'
+                    onClick={() => setViewMode('list')}
+                    className={`p-2.5 rounded-lg transition-all ${
+                      viewMode === 'list' ? 'bg-white shadow-sm text-[#8b6f47]' : 'text-gray-500 hover:text-gray-900'
                     }`}
                   >
                     <List className="w-5 h-5" />
@@ -604,60 +618,33 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
                 </div>
               </div>
             </div>
-          </div>
-          {/* Results Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                Our Products
-              </h1>
-              <p className="text-lg text-gray-600">
-                {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
-              </p>
-            </div>
-            
-            <div className="flex gap-4">
-              {filteredProducts.length === 0 && (
-                <button
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategory('all');
-                  }}
-                  className="px-4 py-2 bg-stone-600 text-white rounded-xl hover:bg-stone-700 transition-colors"
-                >
-                  Clear Filters
-                </button>
-              )}
-              
-              <button
-                onClick={() => {
-                  console.log('🔄 Manual refresh triggered');
-                  fetchProducts();
-                }}
-                className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors flex items-center gap-2"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Refresh Products
-              </button>
-            </div>
-          </div>
+          </motion.div>
+        </div>
+      </section>
 
-          {/* Products Grid/List */}
+      {/* Products Grid/List */}
+      <section className="pb-16">
+        <div className="container mx-auto px-4 sm:px-6">
           {filteredProducts.length > 0 ? (
-            <div className={
-              viewMode === 'grid' 
-                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'
-                : 'space-y-6'
-            }>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className={
+                viewMode === 'grid' 
+                  ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+                  : 'space-y-5'
+              }
+            >
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} viewMode={viewMode} />
               ))}
-            </div>
+            </motion.div>
           ) : (
             <div className="text-center py-20">
               <div className="max-w-md mx-auto">
-                <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Search className="w-12 h-12 text-gray-400" />
+                <div className="w-24 h-24 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Search className="w-12 h-12 text-stone-400" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
                   No products found
@@ -667,26 +654,13 @@ const Products = ({ user, onAddToCart, onNavigate }) => {
                 </p>
                 <button
                   onClick={() => {
-                    console.log('🔄 Clearing filters - Browse All Products clicked');
                     setSearchTerm('');
                     setSelectedCategory('all');
                   }}
-                  className="px-6 py-3 bg-stone-600 text-white rounded-xl hover:bg-stone-700 transition-colors"
+                  className="px-6 py-3 bg-gradient-to-r from-stone-600 to-amber-600 text-white rounded-xl hover:from-stone-700 hover:to-amber-700 transition-all font-medium"
                 >
                   Browse All Products
                 </button>
-                
-                {/* Debug Info for Empty State */}
-                <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <h4 className="font-semibold text-yellow-800 mb-2">Debug Info:</h4>
-                  <p className="text-sm text-yellow-700">
-                    Total Products: {products.length}<br/>
-                    Filtered Products: {filteredProducts.length}<br/>
-                    Search Term: "{searchTerm}"<br/>
-                    Category: "{selectedCategory}"<br/>
-                    Sort: "{selectedSort}"
-                  </p>
-                </div>
               </div>
             </div>
           )}
