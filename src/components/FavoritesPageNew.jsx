@@ -143,7 +143,7 @@ const FavoritesPageNew = ({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
         <Header 
           user={user}
           cartCount={cartCount}
@@ -157,10 +157,10 @@ const FavoritesPageNew = ({
         />
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-stone-600 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8 text-white animate-pulse" />
             </div>
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent mx-auto"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-stone-600 border-t-transparent mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading your favorites...</p>
           </div>
         </div>
@@ -169,7 +169,7 @@ const FavoritesPageNew = ({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -192,7 +192,7 @@ const FavoritesPageNew = ({
           >
             <div className="flex justify-center mb-4">
               <div className="relative">
-                <div className="w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
+                <div className="w-20 h-20 bg-gradient-to-r from-stone-600 to-amber-600 rounded-full flex items-center justify-center">
                   <Heart className="w-10 h-10 text-white fill-current" />
                 </div>
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
@@ -200,7 +200,7 @@ const FavoritesPageNew = ({
                 </div>
               </div>
             </div>
-            <h1 className="text-4xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-4xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4">
               My Favorites
             </h1>
             <p className="text-gray-600 text-lg">
@@ -214,8 +214,8 @@ const FavoritesPageNew = ({
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-16"
             >
-              <div className="w-32 h-32 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-8">
-                <Heart className="w-16 h-16 text-purple-400" />
+              <div className="w-32 h-32 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Heart className="w-16 h-16 text-stone-400" />
               </div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">
                 No favorites yet
@@ -225,7 +225,7 @@ const FavoritesPageNew = ({
               </p>
               <button
                 onClick={() => navigate('/products')}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 inline-flex items-center gap-2"
+                className="bg-gradient-to-r from-stone-600 to-amber-600 text-white px-8 py-3 rounded-full font-semibold hover:from-stone-700 hover:to-amber-700 transition-all transform hover:scale-105 inline-flex items-center gap-2"
               >
                 <ShoppingBag className="w-5 h-5" />
                 Browse Products
@@ -249,7 +249,7 @@ const FavoritesPageNew = ({
                       placeholder="Search favorites..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                     />
                   </div>
 
@@ -257,7 +257,7 @@ const FavoritesPageNew = ({
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-4 py-2 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                    className="px-4 py-2 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                   >
                     <option value="all">All Categories</option>
                     <option value="cotton">Cotton</option>
@@ -270,7 +270,7 @@ const FavoritesPageNew = ({
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="px-4 py-2 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                    className="px-4 py-2 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                   >
                     <option value="name">Sort by Name</option>
                     <option value="price-low">Price: Low to High</option>
@@ -283,7 +283,7 @@ const FavoritesPageNew = ({
                       onClick={() => setViewMode('grid')}
                       className={`p-2 rounded-xl transition-colors ${
                         viewMode === 'grid' 
-                          ? 'bg-purple-100 text-purple-600' 
+                          ? 'bg-stone-100 text-stone-600' 
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                     >
@@ -293,7 +293,7 @@ const FavoritesPageNew = ({
                       onClick={() => setViewMode('list')}
                       className={`p-2 rounded-xl transition-colors ${
                         viewMode === 'list' 
-                          ? 'bg-purple-100 text-purple-600' 
+                          ? 'bg-stone-100 text-stone-600' 
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                     >
@@ -340,7 +340,7 @@ const FavoritesPageNew = ({
                         className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
                       >
                         {/* Product Image */}
-                        <div className="relative h-64 bg-gradient-to-br from-purple-50 to-pink-50 overflow-hidden">
+                        <div className="relative h-64 bg-gradient-to-br from-stone-50 to-amber-50 overflow-hidden">
                           {product?.images?.[0] ? (
                             <img 
                               src={resolveImage(product.images[0])}
@@ -461,7 +461,7 @@ const FavoritesPageNew = ({
                       >
                         <div className="flex gap-6">
                           {/* Product Image */}
-                          <div className="w-32 h-32 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl overflow-hidden flex-shrink-0">
+                          <div className="w-32 h-32 bg-gradient-to-br from-stone-50 to-amber-50 rounded-xl overflow-hidden flex-shrink-0">
                             {product?.images?.[0] ? (
                               <img 
                                 src={resolveImage(product.images[0])}
@@ -528,7 +528,7 @@ const FavoritesPageNew = ({
                                 </button>
                                 <button
                                   onClick={() => addToCart(product)}
-                                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+                                  className="px-4 py-2 bg-gradient-to-r from-stone-600 to-amber-600 text-white rounded-xl hover:from-stone-700 hover:to-amber-700 transition-all flex items-center gap-2"
                                 >
                                   <ShoppingBag className="w-4 h-4" />
                                   Add to Cart
@@ -565,7 +565,7 @@ const FavoritesPageNew = ({
                       setSelectedCategory('all');
                       setSortBy('name');
                     }}
-                    className="text-purple-600 hover:text-purple-700 font-medium"
+                    className="text-stone-600 hover:text-stone-700 font-medium"
                   >
                     Clear all filters
                   </button>

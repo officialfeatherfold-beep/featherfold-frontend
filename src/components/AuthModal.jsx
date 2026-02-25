@@ -130,7 +130,7 @@ const AuthModal = ({ onClose, onLogin }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="relative h-24 sm:h-32 bg-gradient-to-br from-purple-600 to-pink-600">
+          <div className="relative h-24 sm:h-32 bg-gradient-to-br from-stone-600 to-amber-600">
             <button
               onClick={onClose}
               className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
@@ -158,7 +158,7 @@ const AuthModal = ({ onClose, onLogin }) => {
                 onClick={() => setIsLogin(true)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
                   isLogin 
-                    ? 'bg-white text-purple-600 shadow-sm' 
+                    ? 'bg-white text-stone-600 shadow-sm' 
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -168,7 +168,7 @@ const AuthModal = ({ onClose, onLogin }) => {
                 onClick={() => setIsLogin(false)}
                 className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
                   !isLogin 
-                    ? 'bg-white text-purple-600 shadow-sm' 
+                    ? 'bg-white text-stone-600 shadow-sm' 
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -212,7 +212,7 @@ const AuthModal = ({ onClose, onLogin }) => {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="John Doe"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                       required={!isLogin}
                     />
                   </div>
@@ -231,7 +231,7 @@ const AuthModal = ({ onClose, onLogin }) => {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="you@example.com"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                     required
                   />
                 </div>
@@ -249,7 +249,7 @@ const AuthModal = ({ onClose, onLogin }) => {
                     value={formData.password}
                     onChange={handleInputChange}
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                     required
                   />
                   <button
@@ -272,7 +272,7 @@ const AuthModal = ({ onClose, onLogin }) => {
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 text-purple-600 border-gray-200 rounded focus:ring-purple-500"
+                      className="w-4 h-4 text-stone-600 border-gray-200 rounded focus:ring-stone-500"
                     />
                     <span className="text-sm text-gray-600">Remember me</span>
                   </label>
@@ -282,7 +282,7 @@ const AuthModal = ({ onClose, onLogin }) => {
                       onClose();
                       navigate('/forgot-password');
                     }}
-                    className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+                    className="text-sm text-stone-600 hover:text-stone-700 font-medium"
                   >
                     Forgot password?
                   </button>
@@ -293,7 +293,7 @@ const AuthModal = ({ onClose, onLogin }) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full py-3 bg-gradient-to-r from-stone-600 to-amber-600 text-white font-semibold rounded-xl hover:from-stone-700 hover:to-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
                 {isLoading ? (
                   <>
@@ -308,14 +308,14 @@ const AuthModal = ({ onClose, onLogin }) => {
 
             {/* Benefits */}
             <div
-              className="mt-6 p-4 bg-purple-50 rounded-xl"
+              className="mt-6 p-4 bg-stone-50 rounded-xl"
               style={{
                 opacity: 1,
                 transform: 'translateY(0)'
               }}
             >
               <div className="flex items-start space-x-2">
-                <CheckCircle className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-stone-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">
                     {isLogin ? 'Welcome back!' : 'Join FeatherFold today'}

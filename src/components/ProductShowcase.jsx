@@ -56,7 +56,7 @@ const ProductShowcase = () => {
 
   if (loading) {
     return (
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+      <section className="py-20 bg-gradient-to-br from-[#f5ede3] to-[#ebe0d2]">
         <div className="container mx-auto px-4">
           <div className="aspect-video max-w-6xl mx-auto bg-gray-200 rounded-3xl animate-pulse" />
         </div>
@@ -71,7 +71,7 @@ const ProductShowcase = () => {
   const currentProduct = featuredProducts[currentIndex];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section className="py-20 bg-gradient-to-br from-[#f5ede3] to-[#ebe0d2]">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-12"
@@ -79,7 +79,7 @@ const ProductShowcase = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#2c1810] mb-4">
             Featured Products
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -116,7 +116,7 @@ const ProductShowcase = () => {
                   }}
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-100 to-pink-100">
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-stone-100 to-amber-100">
                   <span className="text-8xl">🛏️</span>
                 </div>
               )}
@@ -139,7 +139,7 @@ const ProductShowcase = () => {
               </div>
 
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                <span className="text-sm font-medium text-purple-600">
+                <span className="text-sm font-medium text-[#8b6f47]">
                   Featured
                 </span>
               </div>
@@ -154,7 +154,7 @@ const ProductShowcase = () => {
                   onClick={() => setCurrentIndex(index)}
                   className={`w-3 h-3 rounded-full transition-all ${
                     index === currentIndex
-                      ? 'bg-purple-600 w-8'
+                      ? 'bg-[#8b6f47] w-8'
                       : 'bg-gray-300 hover:bg-gray-400'
                   }`}
                   aria-label={`Go to product ${index + 1}`}

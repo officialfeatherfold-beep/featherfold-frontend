@@ -48,7 +48,7 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
       value: '#e9d5ff', 
       description: 'Soft and soothing',
       mood: 'Relaxing & Dreamy',
-      roomPreview: 'bg-purple-200'
+      roomPreview: 'bg-stone-200'
     },
     { 
       name: 'Ocean Blue', 
@@ -127,7 +127,7 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
                       onClick={() => setLightingMode(mode.name)}
                       className={`flex-1 p-3 rounded-xl border-2 transition-all ${
                         lightingMode === mode.name 
-                          ? 'border-purple-500 bg-purple-50' 
+                          ? 'border-stone-500 bg-stone-50' 
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                       whileHover={{ scale: 1.02 }}
@@ -135,7 +135,7 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
                     >
                       <div className="flex flex-col items-center space-y-1">
                         <mode.icon className={`w-5 h-5 ${
-                          lightingMode === mode.name ? 'text-purple-600' : 'text-gray-600'
+                          lightingMode === mode.name ? 'text-stone-600' : 'text-gray-600'
                         }`} />
                         <span className="text-xs font-medium">{mode.name}</span>
                       </div>
@@ -211,7 +211,7 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-gray-500">Mood</div>
-                    <div className="text-sm font-medium text-purple-600">
+                    <div className="text-sm font-medium text-stone-600">
                       {colors.find(c => c.value === selectedColor)?.mood}
                     </div>
                   </div>
@@ -239,7 +239,7 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
                     onClick={() => handleColorChange(color)}
                     className={`relative p-6 rounded-2xl border-2 transition-all ${
                       selectedColor === color.value 
-                        ? 'border-purple-500 shadow-xl scale-105' 
+                        ? 'border-stone-500 shadow-xl scale-105' 
                         : 'border-gray-200 hover:border-gray-300 hover:shadow-lg'
                     }`}
                     whileHover={{ scale: 1.02 }}
@@ -264,13 +264,13 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
                     {/* Mood Tag */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <Sparkles className="w-4 h-4 text-purple-500" />
-                        <span className="text-sm font-medium text-purple-600">{color.mood}</span>
+                        <Sparkles className="w-4 h-4 text-stone-500" />
+                        <span className="text-sm font-medium text-stone-600">{color.mood}</span>
                       </div>
                       
                       {selectedColor === color.value && (
                         <motion.div
-                          className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center"
+                          className="w-6 h-6 bg-stone-500 rounded-full flex items-center justify-center"
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ type: 'spring', stiffness: 500, damping: 20 }}
@@ -297,20 +297,20 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
                 transition={{ delay: 0.6 }}
               >
                 <div className="flex items-center space-x-2 mb-4">
-                  <Palette className="w-6 h-6 text-purple-600" />
+                  <Palette className="w-6 h-6 text-stone-600" />
                   <h4 className="text-lg font-semibold text-gray-900">Color Psychology Tips</h4>
                 </div>
                 <div className="space-y-3 text-sm text-gray-600">
                   <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-1.5" />
+                    <div className="w-2 h-2 bg-stone-500 rounded-full mt-1.5" />
                     <p><strong>White & Light Colors:</strong> Create a sense of space and purity</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-1.5" />
+                    <div className="w-2 h-2 bg-stone-500 rounded-full mt-1.5" />
                     <p><strong>Blue & Green Tones:</strong> Promote calmness and better sleep</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-1.5" />
+                    <div className="w-2 h-2 bg-stone-500 rounded-full mt-1.5" />
                     <p><strong>Warm Colors:</strong> Add coziness and intimacy to the space</p>
                   </div>
                 </div>
@@ -318,14 +318,14 @@ const ColorSwatcher = ({ selectedColor, onColorChange }) => {
 
               {/* Interactive Tip */}
               <motion.div
-                className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-200"
+                className="bg-gradient-to-r from-stone-50 to-amber-50 p-6 rounded-2xl border border-stone-200"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.7 }}
               >
                 <div className="flex items-center space-x-2 mb-3">
-                  <Eye className="w-6 h-6 text-purple-600" />
+                  <Eye className="w-6 h-6 text-stone-600" />
                   <h4 className="font-semibold text-gray-900">Pro Tip</h4>
                 </div>
                 <p className="text-gray-700">

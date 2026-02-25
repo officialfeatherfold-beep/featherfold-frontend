@@ -8,21 +8,21 @@ export default {
     extend: {
       colors: {
         'feather': {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
+          50: '#faf6f0',
+          100: '#f5ede3',
+          200: '#ebe0d2',
+          300: '#d4c4ae',
+          400: '#b8a184',
+          500: '#9c8060',
+          600: '#7a6245',
+          700: '#5c4830',
+          800: '#3d2e1e',
+          900: '#2c1810',
         },
-        'sage': '#87a96b',
-        'mist': '#d4d4d8',
-        'rose': '#fbc4ab',
-        'lavender': '#e9d5ff'
+        'sandstone': '#c9b99a',
+        'wheat': '#e8dcc8',
+        'caramel': '#c9982e',
+        'mocha': '#8b6f47'
       },
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],

@@ -212,7 +212,7 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
           <div className="p-6 border-b border-gray-100">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <ShoppingBag className="w-6 h-6 text-purple-600" />
+                <ShoppingBag className="w-6 h-6 text-stone-600" />
                 <h2 className="text-2xl font-bold text-gray-900">Your Cart</h2>
               </div>
               <button
@@ -235,7 +235,7 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
                 <p className="text-gray-600 mb-6">Add some FeatherFold products to get started!</p>
                 <button
                   onClick={onClose}
-                  className="px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors"
+                  className="px-6 py-3 bg-stone-600 text-white font-medium rounded-xl hover:bg-stone-700 transition-colors"
                 >
                   Continue Shopping
                 </button>
@@ -319,11 +319,11 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
                   placeholder="Promo code"
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none"
+                  className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-stone-500 focus:outline-none"
                 />
                 <button
                   onClick={applyPromoCode}
-                  className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors font-medium"
+                  className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg hover:bg-stone-200 transition-colors font-medium"
                 >
                   Apply
                 </button>
@@ -354,7 +354,7 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
                 <div className="border-t pt-2">
                   <div className="flex justify-between">
                     <span className="text-lg font-semibold text-gray-900">Total</span>
-                    <span className="text-lg font-bold text-purple-600">₹{total}</span>
+                    <span className="text-lg font-bold text-stone-600">₹{total}</span>
                   </div>
                 </div>
               </div>
@@ -375,7 +375,7 @@ const Cart = ({ cart, onClose, onUpdateCart, user }) => {
               <motion.button
                 onClick={handleCheckout}
                 disabled={isProcessing}
-                className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full py-4 bg-gradient-to-r from-stone-600 to-amber-600 text-white font-semibold rounded-xl hover:from-stone-700 hover:to-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 whileHover={{ scale: isProcessing ? 1 : 1.02 }}
                 whileTap={{ scale: isProcessing ? 1 : 0.98 }}
               >

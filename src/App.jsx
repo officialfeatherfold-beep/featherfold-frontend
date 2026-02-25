@@ -69,7 +69,7 @@ function App() {
   const [selectedSize, setSelectedSize] = useState('king');
   const [selectedType, setSelectedType] = useState('fitted');
   const [mattressThickness, setMattressThickness] = useState(8);
-  const [backgroundColor, setBackgroundColor] = useState('#f8fafc');
+  const [backgroundColor, setBackgroundColor] = useState('#f5ede3');
   const [isPlaying, setIsPlaying] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [favoritesCount, setFavoritesCount] = useState(0);

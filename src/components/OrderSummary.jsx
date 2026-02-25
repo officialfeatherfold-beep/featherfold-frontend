@@ -33,11 +33,11 @@ const OrderSummary = ({
               placeholder="Promo code"
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
-              className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none"
+              className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:border-stone-500 focus:outline-none"
             />
             <motion.button
               onClick={applyPromoCode}
-              className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors font-medium"
+              className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg hover:bg-stone-200 transition-colors font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -72,7 +72,7 @@ const OrderSummary = ({
             <div className="border-t pt-2">
               <div className="flex justify-between">
                 <span className="text-lg font-semibold text-gray-900">Total</span>
-                <span className="text-lg font-bold text-purple-600">₹{total}</span>
+                <span className="text-lg font-bold text-stone-600">₹{total}</span>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@ const OrderSummary = ({
           <motion.button
             onClick={onCheckout}
             disabled={isProcessing}
-            className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            className="w-full py-4 bg-gradient-to-r from-stone-600 to-amber-600 text-white font-semibold rounded-xl hover:from-stone-700 hover:to-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             whileHover={{ scale: isProcessing ? 1 : 1.02 }}
             whileTap={{ scale: isProcessing ? 1 : 0.98 }}
           >

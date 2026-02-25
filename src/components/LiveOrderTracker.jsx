@@ -110,7 +110,7 @@ const LiveOrderTracker = ({ orderId, user }) => {
       case 'delivered': return 'text-green-600 bg-green-50';
       case 'shipped': return 'text-orange-600 bg-orange-50';
       case 'processing': return 'text-blue-600 bg-blue-50';
-      case 'quality': return 'text-purple-600 bg-purple-50';
+      case 'quality': return 'text-stone-600 bg-stone-50';
       default: return 'text-gray-600 bg-gray-50';
     }
   };
@@ -128,9 +128,9 @@ const LiveOrderTracker = ({ orderId, user }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw className="w-8 h-8 text-purple-600 animate-spin" />
+          <RefreshCw className="w-8 h-8 text-stone-600 animate-spin" />
           <p className="mt-4 text-lg font-medium text-gray-700">Loading live order tracking...</p>
         </div>
       </div>
@@ -139,7 +139,7 @@ const LiveOrderTracker = ({ orderId, user }) => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center">
         <div className="text-center p-8">
           <div className="bg-red-50 border border-red-200 rounded-xl p-8 max-w-md">
             <MessageCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -159,14 +159,14 @@ const LiveOrderTracker = ({ orderId, user }) => {
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center">
         <div className="text-center">
           <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Order Not Found</h2>
           <p className="text-gray-600">The order you're looking for doesn't exist or has been removed.</p>
           <button 
             onClick={() => window.history.back()}
-            className="mt-4 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="mt-4 px-6 py-3 bg-stone-600 text-white rounded-lg hover:bg-stone-700 transition-colors"
           >
             Go Back
           </button>
@@ -176,13 +176,13 @@ const LiveOrderTracker = ({ orderId, user }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Package className="w-6 h-6 text-purple-600" />
+              <Package className="w-6 h-6 text-stone-600" />
               <div>
                 <h1 className="text-xl font-bold text-gray-900">Live Order Tracker</h1>
                 <p className="text-sm text-gray-600">Real-time order journey visualization</p>
@@ -273,7 +273,7 @@ const LiveOrderTracker = ({ orderId, user }) => {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <motion.div
-                      className="h-full bg-gradient-to-r from-purple-600 to-pink-600 rounded-full"
+                      className="h-full bg-gradient-to-r from-stone-600 to-amber-600 rounded-full"
                       initial={{ width: 0 }}
                       animate={{ width: `${liveTracking.progress}%` }}
                       transition={{ duration: 1, ease: 'easeOut' }}
@@ -282,12 +282,12 @@ const LiveOrderTracker = ({ orderId, user }) => {
                 </div>
 
                 {/* Current Location */}
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-6">
+                <div className="bg-gradient-to-r from-blue-50 to-stone-50 rounded-xl p-4 mb-6">
                   <div className="flex items-center space-x-3">
-                    <MapPin className="w-6 h-6 text-purple-600" />
+                    <MapPin className="w-6 h-6 text-stone-600" />
                     <div>
                       <h4 className="font-semibold text-gray-900">Current Location</h4>
-                      <p className="text-lg font-bold text-purple-600">{liveTracking.currentLocation}</p>
+                      <p className="text-lg font-bold text-stone-600">{liveTracking.currentLocation}</p>
                       <p className="text-sm text-gray-600">Est. arrival: {liveTracking.estimatedTime}</p>
                     </div>
                   </div>
@@ -364,8 +364,8 @@ const LiveOrderTracker = ({ orderId, user }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
                   >
-                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                      <Shield className="w-5 h-5 text-purple-600" />
+                    <div className="w-8 h-8 bg-stone-100 rounded-full flex items-center justify-center">
+                      <Shield className="w-5 h-5 text-stone-600" />
                     </div>
                     <div className="ml-6 flex-1">
                       <h4 className="text-base font-semibold text-gray-900">Quality Check</h4>

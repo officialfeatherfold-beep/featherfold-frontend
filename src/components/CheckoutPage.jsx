@@ -890,9 +890,9 @@ const CheckoutPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                     <Truck className="w-4 h-4 mr-2 text-blue-600" />
                     <span className="font-medium text-blue-700">Free Shipping on All Orders</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-600 bg-purple-50 p-3 rounded-lg">
-                    <Check className="w-4 h-4 mr-2 text-purple-600" />
-                    <span className="font-medium text-purple-700">Quality Guaranteed</span>
+                  <div className="flex items-center text-sm text-gray-600 bg-stone-50 p-3 rounded-lg">
+                    <Check className="w-4 h-4 mr-2 text-stone-600" />
+                    <span className="font-medium text-stone-700">Quality Guaranteed</span>
                   </div>
                 </div>
               </motion.div>

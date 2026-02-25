@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children, user, requiredRole = 'admin' }) => {
   // Check if user is logged in
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full mx-4">
           <div className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mx-auto mb-4">
             <AlertCircle className="w-8 h-8 text-red-600" />
@@ -30,7 +30,7 @@ const ProtectedRoute = ({ children, user, requiredRole = 'admin' }) => {
   // Check if user has required role (admin)
   if (requiredRole === 'admin' && !user.isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full mx-4">
           <div className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mx-auto mb-4">
             <Shield className="w-8 h-8 text-red-600" />

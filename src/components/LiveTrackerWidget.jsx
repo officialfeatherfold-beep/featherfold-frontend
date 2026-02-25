@@ -51,7 +51,7 @@ const LiveTrackerWidget = ({ order }) => {
       case 'delivered': return 'text-green-600 bg-green-50 border-green-200';
       case 'shipped': return 'text-orange-600 bg-orange-50 border-orange-200';
       case 'processing': return 'text-blue-600 bg-blue-50 border-blue-200';
-      case 'quality': return 'text-purple-600 bg-purple-50 border-purple-200';
+      case 'quality': return 'text-stone-600 bg-stone-50 border-stone-200';
       default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
@@ -102,7 +102,7 @@ const LiveTrackerWidget = ({ order }) => {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <motion.div
-              className="h-full bg-gradient-to-r from-purple-600 to-pink-600 rounded-full"
+              className="h-full bg-gradient-to-r from-stone-600 to-amber-600 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${liveData.progress}%` }}
               transition={{ duration: 1, ease: 'easeOut' }}
@@ -111,14 +111,14 @@ const LiveTrackerWidget = ({ order }) => {
         </div>
 
         {/* Current Location */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3 mb-4">
+        <div className="bg-gradient-to-r from-blue-50 to-stone-50 rounded-lg p-3 mb-4">
           <div className="flex items-center space-x-2">
-            <MapPin className="w-4 h-4 text-purple-600" />
+            <MapPin className="w-4 h-4 text-stone-600" />
             <div className="flex-1">
               <p className="text-xs text-gray-600">Current Location</p>
               <p className="text-sm font-semibold text-gray-900">{liveData.currentLocation}</p>
             </div>
-            <Navigation className="w-4 h-4 text-purple-600" />
+            <Navigation className="w-4 h-4 text-stone-600" />
           </div>
         </div>
 

@@ -48,7 +48,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -89,7 +89,7 @@ export default function ForgotPassword() {
             </p>
             <button
               onClick={() => navigate('/login')}
-              className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+              className="w-full bg-stone-600 text-white py-3 rounded-lg font-semibold hover:bg-stone-700 transition-colors"
             >
               Back to Login
             </button>
@@ -109,7 +109,7 @@ export default function ForgotPassword() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-stone-600 focus:border-transparent outline-none transition-all"
                   placeholder="Enter your email"
                   required
                 />
@@ -132,7 +132,7 @@ export default function ForgotPassword() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-stone-600 text-white py-3 rounded-lg font-semibold hover:bg-stone-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Sending...' : 'Send Reset Instructions'}
             </button>
@@ -142,7 +142,7 @@ export default function ForgotPassword() {
               <button
                 type="button"
                 onClick={() => navigate('/login')}
-                className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                className="text-stone-600 hover:text-stone-700 font-medium transition-colors"
               >
                 Back to Login
               </button>

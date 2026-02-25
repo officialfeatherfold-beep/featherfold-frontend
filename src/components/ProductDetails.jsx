@@ -344,7 +344,7 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-purple-600 mx-auto mb-4" />
+          <Loader2 className="w-12 h-12 animate-spin text-stone-600 mx-auto mb-4" />
           <p className="text-gray-600">Loading product details...</p>
         </div>
       </div>
@@ -358,7 +358,7 @@ const ProductDetails = () => {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Product not found</h2>
           <button
             onClick={() => navigate('/products')}
-            className="px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors"
+            className="px-6 py-3 bg-stone-600 text-white rounded-xl hover:bg-stone-700 transition-colors"
           >
             Back to Products
           </button>
@@ -473,7 +473,7 @@ const ProductDetails = () => {
                       onMouseEnter={() => setSelectedImageIndex(index)}
                       className={`relative border-2 rounded-lg overflow-hidden transition-all aspect-square ${
                         selectedImageIndex === index 
-                          ? 'border-purple-500 ring-2 ring-purple-500' 
+                          ? 'border-stone-500 ring-2 ring-stone-500' 
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
@@ -490,7 +490,7 @@ const ProductDetails = () => {
                         }}
                       />
                       {selectedImageIndex === index && (
-                        <div className="absolute top-1 right-1 bg-purple-500 text-white rounded-full p-1">
+                        <div className="absolute top-1 right-1 bg-stone-500 text-white rounded-full p-1">
                           <Check className="w-3 h-3" />
                         </div>
                       )}
@@ -559,7 +559,7 @@ const ProductDetails = () => {
                               setSelectedImageIndex(0);
                             }}
                             onMouseLeave={() => setHoverImage('')}
-                            className="border border-gray-200 rounded-lg overflow-hidden w-16 h-16 hover:border-purple-500 transition"
+                            className="border border-gray-200 rounded-lg overflow-hidden w-16 h-16 hover:border-stone-500 transition"
                             title={`${variant.color} • ${variant.size}`}
                           >
                             <img
@@ -579,7 +579,7 @@ const ProductDetails = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {features.map((feature, index) => (
                         <div key={index} className="flex items-center gap-3">
-                          <feature.icon className="w-5 h-5 text-purple-600 flex-shrink-0" />
+                          <feature.icon className="w-5 h-5 text-stone-600 flex-shrink-0" />
                           <span className="text-sm text-gray-700">{feature.text}</span>
                         </div>
                       ))}
@@ -599,7 +599,7 @@ const ProductDetails = () => {
                           }}
                           className={`relative p-4 rounded-xl border-2 transition-all ${
                             selectedColor === color.name 
-                              ? 'border-purple-500 bg-purple-50' 
+                              ? 'border-stone-500 bg-stone-50' 
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
@@ -609,7 +609,7 @@ const ProductDetails = () => {
                           />
                           <span className="text-xs text-gray-700">{color.name}</span>
                           {selectedColor === color.name && (
-                            <div className="absolute top-2 right-2 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                            <div className="absolute top-2 right-2 w-4 h-4 bg-stone-500 rounded-full flex items-center justify-center">
                               <Check className="w-3 h-3 text-white" />
                             </div>
                           )}
@@ -631,13 +631,13 @@ const ProductDetails = () => {
                           }}
                           className={`relative p-4 rounded-xl border-2 transition-all ${
                             selectedSize === size 
-                              ? 'border-purple-500 bg-purple-50' 
+                              ? 'border-stone-500 bg-stone-50' 
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
                           <span className="text-sm font-medium">{size}</span>
                           {selectedSize === size && (
-                            <div className="absolute top-2 right-2 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                            <div className="absolute top-2 right-2 w-4 h-4 bg-stone-500 rounded-full flex items-center justify-center">
                               <Check className="w-3 h-3 text-white" />
                             </div>
                           )}
@@ -693,7 +693,7 @@ const ProductDetails = () => {
                         <button
                           onClick={handleAddToCart}
                           disabled={addingToCart || product.availability === 0 || !selectedColor || !selectedSize}
-                          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold transition-all hover:from-purple-700 hover:to-pink-700 shadow-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full bg-gradient-to-r from-stone-600 to-amber-600 text-white rounded-xl font-semibold transition-all hover:from-stone-700 hover:to-amber-700 shadow-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {addingToCart ? (
                             <div className="flex items-center justify-center gap-2">

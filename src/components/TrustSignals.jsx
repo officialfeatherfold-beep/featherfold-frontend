@@ -29,7 +29,7 @@ const TrustSignals = () => {
       icon: RefreshCw,
       title: "30-Day Returns",
       description: "Hassle-free returns and exchanges",
-      color: "text-purple-600"
+      color: "text-stone-600"
     },
     {
       icon: Award,
@@ -47,12 +47,12 @@ const TrustSignals = () => {
       icon: Heart,
       title: "Customer Love",
       description: "4.9/5 rating from 2,847+ reviews",
-      color: "text-pink-600"
+      color: "text-amber-600"
     }
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-[#faf6f0]">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-12"
@@ -61,10 +61,10 @@ const TrustSignals = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#2c1810] mb-4">
             Why Choose FeatherFold?
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-[#7a6245] max-w-2xl mx-auto">
             Experience the perfect blend of luxury, comfort, and convenience
           </p>
         </motion.div>
@@ -99,7 +99,7 @@ const TrustSignals = () => {
 
         {/* Additional Trust Banner */}
         <motion.div
-          className="mt-16 glassmorphism p-8 rounded-3xl border border-purple-100"
+          className="mt-16 glassmorphism p-8 rounded-3xl border border-[#d4c4ae]/40"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -114,7 +114,7 @@ const TrustSignals = () => {
                 <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
                 <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-bold text-[#2c1810] mb-2">
                 Trusted by 50,000+ Happy Customers
               </h3>
               <p className="text-gray-600">
@@ -123,15 +123,15 @@ const TrustSignals = () => {
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">4.9</div>
+                <div className="text-3xl font-bold text-[#8b6f47]">4.9</div>
                 <div className="text-sm text-gray-600">Average Rating</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">50K+</div>
+                <div className="text-3xl font-bold text-[#8b6f47]">50K+</div>
                 <div className="text-sm text-gray-600">Customers</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">98%</div>
+                <div className="text-3xl font-bold text-[#8b6f47]">98%</div>
                 <div className="text-sm text-gray-600">Satisfaction</div>
               </div>
             </div>

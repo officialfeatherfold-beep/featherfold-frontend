@@ -109,7 +109,7 @@ const ResetPassword = () => {
 
   if (tokenValid === null) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <motion.div
             className="bg-white rounded-2xl shadow-xl p-8 text-center"
@@ -117,12 +117,12 @@ const ResetPassword = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Lock className="w-8 h-8 text-purple-600" />
+            <div className="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Lock className="w-8 h-8 text-stone-600" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Validating Reset Link</h2>
             <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-600"></div>
             </div>
             <p className="text-gray-600 mt-4">Please wait while we validate your reset link...</p>
           </motion.div>
@@ -133,7 +133,7 @@ const ResetPassword = () => {
 
   if (tokenValid === false) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <motion.div
             className="bg-white rounded-2xl shadow-xl p-8 text-center"
@@ -149,7 +149,7 @@ const ResetPassword = () => {
             <div className="space-y-4">
               <button
                 onClick={() => navigate('/forgot-password')}
-                className="w-full py-3 px-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2"
+                className="w-full py-3 px-4 bg-stone-600 text-white rounded-xl hover:bg-stone-700 transition-colors flex items-center justify-center space-x-2"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span>Request New Reset Link</span>
@@ -168,7 +168,7 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <motion.div
           className="bg-white rounded-2xl shadow-xl overflow-hidden"
@@ -177,7 +177,7 @@ const ResetPassword = () => {
           transition={{ duration: 0.5 }}
         >
           {/* Header */}
-          <div className="relative h-32 bg-gradient-to-br from-purple-600 to-pink-600">
+          <div className="relative h-32 bg-gradient-to-br from-stone-600 to-amber-600">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center">
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -205,7 +205,7 @@ const ResetPassword = () => {
                 <p className="text-gray-600 mb-6">Your password has been successfully reset.</p>
                 <button
                   onClick={() => navigate('/')}
-                  className="w-full py-3 px-4 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors"
+                  className="w-full py-3 px-4 bg-stone-600 text-white rounded-xl hover:bg-stone-700 transition-colors"
                 >
                   Go to Login
                 </button>
@@ -238,7 +238,7 @@ const ResetPassword = () => {
                       value={formData.password}
                       onChange={handleInputChange}
                       placeholder="Enter your new password"
-                      className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                      className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                       required
                       minLength={8}
                     />
@@ -264,7 +264,7 @@ const ResetPassword = () => {
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
                       placeholder="Confirm your new password"
-                      className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                      className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                       required
                       minLength={8}
                     />
@@ -281,7 +281,7 @@ const ResetPassword = () => {
                 <motion.button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  className="w-full py-3 bg-gradient-to-r from-stone-600 to-amber-600 text-white font-semibold rounded-xl hover:from-stone-700 hover:to-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   whileHover={{ scale: isLoading ? 1 : 1.02 }}
                   whileTap={{ scale: isLoading ? 1 : 0.98 }}
                 >
@@ -299,7 +299,7 @@ const ResetPassword = () => {
                   <button
                     type="button"
                     onClick={() => navigate('/')}
-                    className="text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                    className="text-stone-600 hover:text-stone-700 font-medium transition-colors"
                   >
                     Back to Home
                   </button>

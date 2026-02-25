@@ -6,9 +6,9 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-smooth: always;
@@ -16,17 +16,21 @@
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    
+
     /* ❌ REMOVE GPU TRANSFORMS FROM BODY */
     /* -webkit-transform: translateZ(0); */
     /* transform: translateZ(0); */
     /* -webkit-backface-visibility: hidden; */
     /* backface-visibility: hidden; */
-    
+
     /* Fix for subpixel rendering */
-    -webkit-font-feature-settings: "kern" 1, "liga" 1;
-    font-feature-settings: "kern" 1, "liga" 1;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    -webkit-font-feature-settings:
+      "kern" 1,
+      "liga" 1;
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1;
+    background: linear-gradient(135deg, #faf6f0 0%, #ebe0d2 100%);
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -67,24 +71,24 @@
 
 @layer components {
   .glassmorphism {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(250, 246, 240, 0.35);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(201, 185, 154, 0.2);
   }
-  
+
   .glassmorphism-dark {
-    background: rgba(15, 23, 42, 0.25);
+    background: rgba(44, 24, 16, 0.3);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(201, 152, 46, 0.15);
   }
-  
+
   .shimmer {
     position: relative;
     overflow: hidden;
   }
-  
+
   .shimmer::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -98,33 +102,33 @@
     );
     animation: shimmer 2s infinite;
   }
-  
+
   .floating {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .gradient-text {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #c9982e 0%, #8b6f47 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .hero-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #c9982e 0%, #8b6f47 100%);
   }
-  
+
   .card-hover {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .container-custom {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
   }
-  
+
   @media (min-width: 640px) {
     .container-custom {
       padding: 0 2rem;
@@ -140,14 +144,16 @@
       padding: 2.5rem 0;
     }
   }
-  
+
   .card-hover:hover {
     transform: translateY(-4px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   }
 
   /* Button text fixes */
-  button, .btn, .button-text {
+  button,
+  .btn,
+  .button-text {
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     font-smooth: always !important;
@@ -160,7 +166,10 @@
   }
 
   /* Order card text fixes */
-  .order-info, .order-status, .order-date, .order-total {
+  .order-info,
+  .order-status,
+  .order-date,
+  .order-total {
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     font-smooth: always !important;
@@ -172,7 +181,7 @@
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   .text-shadow-lg {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }

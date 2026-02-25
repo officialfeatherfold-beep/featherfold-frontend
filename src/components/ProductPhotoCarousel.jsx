@@ -59,7 +59,7 @@ const ProductPhotoCarousel = () => {
 
   if (loading) {
     return (
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-[#faf6f0]">
         <div className="mx-auto w-full max-w-6xl px-4">
           <div className="mb-10 text-center">
             <div className="h-10 bg-gray-200 rounded w-64 mx-auto mb-3" />
@@ -85,10 +85,10 @@ const ProductPhotoCarousel = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-purple-50 via-white to-white">
+    <section className="py-16 bg-gradient-to-b from-[#f5ede3] via-[#faf6f0] to-[#faf6f0]">
       <div className="mx-auto w-full max-w-6xl px-4">
         <div className="mb-10 text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 md:text-5xl">
+          <h2 className="text-4xl font-extrabold tracking-tight text-[#2c1810] md:text-5xl">
             Featured Products
           </h2>
           <p className="mt-3 text-base text-gray-500 md:text-lg">
@@ -138,7 +138,7 @@ const ProductPhotoCarousel = () => {
                 {currentIndex + 1} / {featuredProducts.length}
             </div>
 
-            <div className="pointer-events-none absolute right-4 top-4 z-20 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-purple-600 shadow-sm">
+            <div className="pointer-events-none absolute right-4 top-4 z-20 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-[#8b6f47] shadow-sm">
               Featured
             </div>
 
@@ -166,7 +166,7 @@ const ProductPhotoCarousel = () => {
                 onClick={() => goToImage(index)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? 'w-8 bg-purple-600'
+                    ? 'w-8 bg-[#8b6f47]'
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
                 aria-label={`Go to image ${index + 1}`}

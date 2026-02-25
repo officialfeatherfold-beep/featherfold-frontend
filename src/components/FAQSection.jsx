@@ -104,7 +104,7 @@ const FAQSection = () => {
   };
 
   return (
-    <section id="faq" className="py-20 bg-white">
+    <section id="faq" className="py-20 bg-[#faf6f0]">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-12"
@@ -112,10 +112,10 @@ const FAQSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#2c1810] mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-[#7a6245] max-w-3xl mx-auto">
             Everything you need to know about FeatherFold bedsheets
           </p>
         </motion.div>
@@ -139,14 +139,14 @@ const FAQSection = () => {
                     whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
                   >
                     <div className="flex items-start space-x-4">
-                      <div className="p-2 bg-purple-100 rounded-lg">
-                        <faq.icon className="w-5 h-5 text-purple-600" />
+                      <div className="p-2 bg-stone-100 rounded-lg">
+                        <faq.icon className="w-5 h-5 text-stone-600" />
                       </div>
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">
                           {faq.question}
                         </h3>
-                        <span className="text-sm text-purple-600 font-medium">
+                        <span className="text-sm text-stone-600 font-medium">
                           {faq.category}
                         </span>
                       </div>
@@ -188,7 +188,7 @@ const FAQSection = () => {
               viewport={{ once: true }}
             >
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-stone-500 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
@@ -205,14 +205,14 @@ const FAQSection = () => {
                   href="tel:+918168587844"
                   className="flex items-center space-x-3 p-3 rounded-xl hover:bg-white/30 transition-all"
                 >
-                  <Phone className="w-5 h-5 text-purple-600" />
+                  <Phone className="w-5 h-5 text-stone-600" />
                   <span className="text-gray-700">+91 81685 87844</span>
                 </a>
                 <a
                   href="mailto:officialfeatherfold@gmail.com"
                   className="flex items-center space-x-3 p-3 rounded-xl hover:bg-white/30 transition-all"
                 >
-                  <Mail className="w-5 h-5 text-purple-600" />
+                  <Mail className="w-5 h-5 text-stone-600" />
                   <span className="text-gray-700">officialfeatherfold@gmail.com</span>
                 </a>
               </div>
@@ -225,7 +225,7 @@ const FAQSection = () => {
                     placeholder="Your Name"
                     value={contactForm.name}
                     onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-stone-500 focus:outline-none transition-all"
                     required
                   />
                 </div>
@@ -235,7 +235,7 @@ const FAQSection = () => {
                     placeholder="Your Email"
                     value={contactForm.email}
                     onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-stone-500 focus:outline-none transition-all"
                     required
                   />
                 </div>
@@ -245,13 +245,13 @@ const FAQSection = () => {
                     value={contactForm.message}
                     onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-stone-500 focus:outline-none transition-all resize-none"
                     required
                   />
                 </div>
                 <motion.button
                   type="submit"
-                  className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all"
+                  className="w-full py-3 bg-gradient-to-r from-[#8b6f47] to-[#c9982e] text-white font-semibold rounded-xl hover:from-[#7a6245] hover:to-[#b8892a] transition-all"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -260,7 +260,7 @@ const FAQSection = () => {
               </form>
 
               {/* Support Hours */}
-              <div className="mt-6 p-4 bg-purple-50 rounded-xl">
+              <div className="mt-6 p-4 bg-stone-50 rounded-xl">
                 <h4 className="font-semibold text-gray-900 mb-2">Support Hours</h4>
                 <div className="space-y-1 text-sm text-gray-600">
                   <div className="flex justify-between">

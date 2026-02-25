@@ -1692,7 +1692,7 @@ const AdminDashboard = ({ user, onLogout }) => {
     if (loading) {
       return (
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-stone-600"></div>
         </div>
       );
     }
@@ -1765,7 +1765,7 @@ const AdminDashboard = ({ user, onLogout }) => {
 
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-lg transition-shadow">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-stone-500 rounded-xl flex items-center justify-center">
                     <Users className="w-6 h-6 text-white" />
                   </div>
                   <span className={`text-sm font-medium px-2 py-1 rounded-lg ${
@@ -1934,7 +1934,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                             <td className="py-3 px-4 text-slate-600">{user.email}</td>
                             <td className="py-3 px-4">
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                user.isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'
+                                user.isAdmin ? 'bg-stone-100 text-stone-700' : 'bg-slate-100 text-slate-700'
                               }`}>
                                 {user.isAdmin ? 'Admin' : 'User'}
                               </span>
@@ -2129,7 +2129,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                         <a
                           href={`mailto:${msg.email}?subject=${encodeURIComponent(`Re: ${msg.subject || 'FeatherFold Support'}`)}&body=${encodeURIComponent(`Hi ${msg.name},\n\nThanks for reaching out.\n\n`)}`
                           }
-                          className="px-3 py-2 bg-purple-600 text-white rounded-lg text-sm hover:bg-purple-700"
+                          className="px-3 py-2 bg-stone-600 text-white rounded-lg text-sm hover:bg-stone-700"
                         >
                           Reply
                         </a>
@@ -2177,7 +2177,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="text"
                       value={promoForm.code}
                       onChange={(e) => setPromoForm({ ...promoForm, code: e.target.value.toUpperCase() })}
-                      className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                       placeholder="SAVE10"
                     />
                     <button
@@ -2198,7 +2198,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                     max="90"
                     value={promoForm.percent}
                     onChange={(e) => setPromoForm({ ...promoForm, percent: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                   />
                 </div>
 
@@ -2209,7 +2209,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                     min="1"
                     value={promoForm.maxUses}
                     onChange={(e) => setPromoForm({ ...promoForm, maxUses: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                   />
                 </div>
 
@@ -2219,7 +2219,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                     type="date"
                     value={promoForm.startDate}
                     onChange={(e) => setPromoForm({ ...promoForm, startDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                   />
                 </div>
 
@@ -2229,7 +2229,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                     type="date"
                     value={promoForm.endDate}
                     onChange={(e) => setPromoForm({ ...promoForm, endDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                   />
                 </div>
 
@@ -2241,7 +2241,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                     max="16"
                     value={promoForm.codeLength}
                     onChange={(e) => setPromoForm({ ...promoForm, codeLength: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                   />
                 </div>
               </div>
@@ -2250,7 +2250,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                 <button
                   onClick={handleCreatePromo}
                   disabled={promoSaving}
-                  className="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50"
+                  className="px-5 py-2 bg-stone-600 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50"
                 >
                   {promoSaving ? 'Saving...' : 'Create Promo Code'}
                 </button>
@@ -2858,7 +2858,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                     {/* SECTION 3 — PRICING & TAX */}
                     <div className="bg-slate-50 rounded-xl p-6">
                       <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                        <IndianRupee className="w-5 h-5 text-purple-600" />
+                        <IndianRupee className="w-5 h-5 text-stone-600" />
                         Pricing & Tax
                       </h3>
                       <div className="space-y-3">
@@ -3001,7 +3001,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                                   </div>
                                   <span className="font-medium text-slate-900">{variant.color}</span>
                                   <span className="text-sm text-slate-600">({variant.size})</span>
-                                  <span className="font-mono text-xs bg-purple-100 px-2 py-1 rounded">
+                                  <span className="font-mono text-xs bg-stone-100 px-2 py-1 rounded">
                                     {variant.sku}
                                   </span>
                                 </div>
@@ -3174,9 +3174,9 @@ const AdminDashboard = ({ user, onLogout }) => {
                       <p className="text-sm text-slate-500">Total Orders</p>
                       <p className="mt-2 text-2xl font-bold text-green-700">{analytics.totalOrders}</p>
                     </div>
-                    <div className="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-purple-50 to-white">
+                    <div className="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-stone-50 to-white">
                       <p className="text-sm text-slate-500">Total Users</p>
-                      <p className="mt-2 text-2xl font-bold text-purple-700">{analytics.totalUsers}</p>
+                      <p className="mt-2 text-2xl font-bold text-stone-700">{analytics.totalUsers}</p>
                     </div>
                     <div className="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-orange-50 to-white">
                       <p className="text-sm text-slate-500">Conversion Rate</p>
@@ -3367,7 +3367,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="text"
                       value={settings.storeName}
                       onChange={(e) => handleSettingChange('storeName', e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     />
                   </div>
                   <div>
@@ -3376,7 +3376,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="email"
                       value={settings.contactEmail}
                       onChange={(e) => handleSettingChange('contactEmail', e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     />
                   </div>
                   <div>
@@ -3385,7 +3385,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="tel"
                       value={settings.phoneNumber}
                       onChange={(e) => handleSettingChange('phoneNumber', e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     />
                   </div>
                   <div>
@@ -3393,7 +3393,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                     <select
                       value={settings.currency}
                       onChange={(e) => handleSettingChange('currency', e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     >
                       <option value="INR">₹ INR</option>
                       <option value="USD">$ USD</option>
@@ -3454,7 +3454,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="number"
                       value={settings.freeShippingThreshold}
                       onChange={(e) => handleSettingChange('freeShippingThreshold', Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     />
                   </div>
                   <div>
@@ -3463,7 +3463,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="number"
                       value={settings.standardShippingFee}
                       onChange={(e) => handleSettingChange('standardShippingFee', Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     />
                   </div>
                   <div>
@@ -3472,7 +3472,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="text"
                       value={settings.deliveryTime}
                       onChange={(e) => handleSettingChange('deliveryTime', e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     />
                   </div>
                   <div>
@@ -3481,7 +3481,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                       type="number"
                       value={settings.taxRate}
                       onChange={(e) => handleSettingChange('taxRate', Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500"
                     />
                   </div>
                 </div>
@@ -3493,7 +3493,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                   </div>
                   <button
                     onClick={handleSaveSettings}
-                    className="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                    className="px-5 py-2 bg-stone-600 text-white rounded-lg hover:bg-stone-700"
                   >
                     Save Settings
                   </button>
@@ -3564,7 +3564,7 @@ const AdminDashboard = ({ user, onLogout }) => {
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                     activeTab === item.id
-                      ? 'bg-purple-100 text-purple-700'
+                      ? 'bg-stone-100 text-stone-700'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >

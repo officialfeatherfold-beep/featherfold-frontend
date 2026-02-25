@@ -28,7 +28,7 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
       rating: 4.9,
       reviews: 2847,
       badge: 'Bestseller',
-      badgeColor: 'bg-purple-500',
+      badgeColor: 'bg-stone-500',
       features: ['400 Thread Count', 'Ultra-Soft', 'All-Season Comfort']
     },
     {
@@ -129,7 +129,7 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
 
   if (loading) {
     return (
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+      <section className="py-20 bg-gradient-to-br from-[#f5ede3] to-[#ebe0d2]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
@@ -150,7 +150,7 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section className="py-20 bg-gradient-to-br from-[#f5ede3] to-[#ebe0d2]">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -160,11 +160,11 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
           viewport={{ once: true }}
         >
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="w-6 h-6 text-purple-600" />
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+            <Sparkles className="w-6 h-6 text-stone-600" />
+            <h2 className="text-4xl md:text-5xl font-bold text-[#2c1810]">
               Featured Products
             </h2>
-            <Sparkles className="w-6 h-6 text-purple-600" />
+            <Sparkles className="w-6 h-6 text-stone-600" />
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Discover our handpicked selection of premium FeatherFold products
@@ -269,7 +269,7 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
                           {product.features?.slice(0, 2).map((feature, idx) => (
                             <span
                               key={idx}
-                              className="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded-full"
+                              className="text-xs bg-stone-50 text-stone-700 px-2 py-1 rounded-full"
                             >
                               {feature}
                             </span>
@@ -306,7 +306,7 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
                         </motion.button>
                         <motion.button
                           onClick={() => handleAddToCart(product)}
-                          className="flex-1 py-2 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all text-sm font-medium flex items-center justify-center gap-1"
+                          className="flex-1 py-2 px-4 bg-gradient-to-r from-[#8b6f47] to-[#c9982e] text-white rounded-xl hover:from-[#7a6245] hover:to-[#b8892a] transition-all text-sm font-medium flex items-center justify-center gap-1"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
@@ -329,7 +329,7 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? 'w-8 bg-purple-600'
+                    ? 'w-8 bg-[#8b6f47]'
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
                 aria-label={`Go to product ${index + 1}`}
@@ -347,8 +347,8 @@ const FeaturedProductsCarousel = ({ onAddToCart, user, onNavigate }) => {
           transition={{ delay: 0.2 }}
         >
           <div className="text-center">
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Sparkles className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Sparkles className="w-6 h-6 text-stone-600" />
             </div>
             <h4 className="font-semibold text-gray-900">Premium Quality</h4>
             <p className="text-sm text-gray-600">400+ Thread Count</p>

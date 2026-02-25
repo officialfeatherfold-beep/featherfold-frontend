@@ -69,7 +69,7 @@ const OrderDetailsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen,
       case 'confirmed':
         return 'text-blue-600 bg-blue-50';
       case 'shipped':
-        return 'text-purple-600 bg-purple-50';
+        return 'text-stone-600 bg-stone-50';
       case 'delivered':
         return 'text-green-600 bg-green-50';
       case 'cancelled':

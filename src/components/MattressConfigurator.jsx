@@ -37,7 +37,7 @@ const MattressConfigurator = ({
   const sheetFit = selectedType === 'fitted' ? 'perfect' : 'standard';
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-[#faf6f0]">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-12"
@@ -45,10 +45,10 @@ const MattressConfigurator = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#2c1810] mb-4">
             Smart-Fit Mattress Configurator
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-[#7a6245] max-w-3xl mx-auto">
             Visualize how your FeatherFold sheet will fit your mattress perfectly
           </p>
         </motion.div>
@@ -77,9 +77,9 @@ const MattressConfigurator = ({
                   <motion.div
                     className={`absolute inset-0 ${
                       selectedType === 'fitted' 
-                        ? 'bg-gradient-to-t from-purple-200 to-purple-100' 
+                        ? 'bg-gradient-to-t from-stone-200 to-stone-100' 
                         : 'bg-gradient-to-t from-blue-200 to-blue-100'
-                    } rounded-t-lg border-2 border-purple-300`}
+                    } rounded-t-lg border-2 border-stone-300`}
                     animate={{ 
                       y: selectedType === 'fitted' ? 0 : -10,
                       scale: selectedType === 'fitted' ? 1 : 1.05
@@ -88,8 +88,8 @@ const MattressConfigurator = ({
                   >
                     {/* Sheet Details */}
                     <div className="absolute top-4 left-4 right-4">
-                      <div className="h-1 bg-purple-300 rounded-full mb-2" />
-                      <div className="h-1 bg-purple-300 rounded-full w-3/4" />
+                      <div className="h-1 bg-stone-300 rounded-full mb-2" />
+                      <div className="h-1 bg-stone-300 rounded-full w-3/4" />
                     </div>
                   </motion.div>
                   
@@ -148,13 +148,13 @@ const MattressConfigurator = ({
             <div className="space-y-8">
               {/* Sheet Type Selection */}
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Choose Sheet Type</h3>
+                <h3 className="text-2xl font-bold text-[#2c1810] mb-6">Choose Sheet Type</h3>
                 <div className="grid grid-cols-2 gap-6">
                   <motion.button
                     onClick={() => handleTypeChange('flat')}
                     className={`p-6 rounded-2xl border-2 transition-all ${
                       selectedType === 'flat' 
-                        ? 'border-purple-500 bg-purple-50 shadow-lg' 
+                        ? 'border-stone-500 bg-stone-50 shadow-lg' 
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                     whileHover={{ scale: 1.02 }}
@@ -179,23 +179,23 @@ const MattressConfigurator = ({
                     onClick={() => handleTypeChange('fitted')}
                     className={`p-6 rounded-2xl border-2 transition-all ${
                       selectedType === 'fitted' 
-                        ? 'border-purple-500 bg-purple-50 shadow-lg' 
+                        ? 'border-stone-500 bg-stone-50 shadow-lg' 
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center">
-                        <Minimize2 className="w-8 h-8 text-purple-600" />
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-stone-100 to-stone-200 rounded-xl flex items-center justify-center">
+                        <Minimize2 className="w-8 h-8 text-stone-600" />
                       </div>
                       <h4 className="font-semibold text-gray-900 mb-2">Fitted Sheet</h4>
                       <p className="text-sm text-gray-600">360° elastic for perfect fit</p>
                       <div className="mt-3 flex items-center justify-center space-x-1">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                        <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                        <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                        <span className="text-xs text-purple-600 ml-2">Recommended</span>
+                        <div className="w-2 h-2 bg-stone-500 rounded-full" />
+                        <div className="w-2 h-2 bg-stone-500 rounded-full" />
+                        <div className="w-2 h-2 bg-stone-500 rounded-full" />
+                        <span className="text-xs text-stone-600 ml-2">Recommended</span>
                       </div>
                     </div>
                   </motion.button>
@@ -204,13 +204,13 @@ const MattressConfigurator = ({
 
               {/* Mattress Thickness Slider */}
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Mattress Thickness</h3>
+                <h3 className="text-2xl font-bold text-[#2c1810] mb-6">Mattress Thickness</h3>
                 <div className="glassmorphism p-6 rounded-2xl">
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-sm text-gray-600">6 inches</span>
                     <div className="flex items-center space-x-2">
-                      <Ruler className="w-5 h-5 text-purple-600" />
-                      <span className="text-2xl font-bold text-purple-600">{mattressThickness}"</span>
+                      <Ruler className="w-5 h-5 text-stone-600" />
+                      <span className="text-2xl font-bold text-stone-600">{mattressThickness}"</span>
                     </div>
                     <span className="text-sm text-gray-600">10 inches</span>
                   </div>
@@ -223,7 +223,7 @@ const MattressConfigurator = ({
                     onChange={(e) => handleThicknessChange(parseInt(e.target.value))}
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                     style={{
-                      background: `linear-gradient(to right, #9333ea 0%, #9333ea ${((mattressThickness - 6) / 4) * 100}%, #e5e7eb ${((mattressThickness - 6) / 4) * 100}%, #e5e7eb 100%)`
+                      background: `linear-gradient(to right, #d97706 0%, #d97706 ${((mattressThickness - 6) / 4) * 100}%, #e5e7eb ${((mattressThickness - 6) / 4) * 100}%, #e5e7eb 100%)`
                     }}
                   />
                   
@@ -234,7 +234,7 @@ const MattressConfigurator = ({
                         onClick={() => handleThicknessChange(thickness)}
                         className={`w-12 h-12 rounded-lg border-2 transition-all ${
                           mattressThickness === thickness 
-                            ? 'border-purple-500 bg-purple-100 text-purple-700 font-semibold' 
+                            ? 'border-stone-500 bg-stone-100 text-stone-700 font-semibold' 
                             : 'border-gray-200 hover:border-gray-300 text-gray-600'
                         }`}
                         whileHover={{ scale: 1.1 }}
@@ -271,21 +271,21 @@ const MattressConfigurator = ({
 
               {/* Recommendation */}
               <motion.div
-                className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-200"
+                className="bg-gradient-to-r from-[#f5ede3] to-[#ebe0d2] p-6 rounded-2xl border border-[#d4c4ae]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
               >
                 <div className="flex items-center space-x-2 mb-3">
-                  <Bed className="w-6 h-6 text-purple-600" />
+                  <Bed className="w-6 h-6 text-stone-600" />
                   <h4 className="font-semibold text-gray-900">Our Recommendation</h4>
                 </div>
                 <p className="text-gray-700 mb-3">
                   Based on your {mattressThickness}" mattress, we recommend the 
-                  <span className="font-semibold text-purple-600"> {selectedType} sheet</span> for the best sleeping experience.
+                  <span className="font-semibold text-stone-600"> {selectedType} sheet</span> for the best sleeping experience.
                 </p>
-                <div className="flex items-center space-x-2 text-sm text-purple-600">
+                <div className="flex items-center space-x-2 text-sm text-stone-600">
                   <span>Learn more about sheet types</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>

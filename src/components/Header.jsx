@@ -81,12 +81,16 @@ const Header = ({
     <>
       <motion.header
         ref={headerRef}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 glassmorphism shadow-lg`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-[#faf6f0]/92 backdrop-blur-md shadow-md py-2 border-b border-[#d4c4ae]/40' 
+            : 'bg-[#faf6f0]/50 backdrop-blur-sm shadow-sm py-4'
+        }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
       >
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.button
@@ -96,7 +100,7 @@ const Header = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center border border-purple-200 shadow-sm overflow-hidden">
+              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center border border-stone-200 shadow-sm overflow-hidden">
                 <img
                   src="/logo.png"
                   alt="FeatherFold"
@@ -104,32 +108,32 @@ const Header = ({
                   onError={() => setLogoFailed(true)}
                 />
                 {logoFailed && (
-                  <span className="absolute inset-0 flex items-center justify-center text-purple-600 font-bold text-xl">
+                  <span className="absolute inset-0 flex items-center justify-center text-stone-600 font-bold text-xl">
                     F
                   </span>
                 )}
               </div>
               <div className="min-w-0">
-                <h1 className="text-base sm:text-lg lg:text-xl font-bold text-gray-800 whitespace-nowrap">FeatherFold</h1>
-                <p className="hidden lg:block text-xs text-gray-600 whitespace-nowrap">Premium Cotton</p>
+                <h1 className="text-base sm:text-lg lg:text-xl font-bold text-[#3d2e1e] whitespace-nowrap">FeatherFold</h1>
+                <p className="hidden lg:block text-xs text-[#7a6245] whitespace-nowrap">Premium Cotton</p>
               </div>
             </motion.button>
 
             {/* Desktop Navigation */}
             {!isAdminView ? (
-              <nav className="hidden lg:flex items-center space-x-8">
+              <nav className="hidden lg:flex items-center space-x-5 xl:space-x-7">
                 <button
                   onClick={() => onNavigate && onNavigate('home')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium ${
-                    currentView === 'home' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium text-sm ${
+                    currentView === 'home' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   Home
                 </button>
                 <button
                   onClick={() => onNavigate && onNavigate('products')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium flex items-center space-x-2 ${
-                    currentView === 'products' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium flex items-center space-x-1.5 text-sm ${
+                    currentView === 'products' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   <Package className="w-4 h-4" />
@@ -137,60 +141,60 @@ const Header = ({
                 </button>
                 <button
                   onClick={() => onNavigate && onNavigate('cart')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium flex items-center space-x-2 ${
-                    currentView === 'cart' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium flex items-center space-x-1.5 text-sm ${
+                    currentView === 'cart' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   <ShoppingBag className="w-4 h-4" />
                   Cart
                   {cartCount > 0 && (
-                    <span className="bg-purple-600 text-white text-xs rounded-full px-2 py-1 ml-2">
+                    <span className="bg-[#8b6f47] text-white text-xs rounded-full px-2 py-1 ml-2">
                       {cartCount}
                     </span>
                   )}
                 </button>
                 <button
                   onClick={() => onNavigate && onNavigate('favorites')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium flex items-center space-x-2 ${
-                    currentView === 'favorites' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium flex items-center space-x-1.5 text-sm ${
+                    currentView === 'favorites' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   <Heart className="w-4 h-4" />
                   Favorites
                   {favoritesCount > 0 && (
-                    <span className="bg-purple-600 text-white text-xs rounded-full px-2 py-1 ml-2">
+                    <span className="bg-[#8b6f47] text-white text-xs rounded-full px-2 py-1 ml-2">
                       {favoritesCount}
                     </span>
                   )}
                 </button>
                 <button
                   onClick={() => onNavigate && onNavigate('features')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium ${
-                    currentView === 'features' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium text-sm ${
+                    currentView === 'features' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   Features
                 </button>
                 <button
                   onClick={() => onNavigate && onNavigate('reviews')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium ${
-                    currentView === 'reviews' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium text-sm ${
+                    currentView === 'reviews' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   Reviews
                 </button>
                 <button
                   onClick={() => onNavigate && onNavigate('faq')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium ${
-                    currentView === 'faq' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium text-sm ${
+                    currentView === 'faq' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   FAQ
                 </button>
                 <button
                   onClick={() => onNavigate && onNavigate('contact')}
-                  className={`text-gray-700 hover:text-purple-600 transition-colors font-medium ${
-                    currentView === 'contact' ? 'text-purple-600' : ''
+                  className={`text-[#5c4830] hover:text-[#c9982e] transition-colors font-medium text-sm ${
+                    currentView === 'contact' ? 'text-[#c9982e]' : ''
                   }`}
                 >
                   Contact
@@ -200,7 +204,7 @@ const Header = ({
               <div className="hidden md:flex flex-1 items-center justify-center">
                 <button
                   onClick={() => onNavigate && onNavigate('home')}
-                  className="px-5 py-2 rounded-full bg-purple-600 text-white font-medium hover:bg-purple-700 transition-colors"
+                  className="px-5 py-2 rounded-full bg-stone-600 text-white font-medium hover:bg-stone-700 transition-colors"
                 >
                   Customer Panel
                 </button>
@@ -220,7 +224,7 @@ const Header = ({
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <div className="w-8 h-8 bg-gradient-to-br from-stone-500 to-amber-500 rounded-full flex items-center justify-center">
                       <span className="text-white text-sm font-semibold">
                         {user.name?.charAt(0) || 'U'}
                       </span>
@@ -250,7 +254,7 @@ const Header = ({
                                 console.log('🔧 Admin Dashboard button clicked!', { user, onNavigate });
                                 onNavigate && onNavigate('admin');
                               }}
-                              className="w-full text-left px-3 py-2 text-sm text-purple-700 hover:bg-purple-50 rounded-lg flex items-center space-x-2"
+                              className="w-full text-left px-3 py-2 text-sm text-stone-700 hover:bg-stone-50 rounded-lg flex items-center space-x-2"
                             >
                               <Settings className="w-4 h-4" />
                               <span>Admin Dashboard</span>
@@ -278,12 +282,13 @@ const Header = ({
               ) : (
                 <motion.button
                   onClick={onAuthOpen}
-                  className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all"
+                  className="relative overflow-hidden flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r from-[#8b6f47] via-[#c9982e] to-[#8b6f47] bg-[length:200%_100%] text-white rounded-full hover:bg-[position:100%_0] transition-all duration-500 shadow-lg shadow-[#c9982e]/20 border border-[#c9982e]/30"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <User className="w-4 h-4" />
-                  <span className="text-sm font-medium hidden sm:inline">Sign In</span>
+                  <span className="text-sm font-semibold tracking-wide">Sign In</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700" />
                 </motion.button>
               )}
 
@@ -294,7 +299,7 @@ const Header = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <ShoppingBag className="w-6 h-6 text-gray-700" />
+                  <ShoppingBag className="w-6 h-6 text-[#5c4830]" />
                   {cartCount > 0 && (
                     <motion.span
                       className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center"
@@ -363,15 +368,15 @@ const Header = ({
                 <button
                   onClick={() => {onNavigate && onNavigate('home'); setIsMobileMenuOpen(false);}}
                   className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left ${
-                    currentView === 'home' ? 'bg-purple-50 text-purple-600' : ''
+                    currentView === 'home' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   Home
                 </button>
                 <button
                   onClick={() => {onNavigate && onNavigate('products'); setIsMobileMenuOpen(false);}}
-                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left flex items-center space-x-2 ${
-                    currentView === 'products' ? 'bg-purple-50 text-purple-600' : ''
+                  className={`flex px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left items-center space-x-2 w-full ${
+                    currentView === 'products' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   <Package className="w-4 h-4" />
@@ -379,22 +384,22 @@ const Header = ({
                 </button>
                 <button
                   onClick={() => {onNavigate && onNavigate('cart'); setIsMobileMenuOpen(false);}}
-                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left flex items-center space-x-2 ${
-                    currentView === 'cart' ? 'bg-purple-50 text-purple-600' : ''
+                  className={`flex px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left items-center space-x-2 w-full ${
+                    currentView === 'cart' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   <ShoppingBag className="w-4 h-4" />
                   Cart
                   {cartCount > 0 && (
-                    <span className="bg-purple-600 text-white text-xs rounded-full px-2 py-1 ml-2">
+                    <span className="bg-stone-600 text-white text-xs rounded-full px-2 py-1 ml-2">
                       {cartCount}
                     </span>
                   )}
                 </button>
                 <button
                   onClick={() => {onNavigate && onNavigate('favorites'); setIsMobileMenuOpen(false);}}
-                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left flex items-center space-x-2 ${
-                    currentView === 'favorites' ? 'bg-purple-50 text-purple-600' : ''
+                  className={`flex px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left items-center space-x-2 w-full ${
+                    currentView === 'favorites' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   <Heart className="w-4 h-4" />
@@ -402,32 +407,32 @@ const Header = ({
                 </button>
                 <button
                   onClick={() => {onNavigate && onNavigate('features'); setIsMobileMenuOpen(false);}}
-                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left ${
-                    currentView === 'features' ? 'bg-purple-50 text-purple-600' : ''
+                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left w-full ${
+                    currentView === 'features' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   Features
                 </button>
                 <button
                   onClick={() => {onNavigate && onNavigate('reviews'); setIsMobileMenuOpen(false);}}
-                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left ${
-                    currentView === 'reviews' ? 'bg-purple-50 text-purple-600' : ''
+                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left w-full ${
+                    currentView === 'reviews' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   Reviews
                 </button>
                 <button
                   onClick={() => {onNavigate && onNavigate('faq'); setIsMobileMenuOpen(false);}}
-                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left ${
-                    currentView === 'faq' ? 'bg-purple-50 text-purple-600' : ''
+                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left w-full ${
+                    currentView === 'faq' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   FAQ
                 </button>
                 <button
                   onClick={() => {onNavigate && onNavigate('contact'); setIsMobileMenuOpen(false);}}
-                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left ${
-                    currentView === 'contact' ? 'bg-purple-50 text-purple-600' : ''
+                  className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left w-full ${
+                    currentView === 'contact' ? 'bg-stone-50 text-stone-600' : ''
                   }`}
                 >
                   Contact
@@ -435,8 +440,8 @@ const Header = ({
                 {user && (
                   <button
                     onClick={() => {onNavigate && onNavigate('orders'); setIsMobileMenuOpen(false);}}
-                    className={`block px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left flex items-center space-x-2 ${
-                      currentView === 'orders' ? 'bg-purple-50 text-purple-600' : ''
+                    className={`flex px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg text-left items-center space-x-2 w-full ${
+                      currentView === 'orders' ? 'bg-stone-50 text-stone-600' : ''
                     }`}
                   >
                     <ShoppingBag className="w-4 h-4" />

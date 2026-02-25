@@ -45,7 +45,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -59,7 +59,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
       />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100 py-20">
+      <section className="bg-gradient-to-br from-stone-100 via-amber-100 to-blue-100 py-20">
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -67,7 +67,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-6">
               Get in Touch
             </h1>
             <p className="text-xl text-gray-600 leading-relaxed">
@@ -101,7 +101,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -115,7 +115,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -128,7 +128,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -140,7 +140,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
                   required
                 >
                   <option value="">Select a subject</option>
@@ -160,13 +160,13 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-vertical"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent resize-vertical"
                   required
                 />
               </div>
               <motion.button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-medium hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-stone-600 to-amber-600 text-white py-3 px-6 rounded-xl font-medium hover:from-stone-700 hover:to-amber-700 transition-all flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -190,14 +190,14 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-stone-600 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Email</h3>
                     <a
                       href="mailto:officialfeatherfold@gmail.com"
-                      className="text-purple-600 hover:text-purple-700 transition-colors"
+                      className="text-stone-600 hover:text-stone-700 transition-colors"
                     >
                       officialfeatherfold@gmail.com
                     </a>
@@ -205,14 +205,14 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-stone-600 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Phone className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Phone</h3>
                     <a
                       href="tel:+918168587844"
-                      className="text-purple-600 hover:text-purple-700 transition-colors"
+                      className="text-stone-600 hover:text-stone-700 transition-colors"
                     >
                       +91 81685 87844
                     </a>
@@ -223,7 +223,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-stone-600 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -237,7 +237,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-stone-600 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
                     <MessageCircle className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -246,7 +246,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                       href="https://wa.me/918168587844"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-600 hover:text-purple-700 transition-colors inline-flex items-center gap-2"
+                      className="text-stone-600 hover:text-stone-700 transition-colors inline-flex items-center gap-2"
                     >
                       Chat with us on WhatsApp
                       <MessageCircle className="w-4 h-4" />
@@ -256,7 +256,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl shadow-soft-lg p-8 text-white">
+            <div className="bg-gradient-to-br from-stone-600 to-amber-600 rounded-2xl shadow-soft-lg p-8 text-white">
               <h3 className="text-2xl font-display font-semibold mb-4">
                 Need Immediate Help?
               </h3>
@@ -268,7 +268,7 @@ const ContactPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
                 href="https://wa.me/918168587844"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-stone-600 rounded-xl font-medium hover:bg-gray-100 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

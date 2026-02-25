@@ -13,14 +13,14 @@ import {
 import Header from './Header';
 import REVIEWS from '../data/reviews.json';
 
-const TOTAL_REVIEWS_DISPLAY = 2847;
+const TOTAL_REVIEWS_DISPLAY = 738;
 const WRITTEN_REVIEWS_LAST_3_MONTHS = REVIEWS.length;
 const RATING_DISTRIBUTION = [
-  { rating: 5, count: 2500 },
-  { rating: 4, count: 250 },
-  { rating: 3, count: 70 },
-  { rating: 2, count: 20 },
-  { rating: 1, count: 7 }
+  { rating: 5, count: 485 },
+  { rating: 4, count: 155 },
+  { rating: 3, count: 62 },
+  { rating: 2, count: 23 },
+  { rating: 1, count: 13 }
 ];
 
 const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCount, totalPrice, onNavigate }) => {
@@ -87,7 +87,7 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-white">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -107,7 +107,7 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4">
             Customer Reviews
           </h1>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
@@ -184,7 +184,7 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
             <select
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
-              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
             >
               <option value="all">All Reviews</option>
               <option value="5star">5 Stars Only</option>
@@ -198,7 +198,7 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-stone-500 focus:border-transparent"
               disabled={['5star', '4star'].includes(filterBy)}
             >
               <option value="recent">Most Recent</option>
@@ -266,7 +266,7 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="mt-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-soft-lg p-8 md:p-12 text-center text-white"
+          className="mt-16 bg-gradient-to-r from-stone-600 to-amber-600 rounded-2xl shadow-soft-lg p-8 md:p-12 text-center text-white"
         >
           <h2 className="text-3xl font-display font-bold mb-4">
             Ready to Join Happy Customers?
@@ -277,7 +277,7 @@ const ReviewsPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cart
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.button
               onClick={() => onNavigate && onNavigate('products')}
-              className="px-6 py-3 bg-white text-purple-600 rounded-xl font-medium hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+              className="px-6 py-3 bg-white text-stone-600 rounded-xl font-medium hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

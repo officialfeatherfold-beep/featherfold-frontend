@@ -16,7 +16,7 @@ const EmptyCart = ({ onNavigate }) => {
       <p className="text-gray-600 mb-6">Add some FeatherFold products to get started!</p>
       <motion.button
         onClick={() => onNavigate && onNavigate('products')}
-        className="px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors"
+        className="px-6 py-3 bg-stone-600 text-white font-medium rounded-xl hover:bg-stone-700 transition-colors"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >

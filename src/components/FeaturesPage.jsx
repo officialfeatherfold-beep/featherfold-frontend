@@ -39,19 +39,19 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
       icon: Clock,
       title: "Quick Delivery",
       description: "Standard shipping in 5-7 days, express in 2-3 days. Same-day delivery in metro cities.",
-      color: "from-purple-400 to-pink-500"
+      color: "from-stone-400 to-amber-500"
     },
     {
       icon: Sparkles,
       title: "Easy Care",
       description: "Machine washable, wrinkle-resistant, and color-fast fabrics for hassle-free maintenance.",
-      color: "from-pink-400 to-rose-500"
+      color: "from-amber-400 to-rose-500"
     },
     {
       icon: Heart,
       title: "Customer Love",
       description: "Trusted by thousands of happy customers with 4.8+ star rating across all products.",
-      color: "from-red-400 to-pink-500"
+      color: "from-red-400 to-amber-500"
     }
   ];
 
@@ -97,7 +97,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -117,7 +117,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4">
             Why Choose FeatherFold?
           </h1>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
@@ -133,7 +133,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
             transition={{ delay: 0.2 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            <h2 className="text-3xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4">
               Premium Features
             </h2>
             <p className="text-gray-600">
@@ -172,7 +172,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
             transition={{ delay: 0.4 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            <h2 className="text-3xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4">
               Premium Materials
             </h2>
             <p className="text-gray-600">
@@ -198,7 +198,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                 <div className="grid grid-cols-2 gap-3">
                   {material.features.map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                      <CheckCircle className="w-4 h-4 text-stone-600 flex-shrink-0" />
                       <span className="text-sm text-gray-700">{feature}</span>
                     </div>
                   ))}
@@ -216,7 +216,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
             transition={{ delay: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            <h2 className="text-3xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4">
               Why Customers Love Us
             </h2>
             <p className="text-gray-600">
@@ -233,8 +233,8 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
                 transition={{ delay: 0.1 * index + 0.8 }}
                 className="text-center"
               >
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <benefit.icon className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <benefit.icon className="w-6 h-6 text-stone-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
                   {benefit.title}
@@ -252,7 +252,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0 }}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-soft-lg p-8 md:p-12 text-center text-white"
+          className="bg-gradient-to-r from-stone-600 to-amber-600 rounded-2xl shadow-soft-lg p-8 md:p-12 text-center text-white"
         >
           <h2 className="text-3xl font-display font-bold mb-4">
             Ready to Experience Luxury?
@@ -263,7 +263,7 @@ const FeaturesPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, car
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.button
               onClick={() => onNavigate && onNavigate('products')}
-              className="px-6 py-3 bg-white text-purple-600 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+              className="px-6 py-3 bg-white text-stone-600 rounded-xl font-medium hover:bg-gray-100 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

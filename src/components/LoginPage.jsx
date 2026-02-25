@@ -74,10 +74,10 @@ const LoginPage = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50 flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-2">
         {/* Left Brand Panel */}
-        <div className="relative hidden md:flex flex-col justify-center bg-gradient-to-br from-purple-600 to-pink-600 text-white p-10">
+        <div className="relative hidden md:flex flex-col justify-center bg-gradient-to-br from-stone-600 to-amber-600 text-white p-10">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
               <User className="w-6 h-6 text-white" />
@@ -115,8 +115,8 @@ const LoginPage = ({ onLogin }) => {
           </div>
 
           <div className="text-center mb-6 md:hidden">
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
-              <User className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <User className="w-6 h-6 text-stone-600" />
             </div>
             <h2 className="text-xl font-bold text-gray-900">
               {isLogin ? 'Welcome Back' : 'Join FeatherFold'}
@@ -130,7 +130,7 @@ const LoginPage = ({ onLogin }) => {
               onClick={() => setIsLogin(true)}
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
                 isLogin 
-                  ? 'bg-white text-purple-600 shadow-sm' 
+                  ? 'bg-white text-stone-600 shadow-sm' 
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -140,7 +140,7 @@ const LoginPage = ({ onLogin }) => {
               onClick={() => setIsLogin(false)}
               className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
                 !isLogin 
-                  ? 'bg-white text-purple-600 shadow-sm' 
+                  ? 'bg-white text-stone-600 shadow-sm' 
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -184,7 +184,7 @@ const LoginPage = ({ onLogin }) => {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="John Doe"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                     required={!isLogin}
                   />
                 </div>
@@ -203,7 +203,7 @@ const LoginPage = ({ onLogin }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                   required
                 />
               </div>
@@ -221,7 +221,7 @@ const LoginPage = ({ onLogin }) => {
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:border-stone-500 focus:outline-none transition-colors"
                   required
                 />
                 <button
@@ -243,14 +243,14 @@ const LoginPage = ({ onLogin }) => {
                 <label className="flex items-center space-x-2">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 text-purple-600 border-gray-200 rounded focus:ring-purple-500"
+                    className="w-4 h-4 text-stone-600 border-gray-200 rounded focus:ring-stone-500"
                   />
                   <span className="text-sm text-gray-600">Remember me</span>
                 </label>
                 <button
                   type="button"
                   onClick={() => navigate('/forgot-password')}
-                  className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+                  className="text-sm text-stone-600 hover:text-stone-700 font-medium"
                 >
                   Forgot password?
                 </button>
@@ -260,7 +260,7 @@ const LoginPage = ({ onLogin }) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="w-full py-3 bg-gradient-to-r from-stone-600 to-amber-600 text-white font-semibold rounded-xl hover:from-stone-700 hover:to-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {isLoading ? (
                 <>
@@ -273,9 +273,9 @@ const LoginPage = ({ onLogin }) => {
             </button>
           </form>
 
-          <div className="mt-6 p-4 bg-purple-50 rounded-xl">
+          <div className="mt-6 p-4 bg-stone-50 rounded-xl">
             <div className="flex items-start space-x-2">
-              <CheckCircle className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
+              <CheckCircle className="w-5 h-5 text-stone-600 flex-shrink-0 mt-0.5" />
               <div>
                 <h4 className="font-semibold text-gray-900 mb-1">
                   {isLogin ? 'Welcome back!' : 'Join FeatherFold today'}

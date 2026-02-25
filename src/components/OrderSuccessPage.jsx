@@ -29,7 +29,7 @@ function OrderSuccessContent({ user, onCartOpen, onAuthOpen, onLogout, onAdminOp
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -60,7 +60,7 @@ function OrderSuccessContent({ user, onCartOpen, onAuthOpen, onLogout, onAdminOp
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4"
+              className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4"
             >
               Order Placed Successfully!
             </motion.h1>
@@ -92,7 +92,7 @@ function OrderSuccessContent({ user, onCartOpen, onAuthOpen, onLogout, onAdminOp
               className="bg-white rounded-2xl shadow-soft-lg p-8 mb-8 text-left"
             >
               <div className="flex items-center gap-3 mb-6">
-                <Package className="w-6 h-6 text-purple-600" />
+                <Package className="w-6 h-6 text-stone-600" />
                 <h2 className="text-2xl font-display font-semibold text-gray-900">
                   Order Details
                 </h2>
@@ -128,7 +128,7 @@ function OrderSuccessContent({ user, onCartOpen, onAuthOpen, onLogout, onAdminOp
           >
             <motion.button
               onClick={() => orderId ? window.location.href = `/orders/${orderId}` : (onNavigate && onNavigate('orders'))}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-medium hover:from-purple-700 hover:to-pink-700 transition-all inline-flex items-center justify-center gap-2"
+              className="bg-gradient-to-r from-stone-600 to-amber-600 text-white py-3 px-6 rounded-xl font-medium hover:from-stone-700 hover:to-amber-700 transition-all inline-flex items-center justify-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -163,7 +163,7 @@ function OrderSuccessContent({ user, onCartOpen, onAuthOpen, onLogout, onAdminOp
 export default function OrderSuccessPage(props) {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
         <Header 
           user={props.user}
           cartCount={props.cartCount}
@@ -176,7 +176,7 @@ export default function OrderSuccessPage(props) {
           onNavigate={props.onNavigate}
         />
         <div className="container-custom py-24 flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-stone-600" />
         </div>
       </div>
     }>

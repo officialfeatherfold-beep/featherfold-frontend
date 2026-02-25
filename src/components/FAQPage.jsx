@@ -116,7 +116,7 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -137,11 +137,11 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
             className="text-center mb-12"
           >
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-stone-600 to-amber-600 rounded-full flex items-center justify-center">
                 <HelpCircle className="w-8 h-8 text-white" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent mb-4">
               Frequently Asked Questions
             </h1>
             <p className="text-gray-600 text-lg">
@@ -158,7 +158,7 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
                 transition={{ delay: categoryIndex * 0.1 }}
                 className="bg-white rounded-2xl shadow-soft-lg overflow-hidden"
               >
-                <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-6">
+                <div className="bg-gradient-to-r from-stone-600 to-amber-600 p-6">
                   <h2 className="text-2xl font-display font-semibold text-white">
                     {category.category}
                   </h2>
@@ -183,7 +183,7 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
                             transition={{ duration: 0.3 }}
                           >
                             {isOpen ? (
-                              <ChevronUp className="w-5 h-5 text-purple-600 flex-shrink-0" />
+                              <ChevronUp className="w-5 h-5 text-stone-600 flex-shrink-0" />
                             ) : (
                               <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
                             )}
@@ -215,7 +215,7 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mt-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-soft-lg p-8 md:p-12 text-center text-white"
+            className="mt-12 bg-gradient-to-r from-stone-600 to-amber-600 rounded-2xl shadow-soft-lg p-8 md:p-12 text-center text-white"
           >
             <h2 className="text-3xl font-display font-bold mb-4">
               Still Have Questions?
@@ -225,7 +225,7 @@ const FAQPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpen, cartCoun
             </p>
             <motion.button
               onClick={() => onNavigate && onNavigate('contact')}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-stone-600 rounded-xl font-medium hover:bg-gray-100 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

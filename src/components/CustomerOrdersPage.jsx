@@ -41,7 +41,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
       case 'confirmed':
         return 'text-blue-600 bg-blue-50';
       case 'shipped':
-        return 'text-purple-600 bg-purple-50';
+        return 'text-stone-600 bg-stone-50';
       case 'delivered':
         return 'text-green-600 bg-green-50';
       case 'cancelled':
@@ -80,7 +80,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
         <Header 
           user={user}
           cartCount={cartCount}
@@ -94,7 +94,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
         />
         <div className="container-custom py-24 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-4 border-stone-200 border-t-stone-600 rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-gray-600">Loading your orders...</p>
           </div>
         </div>
@@ -104,7 +104,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
         <Header 
           user={user}
           cartCount={cartCount}
@@ -136,7 +136,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-blue-50">
       <Header 
         user={user}
         cartCount={cartCount}
@@ -163,13 +163,13 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <Package className="w-8 h-8 text-purple-600" />
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">My Orders</h1>
+                <Package className="w-8 h-8 text-stone-600" />
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-stone-600 to-amber-600 bg-clip-text text-transparent">My Orders</h1>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.button
                   onClick={() => window.location.reload()}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-medium hover:from-purple-700 hover:to-pink-700 transition-all inline-flex items-center justify-center gap-2"
+                  className="bg-gradient-to-r from-stone-600 to-amber-600 text-white py-3 px-6 rounded-xl font-medium hover:from-stone-700 hover:to-amber-700 transition-all inline-flex items-center justify-center gap-2"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -210,7 +210,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.button
                   onClick={() => navigate('/products')}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-medium hover:from-purple-700 hover:to-pink-700 transition-all inline-flex items-center justify-center gap-2"
+                  className="bg-gradient-to-r from-stone-600 to-amber-600 text-white py-3 px-6 rounded-xl font-medium hover:from-stone-700 hover:to-amber-700 transition-all inline-flex items-center justify-center gap-2"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -242,7 +242,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
                     {/* Order Info */}
                     <div className="flex-1">
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-12 h-12 bg-gradient-to-r from-stone-600 to-amber-600 rounded-full flex items-center justify-center flex-shrink-0">
                           <Package className="w-6 h-6 text-white" />
                         </div>
                         <div className="flex-1">
@@ -284,7 +284,7 @@ const CustomerOrdersPage = ({ user, onCartOpen, onAuthOpen, onLogout, onAdminOpe
                     <div className="flex flex-col gap-2 lg:ml-4">
                       <motion.button
                         onClick={() => navigate(`/orders/${order.id}`)}
-                        className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
+                        className="px-4 py-2 bg-stone-600 text-white rounded-lg hover:bg-stone-700 transition-colors text-sm font-medium"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
