@@ -58,6 +58,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import GoogleCallback from './pages/GoogleCallback';
+import Footer from './components/Footer';
 
 function App() {
   const navigate = useNavigate();
@@ -563,6 +564,11 @@ function App() {
           </ProtectedRoute>
         } />
       </Routes>
+
+      {/* Global Footer — hidden on auth pages */}
+      {!['login', 'forgot-password', 'reset-password'].includes(currentView) && (
+        <Footer onNavigate={navigateToView} />
+      )}
 
       <AnimatePresence>
         {isCartOpen && (
