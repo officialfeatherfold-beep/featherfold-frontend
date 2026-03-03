@@ -12,35 +12,48 @@ const ImageSequence = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Ensure the video is muted programmatically to allow autoplay
-    // This is often more reliable than the attribute alone in some browsers
+    // Force muted property to true immediately
     video.muted = true;
+    video.defaultMuted = true;
     
-    const playVideo = async () => {
+    // Attempt playback multiple times if needed
+    let playAttemptTimeout;
+    const attemptPlay = async (attempt = 1) => {
       try {
-        if (video.paused) {
+        if (video && video.paused) {
           await video.play();
-          console.log('Video playing successfully');
+          console.log(`Video playing successfully on attempt ${attempt}`);
         }
       } catch (err) {
-        console.warn('Video failed to play automatically:', err);
+        if (attempt < 10) {
+          // Retry more frequently at first, then slow down
+          const delay = attempt < 5 ? 300 : 1000;
+          playAttemptTimeout = setTimeout(() => attemptPlay(attempt + 1), delay);
+        } else {
+          console.warn('Final playback attempt failed:', err);
+        }
       }
     };
 
-    // Initial attempt to play
-    playVideo();
+    // Explicitly load the video before playing
+    video.load();
+    
+    // Initial attempt after a very brief delay to allow DOM/Vite assets to stabilize
+    const initialDelay = setTimeout(attemptPlay, 100);
 
-    // Secondary attempts when video is ready or enough data is loaded
-    const handleReady = () => {
-      playVideo();
+    // Secondary attempts when video data is available
+    const handleLoadedMetadata = () => {
+      attemptPlay(1);
     };
 
-    video.addEventListener('canplay', handleReady);
-    video.addEventListener('loadeddata', handleReady);
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('canplay', handleLoadedMetadata);
     
     return () => {
-      video.removeEventListener('canplay', handleReady);
-      video.removeEventListener('loadeddata', handleReady);
+      clearTimeout(initialDelay);
+      if (playAttemptTimeout) clearTimeout(playAttemptTimeout);
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('canplay', handleLoadedMetadata);
     };
   }, []);
 
