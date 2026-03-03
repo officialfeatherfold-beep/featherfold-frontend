@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 // Import the video assets so Vite hashes and bundles them
 import heroMp4 from '../assets/hero-background-web.mp4';
 import heroWebm from '../assets/hero-background-web.webm';
+import heroPoster from '../assets/hero-poster.jpg';
 
 const ImageSequence = () => {
   const videoRef = useRef(null);
@@ -52,6 +53,7 @@ const ImageSequence = () => {
         loop
         playsInline
         preload="auto"
+        poster={heroPoster}
         fetchpriority="high"
         className="block w-full h-full object-cover"
       >
