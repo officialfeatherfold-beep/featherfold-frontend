@@ -12,48 +12,32 @@ const ImageSequence = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Force muted property to true immediately
+    // Standard initialization: ensure properties are set on DOM element
     video.muted = true;
     video.defaultMuted = true;
-    
-    // Attempt playback multiple times if needed
-    let playAttemptTimeout;
-    const attemptPlay = async (attempt = 1) => {
+    video.playsInline = true;
+    video.loop = true;
+
+    const playVideo = async () => {
       try {
-        if (video && video.paused) {
+        if (video.paused) {
           await video.play();
-          console.log(`Video playing successfully on attempt ${attempt}`);
         }
       } catch (err) {
-        if (attempt < 10) {
-          // Retry more frequently at first, then slow down
-          const delay = attempt < 5 ? 300 : 1000;
-          playAttemptTimeout = setTimeout(() => attemptPlay(attempt + 1), delay);
-        } else {
-          console.warn('Final playback attempt failed:', err);
-        }
+        console.warn('Playback failed:', err);
       }
     };
 
-    // Explicitly load the video before playing
-    video.load();
+    // Trigger play on mount and on standard state events
+    playVideo();
     
-    // Initial attempt after a very brief delay to allow DOM/Vite assets to stabilize
-    const initialDelay = setTimeout(attemptPlay, 100);
-
-    // Secondary attempts when video data is available
-    const handleLoadedMetadata = () => {
-      attemptPlay(1);
-    };
-
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('canplay', handleLoadedMetadata);
+    // Fallback trigger if initial mount play fails due to resource loading
+    video.addEventListener('loadedmetadata', playVideo);
+    video.addEventListener('canplay', playVideo);
     
     return () => {
-      clearTimeout(initialDelay);
-      if (playAttemptTimeout) clearTimeout(playAttemptTimeout);
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('canplay', handleLoadedMetadata);
+      video.removeEventListener('loadedmetadata', playVideo);
+      video.removeEventListener('canplay', playVideo);
     };
   }, []);
 
