@@ -12,7 +12,7 @@ const ImageSequence = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Standard initialization: ensure properties are set on DOM element
+    // Sync DOM properties — more reliable than HTML attributes alone
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
@@ -24,17 +24,15 @@ const ImageSequence = () => {
           await video.play();
         }
       } catch (err) {
-        console.warn('Playback failed:', err);
+        // Ignore NotAllowedError (browser autoplay policy) — video will play on first user interaction
       }
     };
 
-    // Trigger play on mount and on standard state events
+    // Attempt immediately and on readiness events
     playVideo();
-    
-    // Fallback trigger if initial mount play fails due to resource loading
     video.addEventListener('loadedmetadata', playVideo);
     video.addEventListener('canplay', playVideo);
-    
+
     return () => {
       video.removeEventListener('loadedmetadata', playVideo);
       video.removeEventListener('canplay', playVideo);
@@ -42,7 +40,7 @@ const ImageSequence = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 z-0 w-full h-full overflow-hidden bg-[#2c1810]">
+    <div className="absolute inset-0 z-0 overflow-hidden bg-[#2c1810]">
       <video
         ref={videoRef}
         autoPlay
@@ -51,10 +49,11 @@ const ImageSequence = () => {
         playsInline
         preload="auto"
         poster={heroPoster}
+        // Inline style overrides any global CSS height:auto that could collapse the video
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         fetchpriority="high"
-        className="block w-full h-full object-cover"
       >
-        {/* WebM first for browsers that support it (smaller file) */}
+        {/* WebM first for smaller file size in supported browsers */}
         <source src={heroWebm} type="video/webm" />
         {/* MP4 fallback for Safari and older browsers */}
         <source src={heroMp4} type="video/mp4" />
